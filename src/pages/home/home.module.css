@@ -1,0 +1,178 @@
+.products_cover {
+  width: 90%;
+  /* background-color: red; */
+  margin: auto;
+  margin-top: 50px;
+}
+.headerWelcome {
+  font-family: Righteous;
+  font-weight: bolder;
+  color: #212121;
+  text-align: center;
+  font-size: 23px;
+}
+.bodyWelcome {
+  font-size: 200;
+  text-align: center;
+  font-family: Outfit;
+  font-size: 14px;
+  color: #515151;
+}
+.grid_container {
+  display: grid;
+  margin-top: 50px;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+}
+.grid_item {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.image_grid {
+  height: 320px;
+}
+.flexSubHero {
+  display: flex;
+  position: relative;
+  width: 100%;
+  /* background-color: #822b58; */
+  /* height: 400px; */
+  margin-top: 40px;
+  align-items: center;
+}
+
+.flexSubHero video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top; /* 👈 this makes it show from the toFp */
+  z-index: 0;
+}
+
+.bgIMg {
+  width: 100%;
+
+  height: 100%;
+}
+.sh_text {
+  font-family: Righteous;
+  color: #fff;
+  font-weight: bold;
+  font-size: 35px;
+}
+.shm_text {
+  font-family: Outfit;
+  color: #fff;
+  font-size: 19px;
+}
+.onTopShoul {
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  padding: 26px;
+  background-color: #00000093;
+  /* max-width: 100%; */
+  /* "bg-[#822b58] w-full h-full flex flex-col items-center justify-center p-[26px] h-full" */
+}
+.stepsCover {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  margin-top: 20px;
+}
+/* .faq_cover{
+} */
+.clients_cover {
+  display: flex;
+  gap: 17px;
+  overflow: hidden;
+  align-items: center;
+  overflow-x: scroll;
+}
+.grid_stuff{
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 20px;
+}
+.search_round {
+  display: flex;
+  width: 100%;
+  height: 46px;
+  align-items: center;
+  border-radius: 200px;
+  border: 1px solid #c9c9c9;
+}
+.inputNavStuff {
+  width: calc(100% - 40px);
+  font-family: Outfit;
+  padding-left: 20px;
+  
+  outline: none;
+  border: none;
+  height: 100%;
+}
+.majorBrands{
+  min-width: 222px;
+  padding-right: 26px;
+  font-family: outfit;
+  font-weight: 500;
+  color: #373564;
+  line-height: 1.1;
+  font-size: 26px;
+}
+.eachimg{
+  object-fit: contain;
+  width: 118px;
+}
+@media (max-width: 1374px) {
+  .sh_text {
+    font-size: 30px;
+  }
+  .grid_container {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+
+  .image_grid {
+    height: 280px;
+  }
+}
+@media (max-width: 1194px) {
+  .sh_text {
+    font-size: 25px;
+  }
+  .shm_text {
+    font-size: 15px;
+    margin-top: 6px;
+  }
+}
+@media (max-width: 1100px) {
+  .sh_text {
+    font-size: 20px;
+  }
+}
+@media (max-width: 711px) {
+  .products_cover {
+    width: 96%;
+  }
+  .stepsCover {
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  }
+}
+@media (max-width: 677px) {
+  .grid_container {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .image_grid {
+    height: 220px;
+  }
+}
+@media (max-width: 462px) {
+  .image_grid {
+    height: 190px;
+  }
+}

@@ -1,0 +1,17 @@
+@font-face {
+  font-family: "proxima-black";
+  src: url("public/fonts/Fontspring-DEMO-proximanova-black.otf")
+      format("otf"),
+    url("public/fonts/Fontspring-DEMO-proximanova-black.otf") format("otf");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "proxima-bold";
+  src: url("public/fonts/Fontspring-DEMO-proximanova-bold.otf")
+      format("otf"),
+    url("public/fonts/Fontspring-DEMO-proximanova-bold.otf") format("otf");
+  font-weight: 700;
+  font-style: normal;
+}

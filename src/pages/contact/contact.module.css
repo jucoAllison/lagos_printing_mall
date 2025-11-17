@@ -1,0 +1,33 @@
+.gridIt {
+  display: grid;
+  gap: 26px;
+  grid-template-columns: 1fr 1fr;
+  width: 1000px;
+  max-width: 90%;
+  margin: 40px auto 70px auto;
+}
+.subgrid {
+  width: "100%";
+}
+.shopNowBTN {
+  transition: 0.1s ease-in-out;
+  font-weight: 600;
+  background-color: "#ee2490";
+}
+.shopNowBTN:hover {
+  background-color: #fff;
+  font-family: Outfits;
+  color: #212121;
+}
+
+@media (max-width: 780px) {
+  .gridIt {
+    grid-template-columns: 1fr;
+
+    width: 90%;
+  }
+}
+
+@media (max-width: 490px) {
+
+}
