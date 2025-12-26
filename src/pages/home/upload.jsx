@@ -32,7 +32,7 @@ const Upload = () => {
                 <div className="modal-header w-modal-header">
                   <div>
                     <p className="modal-title gilroy-Semibold text-dark font-[Righteous]">
-                      Set Default Wallet
+                      Upload
                     </p>
                     <div className="text-[14px] font-[400] text-[#000]">
                       Have a custom design? Upload it here — we’ll review it and

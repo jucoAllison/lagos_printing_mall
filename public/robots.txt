@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+Disallow: /api
+Disallow: /codebuild
+Disallow: /partners/*
+Disallow: /codebuild
+Disallow: /temp
+Disallow: /desktop
+
+Disallow: /*via=
+Disallow: /*ref=
+Disallow: /*utm_campaign=
+Disallow: /*utm_source=
+
+Sitemap: https://www.typeless.com/sitemap.xml

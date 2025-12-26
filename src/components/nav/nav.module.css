@@ -29,9 +29,15 @@
   width: calc(100% - 40px);
   font-family: Outfit;
   padding-left: 20px;
+  text-transform: uppercase;
   outline: none;
   border: none;
   height: 100%;
+}
+.grid_stuff {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
 }
 .btnSearchNAv {
   border-top-right-radius: 6.22px;
@@ -67,9 +73,9 @@
   color: #822b58;
   cursor: pointer;
 }
-.action_each_link_stuff{
+.action_each_link_stuff {
   min-width: max-content;
-   color: #212121;
+  color: #212121;
   background-color: inherit;
   transition: 0.2s ease-in-out;
   font-family: Outfit;
@@ -87,7 +93,7 @@
   display: none;
 }
 .productLink {
-   color: #212121;
+  color: #212121;
   background-color: inherit;
   transition: 0.2s ease-in-out;
   border-radius: 5px;
@@ -104,7 +110,7 @@
 .productLink:hover .product_smth {
   display: block;
 }
-.product_smth{
+.product_smth {
   width: 100%;
   position: absolute;
   display: none;
@@ -114,7 +120,7 @@
   /* background-color: red; */
   left: 0px;
 }
-.inner_product_smth{
+.inner_product_smth {
   background-color: #fff;
   box-shadow: "1px 1px 10px #00000062";
   box-shadow: "1px 1px 10px #00000062";
@@ -127,12 +133,12 @@
   grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
   gap: 20px;
 }
-.inner_product_smth div{
+.inner_product_smth div {
   font-weight: 400;
-transition: .200s ease;
+  transition: 0.2s ease;
 }
 
-.inner_product_smth div:hover{
+.inner_product_smth div:hover {
   text-decoration: underline;
   /* font-weight: bold; */
 }
@@ -163,6 +169,24 @@ transition: .200s ease;
 .heightMenuCover .search_round {
   display: none;
 }
+.smallPhoneNav {
+  margin-left: auto;
+  display: none;
+  align-items: center;
+}
+.showDropDownHere {
+  overflow: hidden;
+  position: fixed;
+  z-index: 1;
+  width: 282.5px;
+  border-radius: 6px;
+  font-family: outfit;
+  background-color: #fff;
+  right: 20px;
+  top: 98px;
+  box-shadow: 0 14px 25px -5px rgba(63, 64, 91, 0.08);
+  border: 1px solid rgba(63, 64, 91, 0.08);
+}
 @media (max-width: 660px) {
   .menuBar {
     display: flex;
@@ -181,11 +205,24 @@ transition: .200s ease;
 }
 
 @media (max-width: 620px) {
+.showDropDownHere {
+top: 53px;
+right: 1px;
+}
+  .smallPhoneNav {
+    display: flex;
+  }
   .top_top .search_round {
     display: none;
   }
   .heightMenuCover .search_round {
     display: flex;
     margin-top: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid_stuff {
+    grid-template-columns: 1fr;
   }
 }

@@ -6,6 +6,10 @@ import { useParams } from "react-router-dom";
 import { MainContext } from "../../../App";
 import { HiChevronRight, HiPlus } from "react-icons/hi";
 import { FiEdit } from "react-icons/fi";
+import Select from "../../../components/select/select";
+import { AiOutlineLoading } from "react-icons/ai";
+import { useState } from "react";
+import { IoClose } from "react-icons/io5";
 
 const LeftPoster = ({
   inputs,
@@ -20,86 +24,14 @@ const LeftPoster = ({
   setDesignReady,
   designSupport,
   setDesignSupport,
+  submitButton,
+  loading,
+  setNewProduct,
+  newProduct,
+  proceedHandler,
 }) => {
   const CTX = useContext(MainContext);
-
-  const onChangeForGsm = (v, i) => {
-    const spreadGender = [...gsm];
-
-    const reMapped = spreadGender.map((v) => {
-      return { ...v, selected: false };
-    });
-
-    reMapped[i].selected = true;
-
-    setGsm(reMapped);
-  };
-
-  const mappGSM = gsm.map((v, i) => (
-    <div
-      key={i}
-      style={{
-        backgroundColor: v.selected && "#eb268f",
-        color: v.selected && "#fff",
-      }}
-      className={Classes.eachMapCover}
-      onClick={() => onChangeForGsm(v, i)}
-    >
-      {v?.name}
-    </div>
-  ));
-
-  const onChangeForPaperType = (v, i) => {
-    const spreadGender = [...paperType];
-
-    const reMapped = spreadGender.map((v) => {
-      return { ...v, selected: false };
-    });
-
-    reMapped[i].selected = true;
-
-    setPaperType(reMapped);
-  };
-
-  const mappPaperType = paperType.map((v, i) => (
-    <div
-      key={i}
-      style={{
-        backgroundColor: v.selected && "#eb268f",
-        color: v.selected && "#fff",
-      }}
-      className={Classes.eachMapCover}
-      onClick={() => onChangeForPaperType(v, i)}
-    >
-      {v?.name}
-    </div>
-  ));
-
-  const onChangeForGender = (v, i) => {
-    const spreadGender = [...size];
-
-    const reMapped = spreadGender.map((v) => {
-      return { ...v, selected: false };
-    });
-
-    reMapped[i].selected = true;
-
-    setSize(reMapped);
-  };
-
-  const mappGender = size.map((v, i) => (
-    <div
-      key={i}
-      style={{
-        backgroundColor: v.selected && "#eb268f",
-        color: v.selected && "#fff",
-      }}
-      className={Classes.eachMapCover}
-      onClick={() => onChangeForGender(v, i)}
-    >
-      {v?.name}
-    </div>
-  ));
+  const [toggle, setToggle] = useState(false);
 
   return (
     <div
@@ -148,7 +80,7 @@ const LeftPoster = ({
             // select={true}
             // options={[
             //   "Select Product",
-            //   "Posters",
+            //   "Poster",
             //   "Letter Head",
             //   "Envelope",
             //   "Flyers",
@@ -217,37 +149,14 @@ const LeftPoster = ({
         <InputCom
           label={"Quantity "}
           value={inputs?.quantity}
-          placeholder={"Minimum of " + 50 + " copies"}
-          //   onBlur={(e) => {
-          //     if (parseInt(e.target.value) < parseInt(v?.min)) {
-          //       e.target.style.border = "1px solid red";
-          //       e.target.style.outline = "1px solid red";
-          //       setIsToBlock(true);
-          //       // console.log("onBlur log =>> ", e.target.value)
-          //     } else {
-          //       e.target.style.border = "0px solid red";
-          //       e.target.style.outline = "0px solid red";
-          //       setIsToBlock(false);
-          //     }
-          //   }}
+          placeholder={"5,000" + " copies"}
           onChange={(e) => {
             const newValue = e.target.value.replace(/\D/g, "");
             setInputs({ ...inputs, quantity: newValue });
           }}
         />
 
-        <div
-          style={{
-            fontSize: "12px",
-            marginBottom: "8px",
-            marginTop: "12px",
-            color: CTX?.isBlack && "#a8a8a8",
-          }}
-          className={Classes.titleDataHere}
-        >
-          Size
-        </div>
-        <div className={Classes.wrapTheFlex}>{mappGender}</div>
+        <Select label={"Size"} setStatee={setSize} statee={size} />
 
         {size
           ?.filter((v) => v.selected == true)[0]
@@ -282,31 +191,13 @@ const LeftPoster = ({
           </div>
         )}
 
-        <div
-          style={{
-            fontSize: "12px",
-            marginBottom: "8px",
-            marginTop: "12px",
-            color: CTX?.isBlack && "#a8a8a8",
-          }}
-          className={Classes.titleDataHere}
-        >
-          Paper Type
-        </div>
-        <div className={Classes.wrapTheFlex}>{mappPaperType}</div>
+        <Select
+          label={"Paper Type"}
+          setStatee={setPaperType}
+          statee={paperType}
+        />
 
-        <div
-          style={{
-            fontSize: "12px",
-            marginBottom: "8px",
-            marginTop: "12px",
-            color: CTX?.isBlack && "#a8a8a8",
-          }}
-          className={Classes.titleDataHere}
-        >
-          Paper GSM
-        </div>
-        <div className={Classes.wrapTheFlex}>{mappGSM}</div>
+        <Select label={"Paper GSM"} setStatee={setGsm} statee={gsm} />
 
         <div className="flex items-center mt-7 ">
           <div
@@ -344,14 +235,15 @@ const LeftPoster = ({
             )}
 
             <div className={Classes.subDataHere} style={{ margin: "0px" }}>
-              Do you have your own design, just upload the file here
+              Do you have your own design, just upload the file here. Please
+              upload (PDF preferred, AI, EPS, CDR, etc.)
             </div>
 
             <InputCom
               label={"Upload design"}
               type={"file"}
               // value={inputs?.quantity}
-              accept="image/*"
+              // accept="image/*"
               placeholder={"Height (inches)"}
               onChange={(e) => {
                 const user_design = e.target.files[Object.keys(e.target.files)];
@@ -409,7 +301,7 @@ const LeftPoster = ({
 
             <div className={Classes.subDataHere} style={{ margin: "0px" }}>
               This means we will be doing your design, Please upload design
-              files you would want to use
+              files you would want to use (images/*)
             </div>
 
             <InputCom
@@ -417,7 +309,7 @@ const LeftPoster = ({
               type={"file"}
               // value={inputs?.quantity}
               accept="image/*"
-              placeholder={"Height (inches)"}
+              placeholder={"Add files for the design"}
               multiple={true}
               onChange={(e) => {
                 const upload_design = e.target.files;
@@ -428,10 +320,8 @@ const LeftPoster = ({
               }}
             />
 
-
-            
             <InputCom
-              label={"Upload reference if any"}
+              label={"Upload reference if any (images/*)"}
               type={"file"}
               // value={inputs?.quantity}
               accept="image/*"
@@ -459,7 +349,7 @@ const LeftPoster = ({
         </div>
       </div>
 
-      <div className="flex gap-[10px] mt-5">
+      <div className=" gap-[8px] mt-3">
         {/* <button
            type="button"
            className={clsx([
@@ -478,6 +368,7 @@ const LeftPoster = ({
          </button> */}
 
         <button
+          onClick={submitButton}
           type="button"
           className={clsx([
             Classes.shopNowBTN,
@@ -486,13 +377,105 @@ const LeftPoster = ({
           style={{
             fontFamily: "Outfit",
             color: "#fff",
-            backgroundColor: "#812b5a",
+            backgroundColor: "#ee2490",
             borderRadius: "12px",
             border: "none",
           }}
         >
-          Submit <HiChevronRight />{" "}
+          {loading && (
+            <AiOutlineLoading
+              className="animate-spin h-[20px] w-[20px] mr-1 ml-auto"
+              color={"#fff"}
+            />
+          )}
+          Submit <HiChevronRight />
         </button>
+
+        <div
+          className="flex items-center justify-between gap-[20px] w-full"
+          style={{
+            marginTop: "30px",
+          }}
+        >
+          <div
+            className={Classes.subDataHere}
+            style={{
+              fontFamily: "outfit",
+              fontWeight: "400",
+              marginBottom: "10px",
+            }}
+            onClick={() => setToggle(true)}
+          >
+            Do you need to add{" "}
+            <span style={{ color: "#e20254", cursor: "pointer" }}>
+              {" "}
+              other products?
+            </span>
+          </div>
+          {toggle && <IoClose onClick={() => setToggle(false)} size={20} />}
+        </div>
+        {toggle && (
+          <div className="flex gap-[20px] items-end">
+            <InputCom
+              label={"Select Product"}
+              select={true}
+              options={CTX.proceedOptions
+                ?.map((e) => e.name)
+                .filter(
+                  (v) =>
+                    !(CTX.products?.products || [])
+                      .map((p) => p.name)
+                      .includes(v)
+                )
+                .filter((b) => !b.includes("Poster"))}
+              // readOnly={true}
+              // placeholder={"Minimum of " + 50 + " copies"}
+              //   onBlur={(e) => {
+              //     if (parseInt(e.target.value) < parseInt(v?.min)) {
+              //       e.target.style.border = "1px solid red";
+              //       e.target.style.outline = "1px solid red";
+              //       setIsToBlock(true);
+              //       // console.log("onBlur log =>> ", e.target.value)
+              //     } else {
+              //       e.target.style.border = "0px solid red";
+              //       e.target.style.outline = "0px solid red";
+              //       setIsToBlock(false);
+              //     }
+              //   }}
+              // value={"Poster"}
+              onChange={(e) => {
+                setNewProduct(e.target.value);
+              }}
+            />
+            {!newProduct ? (
+              <div className="w-[92px]"></div>
+            ) : (
+              <button
+                type="button"
+                className={clsx([
+                  Classes.shopNowBTN,
+                  "rounded-[4px] transition duration-200  focus:outline-none inline-flex items-center justify-center secondary-button-text  h-10 text-base px-3 bg-primary button-text  border-tertiary border-tertiary-hover border-transparent ml-auto",
+                ])}
+                style={{
+                  fontFamily: "Outfit",
+                  color: "#fff",
+                  backgroundColor: "#ee2490",
+                  borderRadius: "12px",
+                  border: "none",
+                }}
+                onClick={proceedHandler}
+              >
+                {/* {loading && (
+                  <AiOutlineLoading
+                    className="animate-spin h-[20px] w-[20px] mr-1 ml-auto"
+                    color={"#fff"}
+                  />
+                )} */}
+                Proceed
+              </button>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

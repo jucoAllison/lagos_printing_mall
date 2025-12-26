@@ -111,28 +111,25 @@ const LeftPlasticIdCards = ({
           statee={lamination}
         />
 
-
-         <Select
+        <Select
           label={"Do you need any of the following accessories?"}
           setStatee={setPremiumFinishing}
           statee={premiumFinishing}
         />
 
-        
-         <Select
-          label={"Should the lanyards be branded with your logo or organization name?"}
+        <Select
+          label={
+            "Should the lanyards be branded with your logo or organization name?"
+          }
           setStatee={setPages}
           statee={pages}
         />
 
-
-  <Select
+        <Select
           label={"Do you need matching office branding materials"}
           setStatee={setGsm}
           statee={gsm}
         />
-
-
 
         <div className="flex items-center mt-7 ">
           <div
@@ -155,8 +152,6 @@ const LeftPlasticIdCards = ({
           />
         </div>
 
-
-        
         <div className="flex items-center mt-7 ">
           <div
             style={{

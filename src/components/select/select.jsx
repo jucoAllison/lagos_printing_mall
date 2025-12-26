@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import Classes from "./select.module.css";
 import { MainContext } from "../../App";
 
-const Select = ({ label, statee, setStatee }) => {
+const Select = ({ label, statee, setStatee, optional }) => {
   const CTX = useContext(MainContext);
 
   const onChangeForPremiumFinishing = (v, i) => {
@@ -28,6 +28,14 @@ const Select = ({ label, statee, setStatee }) => {
     </div>
   ));
 
+  const clearOptions = () => {
+    const spreadGender = [...statee];
+    const reMapped = spreadGender?.map((v) => {
+      return { ...v, selected: false };
+    });
+    setStatee(reMapped);
+  };
+
   return (
     <>
       <div
@@ -41,7 +49,22 @@ const Select = ({ label, statee, setStatee }) => {
       >
         {label}
       </div>
-      <div className={Classes.wrapTheFlex}>{mappArr}</div>
+      <div className={Classes.wrapTheFlex}>
+        {mappArr}
+
+        {optional && (
+          <>
+            {statee.filter((v) => v.selected)?.length > 0 && (
+              <div
+                className={Classes.eachMapCover}
+                onClick={() => clearOptions()}
+              >
+                clear
+              </div>
+            )}
+          </>
+        )}
+      </div>
     </>
   );
 };

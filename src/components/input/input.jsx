@@ -16,7 +16,8 @@ const InputCom = ({
   select,
   options,
   multiple,
-  onBlur
+  onBlur,
+  inputStyles
 }) => {
   const [override, setOverride] = useState(false);
   const CTX = useContext(MainContext);
@@ -83,6 +84,7 @@ const InputCom = ({
               borderRadius: "6.2px",
               // outlineColor: "#279348",
               backgroundColor: readOnly && "#292d3d96",
+              ...inputStyles
             }}
             required={required}
           />

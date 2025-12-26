@@ -47,6 +47,7 @@
   -webkit-appearance: none;
   appearance: none;
   width: 35.19px;
+  min-width: 35.19px;
   height: 22px;
   background-color: #535c64;
   border-radius: 22px;

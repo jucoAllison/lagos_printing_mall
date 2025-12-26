@@ -12,7 +12,7 @@ import { HiChevronRight } from "react-icons/hi";
 import clsx from "clsx";
 
 const Heroslide = () => {
-  const [count, setCount] = useState(sessionStorage.getItem("counter") || 0);
+  const [count, setCount] = useState(localStorage.getItem("counter") || 0);
   // const [count, setCount] = useState(0);
   const slides = [
     {
@@ -76,14 +76,14 @@ const Heroslide = () => {
   useEffect(() => {
     if (count >= slides.length - 1) {
       setTimeout(() => {
-        sessionStorage.setItem("counter", 0);
+        localStorage.setItem("counter", 0);
         return setCount(0);
       }, 21000);
     } else {
       setTimeout(() => {
         const newCount = +count + 1;
         setCount(newCount);
-        sessionStorage.setItem("counter", newCount);
+        localStorage.setItem("counter", newCount);
       }, 21000);
       return;
     }

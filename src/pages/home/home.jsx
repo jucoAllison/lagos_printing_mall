@@ -146,7 +146,7 @@ const Home = () => {
             </div>
           </div>
 
-          <div className={Classes.grid_item}>
+          <Link to={"/user/products/screen-printing"} className={Classes.grid_item}>
             <div className={Classes.image_grid}>
               <GifImage
                 images={[
@@ -162,7 +162,7 @@ const Home = () => {
             <div className="font-[Roboto] text-center mt-1 text-[14px] text-[#515151]">
               Screen Printing
             </div>
-          </div>
+          </Link>
 
           <div className={Classes.grid_item}>
             <div className={Classes.image_grid}>
@@ -255,7 +255,7 @@ const Home = () => {
             </div>
           </Link>
 
-          <div className={Classes.grid_item}>
+          <Link to={"/user/products/custom-mug"} className={Classes.grid_item}>
             <div className={Classes.image_grid}>
               <GifImage
                 images={[Custommu, WP_MUG, Custom_, MugPrint, Customm, WP_MU]}
@@ -265,8 +265,8 @@ const Home = () => {
             <div className="font-[Roboto] text-center mt-1 text-[14px] text-[#515151]">
               Custom Mugs
             </div>
-          </div>
-          <div className={Classes.grid_item}>
+          </Link>
+          <Link to={"/large/format/printing"} className={Classes.grid_item}>
             <img
               src={FlexBanner}
               className={clsx([Classes.image_grid, "w-full  object-cover"])}
@@ -274,7 +274,7 @@ const Home = () => {
             <div className="font-[Roboto] text-center mt-1 text-[14px] text-[#515151]">
               Large Format Printing
             </div>
-          </div>
+          </Link>
           <div className={Classes.grid_item}>
             <div className={Classes.image_grid}>
               <GifImage
@@ -306,14 +306,14 @@ const Home = () => {
             </div>
           </div> */}
 
-          <div className={Classes.grid_item}>
+          <Link to={"/user/products/sticker"} className={Classes.grid_item}>
             <div className={Classes.image_grid}>
               <GifImage images={[Stickers, Sticker, Sticke]} settime={3200} />
             </div>
             <div className="font-[Roboto] text-center mt-1 text-[14px] text-[#515151]">
               Stickers
             </div>
-          </div>
+          </Link>
         </div>
       </div>
 
