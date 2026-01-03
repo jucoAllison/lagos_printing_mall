@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Classes from "../product.module.css";
 import InputCom from "../../../components/input/input";
 import clsx from "clsx";
@@ -6,12 +6,14 @@ import { useParams } from "react-router-dom";
 import { MainContext } from "../../../App";
 import { HiChevronRight, HiPlus } from "react-icons/hi";
 import Select from "../../../components/select/select";
+import { AiOutlineLoading } from "react-icons/ai";
+import { IoClose } from "react-icons/io5";
 
 const LeftGraphicsDesign = ({
   inputs,
   setInputs,
-  ladders,
-  setLadders,
+  // ladders,
+  // setLadders,
   wantToPrint,
   setWantToPrint,
   installThePrint,
@@ -20,12 +22,28 @@ const LeftGraphicsDesign = ({
   setSize,
   designReady,
   setDesignReady,
-  designSupport,
-  setDesignSupport,
   setPurpose,
   purpose,
+
+  
+
+
+  
+
+  
+
+
+
+  
+  
+  submitButton,
+  loading,
+  setNewProduct,
+  newProduct,
+  proceedHandler,
 }) => {
   const CTX = useContext(MainContext);
+       const [toggle, setToggle] = useState(false);
 
   return (
     <div
@@ -194,36 +212,40 @@ const LeftGraphicsDesign = ({
             type="checkbox"
             checked={designReady}
             onChange={() => {
-              if (designSupport) {
-                setDesignSupport(false);
-              }
-
               setDesignReady(!designReady);
             }}
           />
         </div>
         {designReady && (
           <>
-            {inputs?.design && (
-              <img
-                src={URL.createObjectURL(inputs?.user_design)}
-                alt="Selected"
-                width="200"
-                style={{ borderRadius: "10px" }}
-              />
-            )}
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "10px",
+              marginTop: "35px",
+            }}
+          >
 
-            {/* <div className={Classes.subDataHere} style={{ margin: "0px" }}>
-              Do you have your own design, just upload the file here
-            </div> */}
+             {inputs?.user_design &&
+              Object?.keys(inputs?.user_design)?.map((v, i) => (
+                <img
+                  key={i}
+                  src={URL.createObjectURL(inputs?.user_design[v])}
+                  alt="Selected"
+                  width="100"
+                  style={{ objectFit: "cover", borderRadius: "10px" }}
+                />
+              ))}
+              </div>
 
             <InputCom
               label={"Upload assets"}
               type={"file"}
-              // value={inputs?.quantity}
+            multiple={true}
               accept="image/*"
               onChange={(e) => {
-                const user_design = e.target.files[Object.keys(e.target.files)];
+                const user_design = e.target.files;
 
                 setInputs({ ...inputs, user_design: user_design });
               }}
@@ -329,25 +351,98 @@ const LeftGraphicsDesign = ({
         </div>
       </div>
 
-      <div className="flex gap-[10px] mt-5">
-        <button
-          type="button"
-          className={clsx([
-            Classes.shopNowBTN,
-            "rounded-[4px] transition duration-200  focus:outline-none inline-flex items-center justify-center secondary-button-text  h-10 text-base px-3 bg-primary button-text  border-tertiary border-tertiary-hover border-transparent ml-auto",
-          ])}
-          style={{
-            fontFamily: "Outfit",
-            color: "#fff",
-            backgroundColor: "#ee2490",
-            borderRadius: "12px",
-            border: "none",
-          }}
-        >
-          Submit <HiChevronRight />{" "}
-        </button>
-      </div>
-    </div>
+
+     <div className=" gap-[8px] mt-3">
+              <button
+                onClick={submitButton}
+                type="button"
+                className={clsx([
+                  Classes.shopNowBTN,
+                  "rounded-[4px] transition duration-200  focus:outline-none inline-flex items-center justify-center secondary-button-text  h-10 text-base px-3 bg-primary button-text  border-tertiary border-tertiary-hover border-transparent ml-auto",
+                ])}
+                style={{
+                  fontFamily: "Outfit",
+                  color: "#fff",
+                  backgroundColor: "#ee2490",
+                  borderRadius: "12px",
+                  border: "none",
+                }}
+              >
+                {loading && (
+                  <AiOutlineLoading
+                    className="animate-spin h-[20px] w-[20px] mr-1 ml-auto"
+                    color={"#fff"}
+                  />
+                )}
+                Submit <HiChevronRight />
+              </button>
+      
+              <div
+                className="flex items-center justify-between gap-[20px] w-full"
+                style={{
+                  marginTop: "30px",
+                }}
+              >
+                <div
+                  className={Classes.subDataHere}
+                  style={{
+                    fontFamily: "outfit",
+                    fontWeight: "400",
+                    marginBottom: "10px",
+                  }}
+                  onClick={() => setToggle(true)}
+                >
+                  Do you need to add{" "}
+                  <span style={{ color: "#e20254", cursor: "pointer" }}>
+                    {" "}
+                    other products?
+                  </span>
+                </div>
+                {toggle && <IoClose onClick={() => setToggle(false)} size={20} />}
+              </div>
+              {toggle && (
+                <div className="flex gap-[20px] items-end">
+                  <InputCom
+                    label={"Select Product"}
+                    select={true}
+                    options={CTX.proceedOptions
+                      ?.map((e) => e.name)
+                      .filter(
+                        (v) =>
+                          !(CTX.products?.products || [])
+                            .map((p) => p.name)
+                            .includes(v)
+                      )
+                      .filter((b) => !b.includes("Graphics"))}
+                    onChange={(e) => {
+                      setNewProduct(e.target.value);
+                    }}
+                  />
+                  {!newProduct ? (
+                    <div className="w-[92px]"></div>
+                  ) : (
+                    <button
+                      type="button"
+                      className={clsx([
+                        Classes.shopNowBTN,
+                        "rounded-[4px] transition duration-200  focus:outline-none inline-flex items-center justify-center secondary-button-text  h-10 text-base px-3 bg-primary button-text  border-tertiary border-tertiary-hover border-transparent ml-auto",
+                      ])}
+                      style={{
+                        fontFamily: "Outfit",
+                        color: "#fff",
+                        backgroundColor: "#ee2490",
+                        borderRadius: "12px",
+                        border: "none",
+                      }}
+                      onClick={proceedHandler}
+                    >
+                      Proceed
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
   );
 };
 

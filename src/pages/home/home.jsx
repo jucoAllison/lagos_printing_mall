@@ -41,6 +41,12 @@ import Footer from "../../components/footer/footer";
 import Faq from "./faq";
 import SomeOfOurClient from "./someOfOurClient";
 import Upload from "./upload";
+import PicFrames from "../../assets/PicFrames.jpeg";
+import PicFrame from "../../assets/PicFrame.jpeg";
+import PicFram from "../../assets/PicFram.jpeg";
+import PicFra from "../../assets/PicFra.jpeg";
+import PicFr from "../../assets/PicFr.jpeg";
+import PicF from "../../assets/PicF.jpeg";
 import Wedding_Card from "../../assets/wedding_card.jpeg";
 import Wedding_Car from "../../assets/wedding_car.jpeg";
 import Wedding_Ca from "../../assets/wedding_ca.jpeg";
@@ -54,6 +60,9 @@ import WP_CAR_BA from "../../assets/wp_car_ba.jpeg";
 import WP_CAR_B from "../../assets/wp_car_b.jpeg";
 import WP_CAR_ from "../../assets/wp_car_.jpeg";
 import Buisiness_Card from "../../assets/buisiness_card.jpeg";
+import Car_wrap from "../../assets/car_wrap.jpeg";
+import Car_wra from "../../assets/car_wra.jpeg";
+import Car_wr from "../../assets/car_wr.jpeg";
 import Buisiness_Car from "../../assets/buisiness_car.jpeg";
 import Buisiness_Ca from "../../assets/buisiness_ca.jpeg";
 import Buisiness_C from "../../assets/buisiness_c.jpeg";
@@ -105,15 +114,19 @@ const Home = () => {
         </div>
 
         <div className={Classes.grid_container}>
-          <div className={Classes.grid_item}>
-            <img
+          <Link
+            to={"/user/products/custom-tshirt"}
+            className={Classes.grid_item}
+          >
+            {/* <img
               src={CustomTShirt}
               className={clsx([Classes.image_grid, "w-full  object-cover"])}
-            />
+            /> */}
+            <GifImage images={[CustomTShirt, Hoody]} settime={3000} />
             <div className="font-[Roboto] text-center mt-1 text-[14px] text-[#515151]">
-              Custom T Shirts
+              Custom T-Shirts
             </div>
-          </div>
+          </Link>
 
           <Link to="/user/products/flyer" className={Classes.grid_item}>
             <div className={Classes.image_grid}>
@@ -123,18 +136,29 @@ const Home = () => {
               Flyers
             </div>
           </Link>
-          {/* <div className={Classes.grid_item}>
+          <Link
+            to={"/user/products/car-branding"}
+            className={Classes.grid_item}
+          >
             <div className={Classes.image_grid}>
               <GifImage
                 settime={3200}
-                images={[BrandC, BrandCar, BrandCa, Brand]}
+                images={[
+                  Car_wrap,
+                  BrandC,
+                  BrandCar,
+                  Car_wra,
+                  BrandCa,
+                  Brand,
+                  Car_wr,
+                ]}
               />
             </div>
             <div className="font-[Roboto] text-center mt-1 text-[14px] text-[#515151]">
               Car Wrap
             </div>
-          </div> */}
-          <div className={Classes.grid_item}>
+          </Link>
+          <Link to={"/user/products/calendar"} className={Classes.grid_item}>
             <div className={Classes.image_grid}>
               <GifImage
                 images={[Calendar, Calenda, Calend, Calen]}
@@ -144,9 +168,12 @@ const Home = () => {
             <div className="font-[Roboto] text-center mt-1 text-[14px] text-[#515151]">
               Tailored Calendar
             </div>
-          </div>
+          </Link>
 
-          <Link to={"/user/products/screen-printing"} className={Classes.grid_item}>
+          <Link
+            to={"/user/products/screen-printing"}
+            className={Classes.grid_item}
+          >
             <div className={Classes.image_grid}>
               <GifImage
                 images={[
@@ -187,15 +214,15 @@ const Home = () => {
               Banner Stand
             </div>
           </div>
-          <div className={Classes.grid_item}>
+          {/* <div className={Classes.grid_item}>
             <div className={Classes.image_grid}>
               <GifImage images={[Award, Award_]} settime={3000} />
             </div>
             <div className="font-[Roboto] text-center mt-1 text-[14px] text-[#515151]">
               Awards / Plaque
             </div>
-          </div>
-          <div className={Classes.grid_item}>
+          </div> */}
+          <Link to={"/user/products/wedding-card"} className={Classes.grid_item}>
             <div className={Classes.image_grid}>
               <GifImage
                 images={[
@@ -213,6 +240,18 @@ const Home = () => {
             </div>
             <div className="font-[Roboto] text-center mt-1 text-[14px] text-[#515151]">
               Wedding Cards
+            </div>
+          </Link>
+
+          <div className={Classes.grid_item}>
+            <div className={Classes.image_grid}>
+              <GifImage
+                images={[PicFrames, PicFrame, PicFram, PicFra, PicFr, PicF]}
+                settime={2300}
+              />
+            </div>
+            <div className="font-[Roboto] text-center mt-1 text-[14px] text-[#515151]">
+              Frames
             </div>
           </div>
 
@@ -233,7 +272,7 @@ const Home = () => {
             </div>
           </Link>
 
-          <div className={Classes.grid_item}>
+          {/* <div className={Classes.grid_item}>
             <img
               src={Hoody}
               className={clsx([Classes.image_grid, "w-full  object-cover"])}
@@ -241,9 +280,12 @@ const Home = () => {
             <div className="font-[Roboto] text-center mt-1 text-[14px] text-[#515151]">
               Custom Hoody
             </div>
-          </div>
+          </div> */}
 
-          <Link to={"/user/products/jotters-notepads"} className={Classes.grid_item}>
+          <Link
+            to={"/user/products/jotters-notepads"}
+            className={Classes.grid_item}
+          >
             <div className={Classes.image_grid}>
               <GifImage
                 images={[Jotters, Jott, Jotter, Jotte, Jot]}

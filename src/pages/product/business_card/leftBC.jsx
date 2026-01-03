@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Classes from "../product.module.css";
 import InputCom from "../../../components/input/input";
 import clsx from "clsx";
@@ -6,6 +6,10 @@ import { useParams } from "react-router-dom";
 import { MainContext } from "../../../App";
 import { HiChevronRight, HiPlus } from "react-icons/hi";
 import { FiEdit } from "react-icons/fi";
+import Select from "../../../components/select/select";
+import { AiOutlineLoading } from "react-icons/ai";
+import { IoClose } from "react-icons/io5";
+import BottomComponent from "../bottomComponent";
 
 const LeftBC = ({
   inputs,
@@ -26,164 +30,15 @@ const LeftBC = ({
   setPrintStyle,
   premiumFinishing,
   setPremiumFinishing,
+
+  submitButton,
+  loading,
+  setNewProduct,
+  newProduct,
+  proceedHandler,
 }) => {
   const CTX = useContext(MainContext);
-
-  const onChangeForGsm = (v, i) => {
-    const spreadGender = [...gsm];
-
-    const reMapped = spreadGender.map((v) => {
-      return { ...v, selected: false };
-    });
-
-    reMapped[i].selected = true;
-
-    setGsm(reMapped);
-  };
-
-  const mappGSM = gsm.map((v, i) => (
-    <div
-      key={i}
-      style={{
-        backgroundColor: v.selected && "#eb268f",
-        color: v.selected && "#fff",
-      }}
-      className={Classes.eachMapCover}
-      onClick={() => onChangeForGsm(v, i)}
-    >
-      {v?.name}
-    </div>
-  ));
-
-  const onChangeForPaperType = (v, i) => {
-    const spreadGender = [...paperType];
-
-    const reMapped = spreadGender.map((v) => {
-      return { ...v, selected: false };
-    });
-
-    reMapped[i].selected = true;
-
-    setPaperType(reMapped);
-  };
-
-  const mappPaperType = paperType.map((v, i) => (
-    <div
-      key={i}
-      style={{
-        backgroundColor: v.selected && "#eb268f",
-        color: v.selected && "#fff",
-      }}
-      className={Classes.eachMapCover}
-      onClick={() => onChangeForPaperType(v, i)}
-    >
-      {v?.name}
-    </div>
-  ));
-
-  const onChangeForGender = (v, i) => {
-    const spreadGender = [...size];
-
-    const reMapped = spreadGender.map((v) => {
-      return { ...v, selected: false };
-    });
-
-    reMapped[i].selected = true;
-
-    setSize(reMapped);
-  };
-
-  const mappGender = size.map((v, i) => (
-    <div
-      key={i}
-      style={{
-        backgroundColor: v.selected && "#eb268f",
-        color: v.selected && "#fff",
-      }}
-      className={Classes.eachMapCover}
-      onClick={() => onChangeForGender(v, i)}
-    >
-      {v?.name}
-    </div>
-  ));
-
-  const onChangeForLamination = (v, i) => {
-    const spreadGender = [...lamination];
-
-    const reMapped = spreadGender.map((v) => {
-      return { ...v, selected: false };
-    });
-
-    reMapped[i].selected = true;
-
-    setLamination(reMapped);
-  };
-
-  const mappLamination = lamination.map((v, i) => (
-    <div
-      key={i}
-      style={{
-        backgroundColor: v.selected && "#eb268f",
-        color: v.selected && "#fff",
-      }}
-      className={Classes.eachMapCover}
-      onClick={() => onChangeForLamination(v, i)}
-    >
-      {v?.name}
-    </div>
-  ));
-
-  const onChangeForPrintStyle = (v, i) => {
-    const spreadGender = [...printStyle];
-
-    const reMapped = spreadGender.map((v) => {
-      return { ...v, selected: false };
-    });
-
-    reMapped[i].selected = true;
-
-    setPrintStyle(reMapped);
-  };
-
-  const mappPrintStyle = printStyle.map((v, i) => (
-    <div
-      key={i}
-      style={{
-        backgroundColor: v.selected && "#eb268f",
-        color: v.selected && "#fff",
-      }}
-      className={Classes.eachMapCover}
-      onClick={() => onChangeForPrintStyle(v, i)}
-    >
-      {v?.name}
-    </div>
-  ));
-
-  const onChangeForPremiumFinishing = (v, i) => {
-    const spreadGender = [...premiumFinishing];
-
-    const reMapped = spreadGender.map((v) => {
-      return { ...v, selected: false };
-    });
-
-    reMapped[i].selected = true;
-
-    setPremiumFinishing(reMapped);
-  };
-
-  const mappPremiumFinishing = premiumFinishing.map((v, i) => (
-    <div
-      key={i}
-      style={{
-        backgroundColor: v.selected && "#eb268f",
-        color: v.selected && "#fff",
-      }}
-      className={Classes.eachMapCover}
-      onClick={() => onChangeForPremiumFinishing(v, i)}
-    >
-      {v?.name}
-    </div>
-  ));
+  const [toggle, setToggle] = useState(false);
 
   return (
     <div
@@ -250,18 +105,7 @@ const LeftBC = ({
           }}
         />
 
-        <div
-          style={{
-            fontSize: "12px",
-            marginBottom: "8px",
-            marginTop: "12px",
-            color: CTX?.isBlack && "#a8a8a8",
-          }}
-          className={Classes.titleDataHere}
-        >
-          Card Size
-        </div>
-        <div className={Classes.wrapTheFlex}>{mappGender}</div>
+        <Select label={"Card Size"} setStatee={setSize} statee={size} />
 
         {size
           ?.filter((v) => v.selected == true)[0]
@@ -296,239 +140,46 @@ const LeftBC = ({
           </div>
         )}
 
-        <div
-          style={{
-            fontSize: "12px",
-            marginBottom: "8px",
-            marginTop: "12px",
-            color: CTX?.isBlack && "#a8a8a8",
-          }}
-          className={Classes.titleDataHere}
-        >
-          Card Type
-        </div>
-        <div className={Classes.wrapTheFlex}>{mappPaperType}</div>
+        <Select
+          label={"Card Type"}
+          setStatee={setPaperType}
+          statee={paperType}
+        />
 
-        <div
-          style={{
-            fontSize: "12px",
-            marginBottom: "8px",
-            marginTop: "12px",
-            color: CTX?.isBlack && "#a8a8a8",
-          }}
-          className={Classes.titleDataHere}
-        >
-          Lamination Type
-        </div>
-        <div className={Classes.wrapTheFlex}>{mappLamination}</div>
+        <Select
+          label={"Lamination Type"}
+          setStatee={setLamination}
+          statee={lamination}
+          optional={true}
+        />
 
-        <div
-          style={{
-            fontSize: "12px",
-            marginBottom: "8px",
-            marginTop: "12px",
-            color: CTX?.isBlack && "#a8a8a8",
-          }}
-          className={Classes.titleDataHere}
-        >
-          Premium Finishing
-        </div>
-        <div className={Classes.wrapTheFlex}>{mappPremiumFinishing}</div>
+        <Select
+          label={"Premium Finishing"}
+          setStatee={setPremiumFinishing}
+          statee={premiumFinishing}
+        />
 
-        <div
-          style={{
-            fontSize: "12px",
-            marginBottom: "8px",
-            marginTop: "12px",
-            color: CTX?.isBlack && "#a8a8a8",
-          }}
-          className={Classes.titleDataHere}
-        >
-          Card Thickness
-        </div>
-        <div className={Classes.wrapTheFlex}>{mappGSM}</div>
+        <Select label={"Card Thickness"} setStatee={setGsm} statee={gsm} />
 
-        <div
-          style={{
-            fontSize: "12px",
-            marginBottom: "8px",
-            marginTop: "12px",
-            color: CTX?.isBlack && "#a8a8a8",
-          }}
-          className={Classes.titleDataHere}
-        >
-          Print Style
-        </div>
-        <div className={Classes.wrapTheFlex}>{mappPrintStyle}</div>
+        <Select
+          label={"Print Style"}
+          setStatee={setPrintStyle}
+          statee={printStyle}
+        />
 
-        <div className="flex items-center mt-7 ">
-          <div
-            style={{
-              fontSize: "12px",
-              // textTransform: "capitalize",
-            }}
-            className={Classes.titleDataHere}
-          >
-            Do you have a final print-ready design?
-          </div>
-
-          <input
-            className={Classes.preferenceInput}
-            type="checkbox"
-            checked={designReady}
-            onChange={() => {
-              if (designSupport) {
-                setDesignSupport(false);
-              }
-
-              setDesignReady(!designReady);
-            }}
-          />
-        </div>
-        {designReady && (
-          <>
-            {inputs?.design && (
-              <img
-                src={URL.createObjectURL(inputs?.user_design)}
-                alt="Selected"
-                width="200"
-                style={{ borderRadius: "10px" }}
-              />
-            )}
-
-            <div className={Classes.subDataHere} style={{ margin: "0px" }}>
-              Do you have your own design, just upload the file here
-            </div>
-
-            <InputCom
-              label={"Upload design"}
-              type={"file"}
-              // value={inputs?.quantity}
-              accept="image/*"
-              placeholder={"Height (inches)"}
-              onChange={(e) => {
-                const user_design = e.target.files[Object.keys(e.target.files)];
-
-                setInputs({ ...inputs, user_design: user_design });
-              }}
-            />
-          </>
-        )}
-
-        <div className="flex items-center mt-7 ">
-          <div
-            style={{
-              fontSize: "12px",
-              // textTransform: "capitalize",
-            }}
-            className={Classes.titleDataHere}
-          >
-            Do you need design support?
-          </div>
-
-          <input
-            className={Classes.preferenceInput}
-            type="checkbox"
-            checked={designSupport}
-            onChange={() => {
-              if (designReady) {
-                setDesignReady(false);
-              }
-              setDesignSupport(!designSupport);
-            }}
-          />
-        </div>
-        {designSupport && (
-          <>
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "10px",
-                marginTop: "35px",
-              }}
-            >
-              {inputs?.upload_design &&
-                Object?.keys(inputs?.upload_design)?.map((v, i) => (
-                  <img
-                    key={i}
-                    src={URL.createObjectURL(inputs?.upload_design[v])}
-                    alt="Selected"
-                    width="100"
-                    style={{ objectFit: "cover", borderRadius: "10px" }}
-                  />
-                ))}
-            </div>
-
-            <div className={Classes.subDataHere} style={{ margin: "0px" }}>
-              This means we will be doing your design, Please upload design
-              files you would want to use
-            </div>
-
-            <InputCom
-              label={"Add files for the design"}
-              type={"file"}
-              // value={inputs?.quantity}
-              accept="image/*"
-              placeholder={"Height (inches)"}
-              multiple={true}
-              onChange={(e) => {
-                const upload_design = e.target.files;
-
-                // console.log("e.target =>>> ", e);
-
-                setInputs({ ...inputs, upload_design: upload_design });
-              }}
-            />
-
-            <InputCom
-              label={"Upload reference if any"}
-              type={"file"}
-              // value={inputs?.quantity}
-              accept="image/*"
-              placeholder={"Height (inches)"}
-              onChange={(e) => {
-                const reference = e.target.files[Object.keys(e.target.files)];
-
-                setInputs({ ...inputs, reference: reference });
-              }}
-            />
-          </>
-        )}
-
-        <div className="flex items-center mt-7 ">
-          <InputCom
-            label={"Additional note"}
-            row
-            value={inputs?.additional}
-            placeholder={"Additional note . . ."}
-            textarea={true}
-            onChange={(e) => {
-              setInputs({ ...inputs, additional: e.target.value });
-            }}
-          />
-        </div>
+        <BottomComponent
+          designReady={designReady}
+          designSupport={designSupport}
+          setDesignSupport={setDesignSupport}
+          inputs={inputs}
+          setInputs={setInputs}
+          setDesignReady={setDesignReady}
+        />
       </div>
 
-      <div className="flex gap-[10px] mt-5">
-        {/* <button
-           type="button"
-           className={clsx([
-             Classes.shopNowBTN,
-             "rounded-[4px] transition duration-200  focus:outline-none inline-flex items-center justify-center secondary-button-text  h-10 text-base px-3 bg-primary button-text  border-tertiary border-tertiary-hover border-transparent ml-auto",
-           ])}
-           style={{
-             fontFamily: "Outfit",
-             color: "#812b5a",
-             backgroundColor: "transparent",
-             borderRadius: "12px",
-             border: "none",
-           }}
-         >
-           add more <HiPlus />{" "}
-         </button> */}
-
+      <div className=" gap-[8px] mt-3">
         <button
+          onClick={submitButton}
           type="button"
           className={clsx([
             Classes.shopNowBTN,
@@ -537,13 +188,84 @@ const LeftBC = ({
           style={{
             fontFamily: "Outfit",
             color: "#fff",
-            backgroundColor: "#812b5a",
+            backgroundColor: "#ee2490",
             borderRadius: "12px",
             border: "none",
           }}
         >
-          Submit <HiChevronRight />{" "}
+          {loading && (
+            <AiOutlineLoading
+              className="animate-spin h-[20px] w-[20px] mr-1 ml-auto"
+              color={"#fff"}
+            />
+          )}
+          Submit <HiChevronRight />
         </button>
+
+        <div
+          className="flex items-center justify-between gap-[20px] w-full"
+          style={{
+            marginTop: "30px",
+          }}
+        >
+          <div
+            className={Classes.subDataHere}
+            style={{
+              fontFamily: "outfit",
+              fontWeight: "400",
+              marginBottom: "10px",
+            }}
+            onClick={() => setToggle(true)}
+          >
+            Do you need to add{" "}
+            <span style={{ color: "#e20254", cursor: "pointer" }}>
+              {" "}
+              other products?
+            </span>
+          </div>
+          {toggle && <IoClose onClick={() => setToggle(false)} size={20} />}
+        </div>
+        {toggle && (
+          <div className="flex gap-[20px] items-end">
+            <InputCom
+              label={"Select Product"}
+              select={true}
+              options={CTX.proceedOptions
+                ?.map((e) => e.name)
+                .filter(
+                  (v) =>
+                    !(CTX.products?.products || [])
+                      .map((p) => p.name)
+                      .includes(v)
+                )
+                .filter((b) => !b.includes("Business"))}
+              onChange={(e) => {
+                setNewProduct(e.target.value);
+              }}
+            />
+            {!newProduct ? (
+              <div className="w-[92px]"></div>
+            ) : (
+              <button
+                type="button"
+                className={clsx([
+                  Classes.shopNowBTN,
+                  "rounded-[4px] transition duration-200  focus:outline-none inline-flex items-center justify-center secondary-button-text  h-10 text-base px-3 bg-primary button-text  border-tertiary border-tertiary-hover border-transparent ml-auto",
+                ])}
+                style={{
+                  fontFamily: "Outfit",
+                  color: "#fff",
+                  backgroundColor: "#ee2490",
+                  borderRadius: "12px",
+                  border: "none",
+                }}
+                onClick={proceedHandler}
+              >
+                Proceed
+              </button>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

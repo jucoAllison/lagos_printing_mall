@@ -64,7 +64,7 @@ const Orders = ({ orders, loading }) => {
       active: false,
       value: "refund",
       number:
-        CTX?.userObj?.not_user?.stats_cards?.orders?.cancelled?.toLocaleString() ||
+        CTX?.userObj?.not_user?.stats_cards?.orders?.refund?.toLocaleString() ||
         0,
     },
   ]);

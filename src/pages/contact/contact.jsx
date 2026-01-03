@@ -140,11 +140,11 @@ const Contact = () => {
         </div>
         <div className={Classes.subgrid} style={{ paddingTop: "15px" }}>
           <strong className="font-[Outfit] text-[14px]">
-            With our services you can
+            With our printing service you can
           </strong>
 
           <div className="flex items-center gap-[10px] mt-[40px]">
-            <FaRegCircleCheck size={16} color="#000" />
+            <FaRegCircleCheck size={16} color="#000" style={{width: "26px"}} />
 
             <div
               style={{
@@ -152,12 +152,12 @@ const Contact = () => {
                 fontSize: "14px",
               }}
             >
-              Improve usability of your product
+              Upload your designs in seconds and see them come to life with professional-grade color accuracy
             </div>
           </div>
 
           <div className="flex items-center gap-[10px] mt-[10px]">
-            <FaRegCircleCheck size={16} color="#000" />
+            <FaRegCircleCheck size={16} color="#000" style={{width: "26px"}} />
 
             <div
               style={{
@@ -165,12 +165,12 @@ const Contact = () => {
                 fontSize: "14px",
               }}
             >
-              Engage users at a higher level and outperform your competitions
+              Rest easy knowing our expert team reviews every file for quality before it hits the press
             </div>
           </div>
 
           <div className="flex items-center gap-[10px] mt-[10px]">
-            <FaRegCircleCheck size={16} color="#000" />
+            <FaRegCircleCheck size={16} color="#000" style={{width: "26px"}} />
 
             <div
               style={{
@@ -178,11 +178,11 @@ const Contact = () => {
                 fontSize: "14px",
               }}
             >
-              Reduce the onboarding time and increase sales
+              Streamline your workflow with automated reordering and fast, reliable shipping directly to your door
             </div>
           </div>
 
-          <div className="flex items-center gap-[10px] mt-[10px]">
+          {/* <div className="flex items-center gap-[10px] mt-[10px]">
             <FaRegCircleCheck size={16} color="#000" />
 
             <div
@@ -193,7 +193,7 @@ const Contact = () => {
             >
               Balance users need with your business goals
             </div>
-          </div>
+          </div> */}
 
           <div className="mt-[40px] sm:flex justify-between gap-[10px]">
             <div style={{ width: "170px", fontFamily: "outfit" }}>

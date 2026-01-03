@@ -8,6 +8,7 @@ import { HiChevronRight, HiPlus } from "react-icons/hi";
 import Select from "../../../components/select/select";
 import { AiOutlineLoading } from "react-icons/ai";
 import { IoClose } from "react-icons/io5";
+import BottomComponent from "../bottomComponent";
 
 const LeftReceipts = ({
   inputs,
@@ -273,6 +274,7 @@ const LeftReceipts = ({
           />
         </div>
 
+        {/* 
         <div className="flex items-center mt-7 ">
           <div
             style={{
@@ -297,35 +299,7 @@ const LeftReceipts = ({
             }}
           />
         </div>
-        {/* {designReady && (
-          <>
-            {inputs?.design && (
-              <img
-                src={URL.createObjectURL(inputs?.user_design)}
-                alt="Selected"
-                width="200"
-                style={{ borderRadius: "10px" }}
-              />
-            )}
-
-            <div className={Classes.subDataHere} style={{ margin: "0px" }}>
-              Do you have your own design, just upload the file here
-            </div>
-
-            <InputCom
-              label={"Upload design"}
-              type={"file"}
-              // value={inputs?.quantity}
-              accept="image/*"
-              placeholder={"Height (inches)"}
-              onChange={(e) => {
-                const user_design = e.target.files[Object.keys(e.target.files)];
-
-                setInputs({ ...inputs, user_design: user_design });
-              }}
-            />
-          </>
-        )} */}
+       
 
         {designReady && (
           <>
@@ -448,6 +422,16 @@ const LeftReceipts = ({
             }}
           />
         </div>
+        */}
+
+        <BottomComponent
+          designReady={designReady}
+          designSupport={designSupport}
+          setDesignSupport={setDesignSupport}
+          inputs={inputs}
+          setInputs={setInputs}
+          setDesignReady={setDesignReady}
+        />
       </div>
 
       <div className=" gap-[8px] mt-3">

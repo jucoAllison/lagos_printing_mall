@@ -231,6 +231,9 @@ const AuthModal = ({ setShowModal, showModal, inputs, setInputs }) => {
           setShowModal(null);
         }}
         className="modal-backdrop fade show"
+        style={{
+          backdropFilter: "blur(0.3rem)",
+        }}
       ></div>
 
       <div
@@ -238,7 +241,7 @@ const AuthModal = ({ setShowModal, showModal, inputs, setInputs }) => {
         id="exampleModal"
         tabindex="-1"
         aria-hidden="true"
-        style={{ display: "block" }}
+        style={{ display: "block", backdropFilter: "blur(0.3rem)" }}
       >
         <div className="modal-dialog modal-dialog-centered modal-lg res-dialog">
           <div

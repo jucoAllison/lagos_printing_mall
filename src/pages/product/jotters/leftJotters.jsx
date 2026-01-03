@@ -1,10 +1,14 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Classes from "../product.module.css";
 import InputCom from "../../../components/input/input";
 import clsx from "clsx";
 import { useParams } from "react-router-dom";
 import { MainContext } from "../../../App";
 import { HiChevronRight, HiPlus } from "react-icons/hi";
+import { AiOutlineLoading } from "react-icons/ai";
+import { IoClose } from "react-icons/io5";
+import Select from "../../../components/select/select";
+import BottomComponent from "../bottomComponent";
 
 const LeftJotters = ({
   inputs,
@@ -39,296 +43,31 @@ const LeftJotters = ({
   setBindingPosition,
   tearOff,
   setTearOff,
+
+
+
+
+  
+
+
+
+  
+
+  
+
+
+
+  
+  
+  submitButton,
+  loading,
+  setNewProduct,
+  newProduct,
+  proceedHandler,
 }) => {
   const CTX = useContext(MainContext);
+  const [toggle, setToggle] = useState(false);
 
-  const onChangeForBindingType = (v, i) => {
-    const spreadGender = [...bindingType];
-    if (tearOff) setTearOff(false);
-
-    const reMapped = spreadGender.map((v) => {
-      return { ...v, selected: false };
-    });
-
-    reMapped[i].selected = true;
-
-    setBindingType(reMapped);
-  };
-
-  const mappBindingType = bindingType.map((v, i) => (
-    <div
-      key={i}
-      style={{
-        backgroundColor: v.selected && "#eb268f",
-        color: v.selected && "#fff",
-      }}
-      className={Classes.eachMapCover}
-      onClick={() => onChangeForBindingType(v, i)}
-    >
-      {v?.name}
-    </div>
-  ));
-
-  const onChangeForBindingPosition = (v, i) => {
-    const spreadGender = [...bindingPosition];
-    if (tearOff) setTearOff(false);
-
-    const reMapped = spreadGender.map((v) => {
-      return { ...v, selected: false };
-    });
-
-    reMapped[i].selected = true;
-
-    setBindingPosition(reMapped);
-  };
-
-  const mappBindingPosition = bindingPosition.map((v, i) => (
-    <div
-      key={i}
-      style={{
-        backgroundColor: v.selected && "#eb268f",
-        color: v.selected && "#fff",
-      }}
-      className={Classes.eachMapCover}
-      onClick={() => onChangeForBindingPosition(v, i)}
-    >
-      {v?.name}
-    </div>
-  ));
-
-  const onChangeForGsm = (v, i) => {
-    const spreadGender = [...gsm];
-
-    const reMapped = spreadGender.map((v) => {
-      return { ...v, selected: false };
-    });
-
-    reMapped[i].selected = true;
-
-    setGsm(reMapped);
-  };
-
-  const mappGSM = gsm.map((v, i) => (
-    <div
-      key={i}
-      style={{
-        backgroundColor: v.selected && "#eb268f",
-        color: v.selected && "#fff",
-      }}
-      className={Classes.eachMapCover}
-      onClick={() => onChangeForGsm(v, i)}
-    >
-      {v?.name}
-    </div>
-  ));
-
-  const onChangeForPaperType = (v, i) => {
-    const spreadGender = [...paperType];
-
-    const reMapped = spreadGender.map((v) => {
-      return { ...v, selected: false };
-    });
-
-    reMapped[i].selected = true;
-
-    setPaperType(reMapped);
-  };
-
-  const mappPaperType = paperType.map((v, i) => (
-    <div
-      key={i}
-      style={{
-        backgroundColor: v.selected && "#eb268f",
-        color: v.selected && "#fff",
-      }}
-      className={Classes.eachMapCover}
-      onClick={() => onChangeForPaperType(v, i)}
-    >
-      {v?.name}
-    </div>
-  ));
-
-  const onChangeForIntendedPurpose = (v, i) => {
-    const spreadGender = [...intendedPurpose];
-
-    const reMapped = spreadGender.map((v) => {
-      return { ...v, selected: false };
-    });
-
-    reMapped[i].selected = true;
-
-    setIntendedPurpose(reMapped);
-  };
-
-  const mappIntendedPurpose = intendedPurpose.map((v, i) => (
-    <div
-      key={i}
-      style={{
-        backgroundColor: v.selected && "#eb268f",
-        color: v.selected && "#fff",
-      }}
-      className={Classes.eachMapCover}
-      onClick={() => onChangeForIntendedPurpose(v, i)}
-    >
-      {v?.name}
-    </div>
-  ));
-
-  const onChangeForGender = (v, i) => {
-    const spreadGender = [...size];
-
-    const reMapped = spreadGender.map((v) => {
-      return { ...v, selected: false };
-    });
-
-    reMapped[i].selected = true;
-
-    setSize(reMapped);
-  };
-
-  const mappGender = size.map((v, i) => (
-    <div
-      key={i}
-      style={{
-        backgroundColor: v.selected && "#eb268f",
-        color: v.selected && "#fff",
-      }}
-      className={Classes.eachMapCover}
-      onClick={() => onChangeForGender(v, i)}
-    >
-      {v?.name}
-    </div>
-  ));
-
-  const onChangeForLamination = (v, i) => {
-    const spreadGender = [...lamination];
-
-    const reMapped = spreadGender.map((v) => {
-      return { ...v, selected: false };
-    });
-
-    reMapped[i].selected = true;
-
-    setLamination(reMapped);
-  };
-
-  const mappLamination = lamination.map((v, i) => (
-    <div
-      key={i}
-      style={{
-        backgroundColor: v.selected && "#eb268f",
-        color: v.selected && "#fff",
-      }}
-      className={Classes.eachMapCover}
-      onClick={() => onChangeForLamination(v, i)}
-    >
-      {v?.name}
-    </div>
-  ));
-
-  const onChangeForPrintStyle = (v, i) => {
-    const spreadGender = [...printStyle];
-
-    const reMapped = spreadGender.map((v) => {
-      return { ...v, selected: false };
-    });
-
-    reMapped[i].selected = true;
-
-    setPrintStyle(reMapped);
-  };
-
-  const mappPrintStyle = printStyle.map((v, i) => (
-    <div
-      key={i}
-      style={{
-        backgroundColor: v.selected && "#eb268f",
-        color: v.selected && "#fff",
-      }}
-      className={Classes.eachMapCover}
-      onClick={() => onChangeForPrintStyle(v, i)}
-    >
-      {v?.name}
-    </div>
-  ));
-
-  const onChangeForPremiumFinishing = (v, i) => {
-    const spreadGender = [...premiumFinishing];
-
-    const reMapped = spreadGender.map((v) => {
-      return { ...v, selected: false };
-    });
-
-    reMapped[i].selected = true;
-
-    setPremiumFinishing(reMapped);
-  };
-
-  const mappPremiumFinishing = premiumFinishing.map((v, i) => (
-    <div
-      key={i}
-      style={{
-        backgroundColor: v.selected && "#eb268f",
-        color: v.selected && "#fff",
-      }}
-      className={Classes.eachMapCover}
-      onClick={() => onChangeForPremiumFinishing(v, i)}
-    >
-      {v?.name}
-    </div>
-  ));
-
-  const onChangeForNumberPages = (v, i) => {
-    const spreadGender = [...pages];
-
-    const reMapped = spreadGender.map((v) => {
-      return { ...v, selected: false };
-    });
-
-    reMapped[i].selected = true;
-
-    setPages(reMapped);
-  };
-
-  const mappNumberPages = pages.map((v, i) => (
-    <div
-      key={i}
-      style={{
-        backgroundColor: v.selected && "#eb268f",
-        color: v.selected && "#fff",
-      }}
-      className={Classes.eachMapCover}
-      onClick={() => onChangeForNumberPages(v, i)}
-    >
-      {v?.name}
-    </div>
-  ));
-
-  const onChangeForType = (v, i) => {
-    const spreadGender = [...type];
-
-    const reMapped = spreadGender.map((v) => {
-      return { ...v, selected: false };
-    });
-
-    reMapped[i].selected = true;
-
-    setType(reMapped);
-  };
-
-  const mappTypes = type.map((v, i) => (
-    <div
-      key={i}
-      style={{
-        backgroundColor: v.selected && "#eb268f",
-        color: v.selected && "#fff",
-      }}
-      className={Classes.eachMapCover}
-      onClick={() => onChangeForType(v, i)}
-    >
-      {v?.name}
-    </div>
-  ));
 
   return (
     <div
@@ -399,43 +138,22 @@ const LeftJotters = ({
           }}
         />
 
-        {/* <InputCom
-          label={
-            "What is your target budget per calendar? (Helps guide material and finish recommendations.)"
-          }
-          value={inputs?.budget}
-          placeholder={"0"}
-          onChange={(e) => {
-            const newValue = e.target.value.replace(/\D/g, "");
-            setInputs({ ...inputs, budget: newValue });
-          }}
-        /> */}
 
-        <div
-          style={{
-            fontSize: "12px",
-            marginBottom: "8px",
-            marginTop: "12px",
-            color: CTX?.isBlack && "#a8a8a8",
-          }}
-          className={Classes.titleDataHere}
-        >
-          What is the intended purpose?
-        </div>
-        <div className={Classes.wrapTheFlex}>{mappIntendedPurpose}</div>
 
-        <div
-          style={{
-            fontSize: "12px",
-            marginBottom: "8px",
-            marginTop: "12px",
-            color: CTX?.isBlack && "#a8a8a8",
-          }}
-          className={Classes.titleDataHere}
-        >
-          Size
-        </div>
-        <div className={Classes.wrapTheFlex}>{mappGender}</div>
+        
+         <Select
+          label={"What is the intended purpose?"}
+          setStatee={setIntendedPurpose}
+          statee={intendedPurpose}
+          />
+
+        
+         <Select
+          label={"Size"}
+          setStatee={setSize}
+          statee={size}
+          />
+
 
         {size
           ?.filter((v) => v.selected == true)[0]
@@ -470,107 +188,61 @@ const LeftJotters = ({
           </div>
         )}
 
-        <div
-          style={{
-            fontSize: "12px",
-            marginBottom: "8px",
-            marginTop: "12px",
-            color: CTX?.isBlack && "#a8a8a8",
-          }}
-          className={Classes.titleDataHere}
-        >
-          What cover type/material do you want?
-        </div>
-        <div className={Classes.wrapTheFlex}>{mappPaperType}</div>
 
-        <div
-          style={{
-            fontSize: "12px",
-            marginBottom: "8px",
-            marginTop: "12px",
-            color: CTX?.isBlack && "#a8a8a8",
-          }}
-          className={Classes.titleDataHere}
-        >
-          Do you want the cover laminated?
-        </div>
-        <div className={Classes.wrapTheFlex}>{mappLamination}</div>
+         <Select
+          label={"What cover type/material do you want?"}
+          setStatee={setPaperType}
+          statee={paperType}
+          />
 
-        <div
-          style={{
-            fontSize: "12px",
-            marginBottom: "8px",
-            marginTop: "12px",
-            color: CTX?.isBlack && "#a8a8a8",
-          }}
-          className={Classes.titleDataHere}
-        >
-          How many pages per jotter?
-        </div>
-        <div className={Classes.wrapTheFlex}>{mappNumberPages}</div>
 
-        <div
-          style={{
-            fontSize: "12px",
-            marginBottom: "8px",
-            marginTop: "12px",
-            color: CTX?.isBlack && "#a8a8a8",
-          }}
-          className={Classes.titleDataHere}
-        >
-          Orientation
-        </div>
-        <div className={Classes.wrapTheFlex}>{mappTypes}</div>
 
-        <div
-          style={{
-            fontSize: "12px",
-            marginBottom: "8px",
-            marginTop: "12px",
-            color: CTX?.isBlack && "#a8a8a8",
-          }}
-          className={Classes.titleDataHere}
-        >
-          Printing on inner pages
-        </div>
-        <div className={Classes.wrapTheFlex}>{mappPremiumFinishing}</div>
-        <div
-          className={Classes.subDataHere}
-          style={{
-            fontFamily: "outfit",
-            marginTop: "-2px",
-            fontWeight: "200",
-            marginBottom: "10px",
-          }}
-        >
-          Usually double-sided for wall calendars to save paper
-        </div>
+         <Select
+          label={"Do you want the cover laminated?"}
+          setStatee={setLamination}
+          statee={lamination}
+          optional={true}
+          />
 
-        <div
-          style={{
-            fontSize: "12px",
-            marginBottom: "8px",
-            marginTop: "12px",
-            color: CTX?.isBlack && "#a8a8a8",
-          }}
-          className={Classes.titleDataHere}
-        >
-          Paper Weight
-        </div>
-        <div className={Classes.wrapTheFlex}>{mappGSM}</div>
 
-        <div
-          style={{
-            fontSize: "12px",
-            marginBottom: "8px",
-            marginTop: "12px",
-            color: CTX?.isBlack && "#a8a8a8",
-          }}
-          className={Classes.titleDataHere}
-        >
-          What paper type for the inside pages?
-        </div>
-        <div className={Classes.wrapTheFlex}>{mappPrintStyle}</div>
+         <Select
+          label={"How many pages per jotter?"}
+          setStatee={setPages}
+          statee={pages}
+          />
+
+
+
+         <Select
+          label={"Orientation"}
+          setStatee={setType}
+          statee={type}
+          />
+
+
+         <Select
+          label={"Printing on inner pages"}
+          setStatee={setPremiumFinishing}
+          statee={premiumFinishing}
+          />
+                
+
+               
+                
+                
+                <Select
+          label={"Paper Weight"}
+          setStatee={setGsm}
+          statee={gsm}
+          />
+
+        <Select
+          label={"What paper type for the inside pages?"}
+          setStatee={setPrintStyle}
+          statee={printStyle}
+          />
+          
+
 
         <div className="flex items-center mt-7 ">
           <div
@@ -602,37 +274,24 @@ const LeftJotters = ({
                 return { ...v, selected: false };
               });
 
-              setBindingPosition(rePositionMapped);
-              setBindingType(reMapped);
+              // setBindingPosition(rePositionMapped);
+              // setBindingType(reMapped);
             }}
           />
         </div>
 
-        <div
-          style={{
-            fontSize: "12px",
-            marginBottom: "8px",
-            marginTop: "12px",
-            color: CTX?.isBlack && "#a8a8a8",
-          }}
-          className={Classes.titleDataHere}
-        >
-          Binding Type?
-        </div>
-        <div className={Classes.wrapTheFlex}>{mappBindingType}</div>
+        <Select
+          label={"Binding Type?"}
+          setStatee={setBindingType}
+          statee={bindingType}
+        />
 
-        <div
-          style={{
-            fontSize: "12px",
-            marginBottom: "8px",
-            marginTop: "12px",
-            color: CTX?.isBlack && "#a8a8a8",
-          }}
-          className={Classes.titleDataHere}
-        >
-          Binding Position?
-        </div>
-        <div className={Classes.wrapTheFlex}>{mappBindingPosition}</div>
+          
+          <Select
+          label={"Binding Position?"}
+          setStatee={setBindingPosition}
+          statee={bindingPosition}
+        />
 
         <div className="flex items-center mt-7 ">
           <div
@@ -655,192 +314,127 @@ const LeftJotters = ({
           />
         </div>
 
-        <div className="flex items-center mt-7 ">
-          <div
-            style={{
-              fontSize: "12px",
-              // textTransform: "capitalize",
-            }}
-            className={Classes.titleDataHere}
-          >
-            Do you have a final print-ready design?
-          </div>
+      
+      
 
-          <input
-            className={Classes.preferenceInput}
-            type="checkbox"
-            checked={designReady}
-            onChange={() => {
-              if (designSupport) {
-                setDesignSupport(false);
-              }
 
-              setDesignReady(!designReady);
-            }}
-          />
-        </div>
-        {designReady && (
-          <>
-            {inputs?.design && (
-              <img
-                src={URL.createObjectURL(inputs?.user_design)}
-                alt="Selected"
-                width="200"
-                style={{ borderRadius: "10px" }}
+
+
+
+
+      
+
+        
+
+
+
+
+
+
+
+
+
+       <BottomComponent
+                designReady={designReady}
+                designSupport={designSupport}
+                setDesignSupport={setDesignSupport}
+                inputs={inputs}
+                setInputs={setInputs}
+                setDesignReady={setDesignReady}
               />
-            )}
-
-            <div className={Classes.subDataHere} style={{ margin: "0px" }}>
-              Do you have your own design, just upload the file here
             </div>
-
-            <InputCom
-              label={"Upload design"}
-              type={"file"}
-              // value={inputs?.quantity}
-              accept="image/*"
-              placeholder={"Height (inches)"}
-              onChange={(e) => {
-                const user_design = e.target.files[Object.keys(e.target.files)];
-
-                setInputs({ ...inputs, user_design: user_design });
-              }}
-            />
-          </>
-        )}
-
-        <div className="flex items-center mt-7 ">
-          <div
-            style={{
-              fontSize: "12px",
-              // textTransform: "capitalize",
-            }}
-            className={Classes.titleDataHere}
-          >
-            Do you need design support?
-          </div>
-
-          <input
-            className={Classes.preferenceInput}
-            type="checkbox"
-            checked={designSupport}
-            onChange={() => {
-              if (designReady) {
-                setDesignReady(false);
-              }
-              setDesignSupport(!designSupport);
-            }}
-          />
-        </div>
-        {designSupport && (
-          <>
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "10px",
-                marginTop: "35px",
-              }}
-            >
-              {inputs?.upload_design &&
-                Object?.keys(inputs?.upload_design)?.map((v, i) => (
-                  <img
-                    key={i}
-                    src={URL.createObjectURL(inputs?.upload_design[v])}
-                    alt="Selected"
-                    width="100"
-                    style={{ objectFit: "cover", borderRadius: "10px" }}
+      
+            <div className=" gap-[8px] mt-3">
+              <button
+                onClick={submitButton}
+                type="button"
+                className={clsx([
+                  Classes.shopNowBTN,
+                  "rounded-[4px] transition duration-200  focus:outline-none inline-flex items-center justify-center secondary-button-text  h-10 text-base px-3 bg-primary button-text  border-tertiary border-tertiary-hover border-transparent ml-auto",
+                ])}
+                style={{
+                  fontFamily: "Outfit",
+                  color: "#fff",
+                  backgroundColor: "#ee2490",
+                  borderRadius: "12px",
+                  border: "none",
+                }}
+              >
+                {loading && (
+                  <AiOutlineLoading
+                    className="animate-spin h-[20px] w-[20px] mr-1 ml-auto"
+                    color={"#fff"}
                   />
-                ))}
+                )}
+                Submit <HiChevronRight />
+              </button>
+      
+              <div
+                className="flex items-center justify-between gap-[20px] w-full"
+                style={{
+                  marginTop: "30px",
+                }}
+              >
+                <div
+                  className={Classes.subDataHere}
+                  style={{
+                    fontFamily: "outfit",
+                    fontWeight: "400",
+                    marginBottom: "10px",
+                  }}
+                  onClick={() => setToggle(true)}
+                >
+                  Do you need to add{" "}
+                  <span style={{ color: "#e20254", cursor: "pointer" }}>
+                    {" "}
+                    other products?
+                  </span>
+                </div>
+                {toggle && <IoClose onClick={() => setToggle(false)} size={20} />}
+              </div>
+              {toggle && (
+                <div className="flex gap-[20px] items-end">
+                  <InputCom
+                    label={"Select Product"}
+                    select={true}
+                    options={CTX.proceedOptions
+                      ?.map((e) => e.name)
+                      .filter(
+                        (v) =>
+                          !(CTX.products?.products || [])
+                            .map((p) => p.name)
+                            .includes(v)
+                      )
+                      .filter((b) => !b.includes("Jotters"))}
+                    onChange={(e) => {
+                      setNewProduct(e.target.value);
+                    }}
+                  />
+                  {!newProduct ? (
+                    <div className="w-[92px]"></div>
+                  ) : (
+                    <button
+                      type="button"
+                      className={clsx([
+                        Classes.shopNowBTN,
+                        "rounded-[4px] transition duration-200  focus:outline-none inline-flex items-center justify-center secondary-button-text  h-10 text-base px-3 bg-primary button-text  border-tertiary border-tertiary-hover border-transparent ml-auto",
+                      ])}
+                      style={{
+                        fontFamily: "Outfit",
+                        color: "#fff",
+                        backgroundColor: "#ee2490",
+                        borderRadius: "12px",
+                        border: "none",
+                      }}
+                      onClick={proceedHandler}
+                    >
+                      Proceed
+                    </button>
+                  )}
+                </div>
+              )}
             </div>
-
-            <div className={Classes.subDataHere} style={{ margin: "0px" }}>
-              This means we will be doing your design, please provide brand
-              assets (if available) Logo, other information, any specific
-              branding guideline (brand colours, preferred fonts etc)
-            </div>
-
-            <InputCom
-              label={"Add files for the design"}
-              type={"file"}
-              // value={inputs?.quantity}
-              accept="image/*"
-              placeholder={"Height (inches)"}
-              multiple={true}
-              onChange={(e) => {
-                const upload_design = e.target.files;
-
-                // console.log("e.target =>>> ", e);
-
-                setInputs({ ...inputs, upload_design: upload_design });
-              }}
-            />
-
-            <InputCom
-              label={"Upload reference if any"}
-              type={"file"}
-              // value={inputs?.quantity}
-              accept="image/*"
-              placeholder={"Height (inches)"}
-              onChange={(e) => {
-                const reference = e.target.files[Object.keys(e.target.files)];
-
-                setInputs({ ...inputs, reference: reference });
-              }}
-            />
-          </>
-        )}
-
-        <div className="flex items-center mt-7 ">
-          <InputCom
-            label={"Additional note"}
-            row
-            value={inputs?.additional}
-            placeholder={"Additional note . . ."}
-            textarea={true}
-            onChange={(e) => {
-              setInputs({ ...inputs, additional: e.target.value });
-            }}
-          />
-        </div>
-      </div>
-
-      <div className="flex gap-[10px] mt-5">
-        {/* <button
-           type="button"
-           className={clsx([
-             Classes.shopNowBTN,
-             "rounded-[4px] transition duration-200  focus:outline-none inline-flex items-center justify-center secondary-button-text  h-10 text-base px-3 bg-primary button-text  border-tertiary border-tertiary-hover border-transparent ml-auto",
-           ])}
-           style={{
-             fontFamily: "Outfit",
-             color: "#812b5a",
-             backgroundColor: "transparent",
-             borderRadius: "12px",
-             border: "none",
-           }}
-         >
-           add more <HiPlus />{" "}
-         </button> */}
-
-        <button
-          type="button"
-          className={clsx([
-            Classes.shopNowBTN,
-            "rounded-[4px] transition duration-200  focus:outline-none inline-flex items-center justify-center secondary-button-text  h-10 text-base px-3 bg-primary button-text  border-tertiary border-tertiary-hover border-transparent ml-auto",
-          ])}
-          style={{
-            fontFamily: "Outfit",
-            color: "#fff",
-            backgroundColor: "#812b5a",
-            borderRadius: "12px",
-            border: "none",
-          }}
-        >
-          Submit <HiChevronRight />{" "}
-        </button>
-      </div>
-    </div>
+          </div>
   );
 };
 

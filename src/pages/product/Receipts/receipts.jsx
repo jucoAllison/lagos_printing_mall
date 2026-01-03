@@ -17,6 +17,7 @@ const Receipts = () => {
   const CTX = useContext(MainContext);
   const navigation = useNavigate();
   const { checkRight } = useCheckRight();
+
   const [loading, setLoading] = useState(false);
   const [pages, setPages] = useState([
     { name: "Thick card cover", selected: true },
@@ -128,7 +129,10 @@ const Receipts = () => {
         {
           type: "text",
           key: "Size?",
-          value: size.filter((v) => v.selected)[0]?.name,
+          value: size.filter((v) => v.selected)[0]?.name?.includes("Custom")
+            ? `Custom Size width: ${inputs?.width}inches length: ${inputs?.length}inches `
+            : size.filter((v) => v.selected)[0]?.name,
+          // value: size.filter((v) => v.selected)[0]?.name,
           width: inputs?.width,
           length: inputs?.length,
           ms: "inches",
@@ -181,27 +185,63 @@ const Receipts = () => {
         },
         { type: "boolean", key: "Need design?", value: designReady },
 
-        {
-          type: "file",
-          data: inputs?.user_design,
-          key: "user_design",
-          value: null,
-          imgObj: null,
-        },
-        {
-          type: "file",
-          data: inputs?.upload_design,
-          key: "upload_design",
-          value: null,
-          imgObj: null,
-        },
-        {
-          type: "file",
-          data: inputs?.reference,
-          key: "reference",
-          value: null,
-          imgObj: null,
-        },
+        ...(designReady
+          ? [
+              {
+                type: "file",
+                data: inputs?.user_design,
+                key: "user_design",
+                value: null,
+                imgObj: null,
+              },
+            ]
+          : []),
+
+        ...(designSupport
+          ? [
+              {
+                type: "file",
+                data: inputs?.upload_design,
+                key: "upload_design",
+                value: null,
+                imgObj: null,
+              },
+            ]
+          : []),
+
+        ...(designSupport
+          ? [
+              {
+                type: "file",
+                data: inputs?.reference,
+                key: "reference",
+                value: null,
+                imgObj: null,
+              },
+            ]
+          : []),
+
+        // {
+        //   type: "file",
+        //   data: inputs?.user_design,
+        //   key: "user_design",
+        //   value: null,
+        //   imgObj: null,
+        // },
+        // {
+        //   type: "file",
+        //   data: inputs?.upload_design,
+        //   key: "upload_design",
+        //   value: null,
+        //   imgObj: null,
+        // },
+        // {
+        //   type: "file",
+        //   data: inputs?.reference,
+        //   key: "reference",
+        //   value: null,
+        //   imgObj: null,
+        // },
       ],
     };
 

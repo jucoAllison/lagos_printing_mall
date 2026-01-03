@@ -33,7 +33,7 @@ const SmallScreenLinks = () => {
       <Link to={"/user/products/brochures"} style={{ color: "#444" }}>
         Brochures
       </Link>
-      <div style={{ color: "#444", textAlign: "right" }}>Greeting Cards</div>
+      <Link to={"/user/products/greeting-card"} style={{ color: "#444", textAlign: "right" }}>Greeting Cards</Link>
       <Link to={"/user/products/receipts-invoices"} style={{ color: "#444" }}>
         Receipts/Invoices
       </Link>
@@ -55,13 +55,13 @@ const SmallScreenLinks = () => {
       <Link to={"/user/products/plastic-id-card"} style={{ color: "#444" }}>
         Plastic ID Cards
       </Link>
-      <div style={{ color: "#444", textAlign: "right" }}>Mailer Bags</div>
-      <div style={{ color: "#444" }}>Banners/Signs</div>
-      <div style={{ color: "#444", textAlign: "right" }}>Custom T-Shirt</div>
+      <Link to={"/user/products/screen-printing"} style={{ color: "#444", textAlign: "right" }}>Mailer Bags</Link>
+      <Link to={"/user/products/banners-signs"}  style={{ color: "#444" }}>Banners/Signs</Link>
+      <Link to={"/user/products/custom-tshirt"} style={{ color: "#444", textAlign: "right" }}>Custom T-Shirt</Link>
       <Link to={"/user/products/car-branding"} style={{ color: "#444" }}>
         Car Wrap
       </Link>
-      <div style={{ color: "#444", textAlign: "right" }}>Pen</div>
+      <Link to={"/user/products/pen"} style={{ color: "#444", textAlign: "right" }}>Pen</Link>
       <div style={{ color: "#444" }}>Frames</div>
       <div style={{ color: "#444", textAlign: "right" }}>Invitation Cards</div>
       <div style={{ color: "#444" }}>Dummy Cheques</div>
@@ -92,7 +92,6 @@ const SmallScreenLinks = () => {
       <Link to="/user/products/business-card" style={{ color: "#444" }}>
         Business Cards
       </Link>
-      <div style={{ color: "#444", textAlign: "right" }}>Custom Hoody</div>
       <Link to={"/user/products/jotters-notepads"} style={{ color: "#444" }}>
         Jotters - Hard / Soft Covers
       </Link>

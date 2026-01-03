@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Classes from "../product.module.css";
 import InputCom from "../../../components/input/input";
 import clsx from "clsx";
@@ -6,12 +6,13 @@ import { useParams } from "react-router-dom";
 import { MainContext } from "../../../App";
 import { HiChevronRight, HiPlus } from "react-icons/hi";
 import Select from "../../../components/select/select";
+import BottomComponent from "../bottomComponent";
+import { AiOutlineLoading } from "react-icons/ai";
+import { IoClose } from "react-icons/io5";
 
 const LeftCarBranding = ({
   inputs,
   setInputs,
-  size,
-  setSize,
   previouslyBranded,
   setpreviouslyBranded,
   takeMeasurements,
@@ -28,16 +29,28 @@ const LeftCarBranding = ({
   setLamination,
   premiumFinishing,
   setPremiumFinishing,
-  setSampleProof,
-  sampleProof,
   pages,
   setPages,
   schoolStationery,
   setSchoolStationery,
   setOrientation,
   orientation,
+
+
+
+
+  
+
+
+  
+  submitButton,
+  loading,
+  setNewProduct,
+  newProduct,
+  proceedHandler,
 }) => {
   const CTX = useContext(MainContext);
+    const [toggle, setToggle] = useState(false);
 
   return (
     <div
@@ -194,14 +207,17 @@ const LeftCarBranding = ({
           />
         </div>
         <>
-          {inputs?.vehiclePhotos && (
-            <img
-              src={URL.createObjectURL(inputs?.vehiclePhotos)}
-              alt="Selected"
-              width="200"
-              style={{ borderRadius: "10px" }}
-            />
-          )}
+
+          {inputs?.vehiclePhotos &&
+              Object?.keys(inputs?.vehiclePhotos)?.map((v, i) => (
+                <img
+                  key={i}
+                  src={URL.createObjectURL(inputs?.vehiclePhotos[v])}
+                  alt="Selected"
+                  width="100"
+                  style={{ objectFit: "cover", borderRadius: "10px" }}
+                />
+              ))}
 
           <div className={Classes.subDataHere} style={{ margin: "0px" }}>
             Please send clear photos of the vehicle: Front, Back, Left side,
@@ -211,12 +227,11 @@ const LeftCarBranding = ({
           <InputCom
             label={"Upload design"}
             type={"file"}
-            // value={inputs?.quantity}
+            multiple={true}
             accept="image/*"
             placeholder={"Height (inches)"}
             onChange={(e) => {
-              const user_design = e.target.files[Object.keys(e.target.files)];
-
+              const user_design = e.target.files;
               setInputs({ ...inputs, vehiclePhotos: user_design });
             }}
           />
@@ -238,9 +253,9 @@ const LeftCarBranding = ({
             type="checkbox"
             checked={takeMeasurements}
             onChange={() => {
-              if (designReady) {
-                setDesignReady(false);
-              }
+              // if (designReady) {
+              //   setDesignReady(false);
+              // }
               setTakeMeasurements(!takeMeasurements);
             }}
           />
@@ -290,177 +305,148 @@ const LeftCarBranding = ({
           </>
         )}
 
-        <div className="flex items-center mt-7 ">
-          <div
-            style={{
-              fontSize: "12px",
-              // textTransform: "capitalize",
-            }}
-            className={Classes.titleDataHere}
-          >
-            Do you have a final print-ready design?
-          </div>
+        
 
-          <input
-            className={Classes.preferenceInput}
-            type="checkbox"
-            checked={designReady}
-            onChange={() => {
-              if (designSupport) {
-                setDesignSupport(false);
-              }
 
-              setDesignReady(!designReady);
-            }}
-          />
-        </div>
-        {designReady && (
-          <>
-            {inputs?.design && (
-              <img
-                src={URL.createObjectURL(inputs?.user_design)}
-                alt="Selected"
-                width="200"
-                style={{ borderRadius: "10px" }}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+       <BottomComponent
+                designReady={designReady}
+                designSupport={designSupport}
+                setDesignSupport={setDesignSupport}
+                inputs={inputs}
+                setInputs={setInputs}
+                setDesignReady={setDesignReady}
               />
-            )}
-
-            <div className={Classes.subDataHere} style={{ margin: "0px" }}>
-              Do you have your own design, just upload the file here
             </div>
-
-            <InputCom
-              label={"Upload design"}
-              type={"file"}
-              // value={inputs?.quantity}
-              accept="image/*"
-              placeholder={"Height (inches)"}
-              onChange={(e) => {
-                const user_design = e.target.files[Object.keys(e.target.files)];
-
-                setInputs({ ...inputs, user_design: user_design });
-              }}
-            />
-          </>
-        )}
-
-        <div className="flex items-center mt-7 ">
-          <div
-            style={{
-              fontSize: "12px",
-              // textTransform: "capitalize",
-            }}
-            className={Classes.titleDataHere}
-          >
-            Do you need design support?
-          </div>
-
-          <input
-            className={Classes.preferenceInput}
-            type="checkbox"
-            checked={designSupport}
-            onChange={() => {
-              if (designReady) {
-                setDesignReady(false);
-              }
-              setDesignSupport(!designSupport);
-            }}
-          />
-        </div>
-        {designSupport && (
-          <>
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "10px",
-                marginTop: "35px",
-              }}
-            >
-              {inputs?.upload_design &&
-                Object?.keys(inputs?.upload_design)?.map((v, i) => (
-                  <img
-                    key={i}
-                    src={URL.createObjectURL(inputs?.upload_design[v])}
-                    alt="Selected"
-                    width="100"
-                    style={{ objectFit: "cover", borderRadius: "10px" }}
+      
+            <div className=" gap-[8px] mt-3">
+              <button
+                onClick={submitButton}
+                type="button"
+                className={clsx([
+                  Classes.shopNowBTN,
+                  "rounded-[4px] transition duration-200  focus:outline-none inline-flex items-center justify-center secondary-button-text  h-10 text-base px-3 bg-primary button-text  border-tertiary border-tertiary-hover border-transparent ml-auto",
+                ])}
+                style={{
+                  fontFamily: "Outfit",
+                  color: "#fff",
+                  backgroundColor: "#ee2490",
+                  borderRadius: "12px",
+                  border: "none",
+                }}
+              >
+                {loading && (
+                  <AiOutlineLoading
+                    className="animate-spin h-[20px] w-[20px] mr-1 ml-auto"
+                    color={"#fff"}
                   />
-                ))}
+                )}
+                Submit <HiChevronRight />
+              </button>
+      
+              <div
+                className="flex items-center justify-between gap-[20px] w-full"
+                style={{
+                  marginTop: "30px",
+                }}
+              >
+                <div
+                  className={Classes.subDataHere}
+                  style={{
+                    fontFamily: "outfit",
+                    fontWeight: "400",
+                    marginBottom: "10px",
+                  }}
+                  onClick={() => setToggle(true)}
+                >
+                  Do you need to add{" "}
+                  <span style={{ color: "#e20254", cursor: "pointer" }}>
+                    {" "}
+                    other products?
+                  </span>
+                </div>
+                {toggle && <IoClose onClick={() => setToggle(false)} size={20} />}
+              </div>
+              {toggle && (
+                <div className="flex gap-[20px] items-end">
+                  <InputCom
+                    label={"Select Product"}
+                    select={true}
+                    options={CTX.proceedOptions
+                      ?.map((e) => e.name)
+                      .filter(
+                        (v) =>
+                          !(CTX.products?.products || [])
+                            .map((p) => p.name)
+                            .includes(v)
+                      )
+                      .filter((b) => !b.includes("Wrap"))}
+                    onChange={(e) => {
+                      setNewProduct(e.target.value);
+                    }}
+                  />
+                  {!newProduct ? (
+                    <div className="w-[92px]"></div>
+                  ) : (
+                    <button
+                      type="button"
+                      className={clsx([
+                        Classes.shopNowBTN,
+                        "rounded-[4px] transition duration-200  focus:outline-none inline-flex items-center justify-center secondary-button-text  h-10 text-base px-3 bg-primary button-text  border-tertiary border-tertiary-hover border-transparent ml-auto",
+                      ])}
+                      style={{
+                        fontFamily: "Outfit",
+                        color: "#fff",
+                        backgroundColor: "#ee2490",
+                        borderRadius: "12px",
+                        border: "none",
+                      }}
+                      onClick={proceedHandler}
+                    >
+                      Proceed
+                    </button>
+                  )}
+                </div>
+              )}
             </div>
-
-            <div className={Classes.subDataHere} style={{ margin: "0px" }}>
-              This means we will be doing your design, please provide brand
-              assets (if available) Logo, other information, any specific
-              branding guideline (brand colours, preferred fonts etc)
-            </div>
-
-            <InputCom
-              label={"Add files for the design"}
-              type={"file"}
-              // value={inputs?.quantity}
-              accept="image/*"
-              placeholder={"Height (inches)"}
-              multiple={true}
-              onChange={(e) => {
-                const upload_design = e.target.files;
-
-                // console.log("e.target =>>> ", e);
-
-                setInputs({ ...inputs, upload_design: upload_design });
-              }}
-            />
-
-            <InputCom
-              label={"Upload reference if any"}
-              type={"file"}
-              // value={inputs?.quantity}
-              accept="image/*"
-              placeholder={"Height (inches)"}
-              onChange={(e) => {
-                const reference = e.target.files[Object.keys(e.target.files)];
-
-                setInputs({ ...inputs, reference: reference });
-              }}
-            />
-          </>
-        )}
-
-        <div className="flex items-center mt-7 ">
-          <InputCom
-            label={
-              "Additional note any special instructions or contract requirements?"
-            }
-            row
-            value={inputs?.additional}
-            placeholder={"Additional note . . ."}
-            textarea={true}
-            onChange={(e) => {
-              setInputs({ ...inputs, additional: e.target.value });
-            }}
-          />
-        </div>
-      </div>
-
-      <div className="flex gap-[10px] mt-5">
-        <button
-          type="button"
-          className={clsx([
-            Classes.shopNowBTN,
-            "rounded-[4px] transition duration-200  focus:outline-none inline-flex items-center justify-center secondary-button-text  h-10 text-base px-3 bg-primary button-text  border-tertiary border-tertiary-hover border-transparent ml-auto",
-          ])}
-          style={{
-            fontFamily: "Outfit",
-            color: "#fff",
-            backgroundColor: "#ee2490",
-            borderRadius: "12px",
-            border: "none",
-          }}
-        >
-          Submit <HiChevronRight />{" "}
-        </button>
-      </div>
-    </div>
+          </div>
   );
 };
 

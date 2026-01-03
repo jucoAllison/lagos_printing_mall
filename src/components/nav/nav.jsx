@@ -36,7 +36,6 @@ const Nav = () => {
   const [showProduct, setShowProduct] = useState(false);
   const navigation = useNavigate();
   const [inputs, setInputs] = useState({});
-  const [showModal, setShowModal] = useState(null);
   const [showDropDown, setShowDropDown] = useState(false);
 
   const onSubmitHandler = (e) => {
@@ -64,10 +63,10 @@ const Nav = () => {
 
   return (
     <>
-      {showModal && (
+      {CTX.showModal && (
         <AuthModal
-          setShowModal={setShowModal}
-          showModal={showModal}
+          setShowModal={CTX.setShowModal}
+          showModal={CTX.showModal}
           inputs={inputs}
           setInputs={setInputs}
         />
@@ -360,7 +359,7 @@ const Nav = () => {
                     <Link to={"/user/products/envelopes"}>Envelope</Link>
                     <Link to={"/user/products/flyer"}>Flyers</Link>
                     <Link to={"/user/products/brochures"}>Brochures</Link>
-                    <div>Greeting Cards</div>
+                    <Link to={"/user/products/greeting-card"}>Greeting Cards</Link>
                     <Link to={"/user/products/receipts-invoices"}>
                       Receipts/Invoices
                     </Link>
@@ -372,11 +371,11 @@ const Nav = () => {
                     <Link to={"/user/products/plastic-id-card"}>
                       Plastic ID Cards
                     </Link>
-                    <div>Mailer Bags</div>
-                    <div>Banners/Signs</div>
-                    <div>Custom T-Shirt</div>
+                    <Link to={"/user/products/screen-printing"}>Mailer Bags</Link>
+                    <Link to={"/user/products/banners-signs"} >Banners/Signs</Link>
+                    <Link to={"/user/products/custom-tshirt"}>Custom T-Shirt</Link>
                     <Link to={"/user/products/car-branding"}>Car Wrap</Link>
-                    <div>Pen</div>
+                    <Link to={"/user/products/pen"}>Pen</Link>
                     <div>Frames</div>
                     <div>Invitation Cards</div>
                     <div>Dummy Cheques</div>
@@ -398,7 +397,6 @@ const Nav = () => {
                     <Link to={"/user/products/business-card"}>
                       Business Cards
                     </Link>
-                    <div>Custom Hoody</div>
                     <Link to={"/user/products/jotters-notepads"}>
                       Jotters - Hard / Soft Covers
                     </Link>
@@ -477,7 +475,7 @@ const Nav = () => {
                   <div
                     className={Classes.action_each_link_stuff}
                     style={{ textDecoration: "underline" }}
-                    onClick={() => setShowModal("login")}
+                    onClick={() => CTX.setShowModal("login")}
                   >
                     SIGN IN
                   </div>
@@ -485,7 +483,7 @@ const Nav = () => {
                   <div
                     className={Classes.action_each_link_stuff}
                     style={{ textDecoration: "underline" }}
-                    onClick={() => setShowModal("register")}
+                    onClick={() => CTX.setShowModal("register")}
                   >
                     REGISTER
                   </div>
@@ -571,7 +569,7 @@ const Nav = () => {
                 Classes.each_link_stuff,
                 "flex gap-[3px] items-center",
               ])}
-              onClick={() => setShowModal("login")}
+              onClick={() => CTX.setShowModal("login")}
             >
               <span>SIGN IN</span>
             </div>
@@ -583,7 +581,7 @@ const Nav = () => {
                 Classes.each_link_stuff,
                 "flex gap-[3px] items-center",
               ])}
-              onClick={() => setShowModal("register")}
+              onClick={() => CTX.setShowModal("register")}
             >
               <span>REGISTER</span>
             </div>

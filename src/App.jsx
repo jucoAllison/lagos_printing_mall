@@ -42,14 +42,21 @@ import { useEffect } from "react";
 import Event_portfolio from "./pages/_portfolio/event_portfolio";
 import Event_users from "./pages/_users/event_users";
 import Event_orders from "./pages/_orders/event_orders";
+import EventGreetingCard from "./pages/product/greetingCard/eventGreetingCard";
+import EventBannersSigns from "./pages/product/bannersSigns/eventBannersSigns";
+import EventCustomTshirts from "./pages/product/customTshirts/eventCustomTshirts";
+import EventPen from "./pages/product/pen/eventPen";
 
 function App() {
   const [count, setCount] = useState(0);
   const [isBlack, setIsBlack] = useState(false);
   const navigate = useNavigate();
-  const url = "http://localhost:5021/";
-  const webSocketURL = "ws://localhost:5021";
+  const url = "https://api.lagosprintingmall.com/"; 
+  // const url = "http://localhost:5021/"; 
+  const webSocketURL = "wss://api.lagosprintingmall.com";
+  // const webSocketURL = "ws://localhost:5021";
   const [token, setToken] = useState(localStorage.getItem("token") || "");
+  const [showModal, setShowModal] = useState(null);
   // const [token, setToken] = useState("d3456u76u5y4t3r65y4t3r245");
   const [userObj, setUserObj] = useState({});
   const [products, setProducts] = useState({
@@ -74,7 +81,7 @@ function App() {
     },
     progress: [
       {
-        doing: "Item 1: Booked and awaiting confirmation.",
+        doing: "Booked and awaiting confirmation.",
         time: moment().format("MMM DD, HH:mm [GMT]Z"),
       },
     ],
@@ -103,17 +110,17 @@ function App() {
     { name: "Envelope", to: "/user/products/envelopes" },
     { name: "Flyers", to: "/user/products/flyer" },
     { name: "Brochures", to: "/user/products/brochures" },
-    { name: "Greeting Cards", to: "" },
+    { name: "Greeting Cards", to: "/user/products/greeting-card" },
     { name: "Receipts/Invoices", to: "/user/products/receipts-invoices" },
     { name: "Exercise Books", to: "/user/products/exercise-book" },
     { name: "Books", to: "/user/products/book" },
     { name: "Magazine", to: "/user/products/magazine" },
     { name: "Plastic ID Cards", to: "/user/products/plastic-id-card" },
-    { name: "Mailer Bags", to: "" },
-    { name: "Banners/Signs", to: "" },
-    { name: "Custom T-Shirt", to: "" },
+    { name: "Mailer Bags", to: "/user/products/screen-printing" },
+    { name: "Banners/Signs", to: "/user/products/banners-signs" },
+    { name: "Custom T-Shirt", to: "/user/products/custom-tshirt" },
     { name: "Car Wrap", to: "/user/products/car-branding" },
-    { name: "Pen", to: "" },
+    { name: "Pen", to: "/user/products/pen" },
     { name: "Frames", to: "" },
     { name: "Invitation Cards", to: "" },
     { name: "Dummy Cheques", to: "" },
@@ -125,7 +132,6 @@ function App() {
     { name: "Awards/Plaque", to: "" },
     { name: "Wedding Cards", to: "/user/products/wedding-card" },
     { name: "Business Cards", to: "/user/products/business-card" },
-    { name: "Custom Hoody", to: "" },
     {
       name: "Jotters - Hard / Soft Covers",
       to: "/user/products/jotters-notepads",
@@ -204,6 +210,8 @@ function App() {
           setToken,
           userObj,
           setUserObj,
+          showModal,
+          setShowModal,
           // userObj,
           // token: token?.t,
           // setToken: setTokenHandler,
@@ -437,6 +445,42 @@ function App() {
                 </Suspense>
               }
             />
+            <Route
+              path="/user/products/greeting-card"
+              exact
+              element={
+                <Suspense fallback={<Loading />}>
+                  <EventGreetingCard />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/user/products/banners-signs"
+              exact
+              element={
+                <Suspense fallback={<Loading />}>
+                  <EventBannersSigns />
+                </Suspense>
+              }
+            />
+             <Route
+              path="/user/products/custom-tshirt"
+              exact
+              element={
+                <Suspense fallback={<Loading />}>
+                  <EventCustomTshirts />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/user/products/pen"
+              exact
+              element={
+                <Suspense fallback={<Loading />}>
+                  <EventPen />
+                </Suspense>
+              }
+            />
             {token && (
               <>
                 <Route
@@ -536,6 +580,8 @@ export default App;
 
 export const MainContext = React.createContext({
   isBlack: null,
+  showModal: null,
+  setShowModal: () => {},
   setIsBlack: () => {},
   socketObj: null,
   webSocketURL: null,

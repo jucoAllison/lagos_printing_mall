@@ -1,5 +1,5 @@
-import React, { useContext, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Classes from "./dash.module.css";
 import {
   MdOutlineAccountBalance,
@@ -8,25 +8,94 @@ import {
   MdOutlineFiberSmartRecord,
 } from "react-icons/md";
 import clsx from "clsx";
-import { AiOutlineProduct } from "react-icons/ai";
+import { AiOutlineLoading, AiOutlineProduct } from "react-icons/ai";
 import { RiNotification4Line, RiProfileLine } from "react-icons/ri";
 import Fund from "./fund";
 import { MainContext } from "../../App";
 import toast from "react-hot-toast";
+import moment from "moment";
 
-const Dashboard = ({ orders }) => {
-  const CTX = useContext(MainContext)
+const Dashboard = ({ orders, loading }) => {
+  const CTX = useContext(MainContext);
   const [seeAll, setSeeAll] = useState(false);
-  const walletRef = useRef()
+  const navigation = useNavigate();
+  const walletRef = useRef();
   const [fund, setFund] = useState(false);
+  // const [header, setHeader] = useState([
+  //   { key: "1", name: "Pending", active: true },
+  //   // { key: "5", name: "Awaiting confirmation", active: true },
+  //   // { key: "10", name: "Awaiting payment", active: false },
+  //   { key: "2", name: "Completed", active: false },
+  //   { key: "4", name: "Cancelled", active: false },
+  //   { key: "4", name: "Refund", active: false },
+  // ]);
   const [header, setHeader] = useState([
-    { key: "1", name: "Pending", active: true },
-    // { key: "5", name: "Awaiting confirmation", active: true },
-    // { key: "10", name: "Awaiting payment", active: false },
-    { key: "2", name: "Completed", active: false },
-    { key: "4", name: "Cancelled", active: false },
-    { key: "4", name: "Refund", active: false },
+    {
+      key: "1",
+      name: "Pending",
+      active: true,
+      value: "pending",
+      number: CTX?.userObj?.not_user?.orders?.pending?.toLocaleString() || 0,
+    },
+    {
+      key: "2",
+      name: "Completed",
+      active: false,
+      value: "completed",
+      number: CTX?.userObj?.not_user?.orders?.completed?.toLocaleString() || 0,
+    },
+    {
+      key: "4",
+      name: "Cancelled",
+      active: false,
+      value: "cancelled",
+      number: CTX?.userObj?.not_user?.orders?.cancelled?.toLocaleString() || 0,
+    },
+    {
+      key: "4",
+      name: "Refund",
+      active: false,
+      value: "refund",
+      number: CTX?.userObj?.not_user?.orders?.refund?.toLocaleString() || 0,
+    },
   ]);
+
+  useEffect(() => {
+    const headerData = [
+      {
+        key: "1",
+        name: "Pending",
+        active: true,
+        value: "pending",
+        number: CTX?.userObj?.not_user?.orders?.pending?.toLocaleString() || 0,
+      },
+      {
+        key: "2",
+        name: "Completed",
+        active: false,
+        value: "completed",
+        number:
+          CTX?.userObj?.not_user?.orders?.completed?.toLocaleString() || 0,
+      },
+      {
+        key: "4",
+        name: "Cancelled",
+        active: false,
+        value: "cancelled",
+        number:
+          CTX?.userObj?.not_user?.orders?.cancelled?.toLocaleString() || 0,
+      },
+      {
+        key: "4",
+        name: "Refund",
+        active: false,
+        value: "refund",
+        number: CTX?.userObj?.not_user?.orders?.refund?.toLocaleString() || 0,
+      },
+    ];
+
+    setHeader(headerData);
+  }, [CTX?.userObj]);
 
   const onSwitchHandler = (name, index) => {
     const spread = [...header];
@@ -48,72 +117,89 @@ const Dashboard = ({ orders }) => {
         color: v.active && "#3f405b",
         borderBottom: v.active && "1px solid #3f405b",
         fontWeight: v.active && "500",
+        fontFamily: "outfit",
       }}
     >
       {v.name}
+      <div
+        className="absolute rounded-full text-[#d00] top-[-2px] right-[8px] font-bold text-[12px]"
+        style={{ zIndex: 10 }}
+      >
+        {v?.number}
+      </div>
     </div>
   ));
 
-  const mappedOrders = orders?.map((v, i) => {
-    const change = parseFloat(((v?.Bid - v?.Ask) / v?.Ask) * 100)?.toFixed(2);
+  const mappedOrders = orders?.data
+    ?.filter((v) => header?.filter((w) => w.active)[0]?.value == v.status)
+    ?.map((v, i) => {
+      const mappedProducts = v?.products?.map((a, b) => {
+        return (
+          <strong className="text-[#3f405b] " key={b}>
+            {a?.name},
+          </strong>
+        );
+      });
 
-    const isNegative = change.startsWith("-");
+      return (
+        <div
+          key={i}
+          className="flex items-center mt-2 rounded-[8px] px-[13px] py-[13px] bg-[#fff] hover:bg-[#f5f6fa] "
+          style={{ fontFamily: "outfit" }}
+          onClick={() => {
+            navigation(`/account/track/${v?.track}`);
+          }}
+        >
+          <AiOutlineProduct />
 
-    return (
-      <div
-        key={i}
-        className="flex items-center mt-2 rounded-[8px] px-[13px] py-[13px] bg-white"
-      >
-        <AiOutlineProduct />
+          <div className="ml-2 w-full">
+            <p
+              className="mb-0 f-14 text-dark  gilroy-Semibold text-[12px] cursor-pointer ellipsis"
+              style={{ width: "100%" }}
+            >
+              {v?.track?.toUpperCase()}
+            </p>
 
-        <div className="ml-2 w-[150px]">
-          <p
-            className="mb-0 f-14 text-dark leading-22 gilroy-Semibold text-[12px] cursor-pointer ellipsis"
-            style={{ width: "100%" }}
-          >
-            {v?.InstrumentDisplayName}
-          </p>
+            {/* <p
+                  className="mb-0 f-14 text-dark  gilroy-bold  w-[100%] hover:text-blue-600 cursor-pointer ellipsis font-bold"
+                  style={{ fontSize: "13px", width: "max-content" }}
+                >
+                  {v?.SymbolFull}
+                </p> */}
 
-          {/* <p
-            className="mb-0 f-14 text-dark leading-22 gilroy-bold  w-[100%] hover:text-blue-600 cursor-pointer ellipsis font-bold"
-            style={{ fontSize: "13px", width: "max-content" }}
-          >
-            {v?.SymbolFull}
-          </p> */}
+            <div className="text-[#999] text-[13px]">{v?.details?.phone}</div>
+            <div className="text-[#999] text-[13px]">{`${v?.details?.name?.first} ${v?.details?.name?.last}`}</div>
+            <div className="text-[#999] text-[13px] flex flex-wrap gap-[5px]">
+              <span>Products: </span> {mappedProducts}
+            </div>
+          </div>
 
-          <div className="text-[#999] text-[13px]">{v?.SymbolFull}</div>
+          <div className="ml-auto">
+            <p
+              className="mb-0 f-14 text-dark gilroy-Semibold w-break text-right ml-[auto]"
+              style={{ width: "max-content" }}
+            >
+              ₦{v?.amount?.toLocaleString()}
+            </p>
+            <div className=" text-[13px] text-right w-[90px]">
+              {moment(v?.data).format("ll")}
+            </div>
+          </div>
         </div>
-
-        <div className="ml-auto">
-          <p
-            className="mb-0 f-14 text-dark leading-22 gilroy-Semibold w-break text-right ml-[auto]"
-            style={{ width: "max-content" }}
-          >
-            ${parseFloat(v?.Ask?.toFixed(2)).toLocaleString()}
-          </p>
-          {/* {change && <div
-            className=" text-[13px] text-right"
-            style={{
-              color: isNegative ? "red" : "green",
-            }}
-          >
-            {change}%
-          </div>} */}
-        </div>
-      </div>
-    );
-  });
-
+      );
+    });
 
   return (
     <>
       {fund && <Fund fund={fund} setFund={setFund} />}
-      <div className={Classes.coverhereim}>
+    {/* <div className="p-6  "> */}
+
+      <div className={clsx([Classes.coverhereim, "min-h-screen"])}>
         <div
           style={{
             borderRadius: "10px",
             marginTop: "40px",
-            height: "155px",
+            // height: "155px",
             padding: "13px 19px",
             boxShadow: "1px 1px 16px rgba(0, 0, 0, 0.3)",
           }}
@@ -162,7 +248,9 @@ const Dashboard = ({ orders }) => {
                     width: "71px",
                   }}
                 />
-                <span className="text-[12px]">{CTX?.userObj?.referral_code}</span>
+                <span className="text-[12px]">
+                  {CTX?.userObj?.referral_code}
+                </span>
                 <MdOutlineContentCopy
                   size={14}
                   color="#fff"
@@ -178,13 +266,15 @@ const Dashboard = ({ orders }) => {
             </div>
           </div>
           <div className={Classes.abcdef}>
-            <div>
+            <div className="mt-2">
               <p className="text-[#9998a0] mb-0 text-[12px] gilroy-medium">
-                ₦{CTX?.userObj?.bonusAmount?.toFixed(2)} -<span className="ml-1 text-dark">Referrals Earned</span>
+                ₦{CTX?.userObj?.commission?.toFixed(2)} -
+                <span className="ml-1 text-dark">Commission Earned</span>
               </p>
 
               <p className="text-[#9998a0] mb-0 text-[12px] gilroy-medium">
-                ₦{CTX?.userObj?.commission?.toFixed(2)} -<span className="ml-1 text-dark">Commission Earned</span>
+                ₦{CTX?.userObj?.bonusAmount?.toFixed(2)} -
+                <span className="ml-1 text-dark">Referrals Earned</span>
               </p>
             </div>
 
@@ -258,9 +348,12 @@ const Dashboard = ({ orders }) => {
                   className="flex items-center justify-center text-[#fff] w-[35px] h-[35px] cursor-pointer
                   rounded-[40px] mt-2 bg-[#ee2490] hover:bg-[#822b58] relative"
                 >
-                 {CTX.userObj.unread_notification > 0 && <div className="text-[10px] font-bold bg-[#822b58] w-[17px] h-[17px] flex items-center justify-center text-[#fff] rounded-full absolute top-[-4px] right-[-4px]">{CTX.userObj.unread_notification}</div>}
+                  {CTX.userObj?.unread_notification > 0 && (
+                    <div className="text-[10px] font-bold bg-[#822b58] w-[17px] h-[17px] flex items-center justify-center text-[#fff] rounded-full absolute top-[-4px] right-[-4px]">
+                      {CTX.userObj?.unread_notification}
+                    </div>
+                  )}
                   <RiNotification4Line size={20} />
-                  
                 </div>
 
                 <div
@@ -316,7 +409,7 @@ const Dashboard = ({ orders }) => {
               {headerMapped}
             </div>
 
-            {mappedOrders.length > 0 && (
+            {/* {mappedOrders.length > 0 && (
               <div
                 href="#"
                 onClick={() => setSeeAll(!seeAll)}
@@ -324,10 +417,10 @@ const Dashboard = ({ orders }) => {
               >
                 {seeAll ? "See less" : "See all"}
               </div>
-            )}
+            )} */}
           </div>
 
-          {mappedOrders.length < 1 ? (
+          {/* {mappedOrders.length < 1 ? (
             <>
               <MdOutlineFiberSmartRecord
                 size={45}
@@ -344,6 +437,37 @@ const Dashboard = ({ orders }) => {
             </>
           ) : (
             mappedOrders
+          )} */}
+
+          {loading ? (
+            <div className="w-full h-[400px] flex flex-col items-center justify-center">
+              <AiOutlineLoading
+                size={44}
+                className="animate-spin"
+                color={"#3f405b"}
+              />
+            </div>
+          ) : (
+            <>
+              {mappedOrders?.length < 1 ? (
+                <>
+                  <MdOutlineFiberSmartRecord
+                    size={45}
+                    className="flex items-center justify-center ml-auto mr-auto mt-[60px]"
+                    color="#3f405b"
+                  />
+
+                  <p
+                    className="mb-0 f-14 leading-22 text-[#3f405b] gilroy-medium w-break text-[12px] text-center mt-[20px] ml-auto mr-auto"
+                    style={{ width: "100%", wordWrap: "break-word" }}
+                  >
+                    No orders placed yet. Booked products will show up here.
+                  </p>
+                </>
+              ) : (
+                mappedOrders
+              )}
+            </>
           )}
         </div>
       </div>

@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import Classes from "./track.module.css";
+import Styles from "../product/product.module.css";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import clsx from "clsx";
 import { TbBrandAbstract } from "react-icons/tb";
@@ -13,11 +14,26 @@ import moment from "moment";
 import { FaFileAlt } from "react-icons/fa";
 import { MainContext } from "../../App";
 import AdminSection from "./adminSection";
+import Payment from "./payment";
+import { IoClose } from "react-icons/io5";
+import InputCom from "../../components/input/input";
+import { HiChevronRight } from "react-icons/hi";
 
-const Track = ({ params, data, loading }) => {
+const Track = ({
+  params,
+  data,
+  setData,
+  loading,
+  loadingPending,
+  updateProgressHandler,
+  inputs,
+  setInputs,
+  updating,
+  setUpdating,
+  changeStatusHandler,
+}) => {
   const CTX = useContext(MainContext);
   const [viewAll, setViewAll] = useState(false);
-  const [inputs, setInputs] = useState({});
   const navigation = useNavigate();
 
   // const data = null
@@ -136,6 +152,47 @@ const Track = ({ params, data, loading }) => {
     );
   });
 
+  const mappedProgress = data?.progress?.map((v, i) => {
+    return (
+      <div key={i} class={Classes.timeline_item}>
+        <div>
+          {/* <input value={v?.doing} onChange={(e) => {
+            const newProgress = {...data, progress: [...data.progress]};
+            newProgress.progress[i] = {
+              ...newProgress.progress[i],
+              doing: e.target.value,
+            };
+            setData(newProgress);
+          }} />{" "} */}
+
+          <input
+            value={v?.doing || ""}
+            style={{ width: "100%", outline: "1px solid #000" }}
+            onChange={(e) => {
+              const value = e.target.value;
+
+              setData((prev) => {
+                if (!prev) return prev;
+
+                const progress = [...prev.progress];
+                progress[i] = {
+                  ...progress[i],
+                  doing: value,
+                };
+
+                return {
+                  ...prev,
+                  progress,
+                };
+              });
+            }}
+          />
+        </div>{" "}
+        <p class="second_date_container">{v?.time}</p>{" "}
+      </div>
+    );
+  });
+
   const mappProductDetails = data?.products?.map((product, i) => (
     <div key={i} className="mt-4">
       {/* Product name */}
@@ -219,8 +276,170 @@ const Track = ({ params, data, loading }) => {
 
   return (
     <>
+      {updating && (
+        <div className={Classes.modalMainCover}>
+          <div className={Classes.fessInsideMainCover}>
+            <div className={Classes.modalContent}>
+              <div
+                className="flex items-center justify-between pb-[17px] mb-[20px]"
+                style={{
+                  borderBottom: "1px solid #e0dfef",
+                  fontFamily: "outfit",
+                }}
+              >
+                <p className="mb-0 gilroy-Semibold text-[18px] font-[500] text-[#3f405b] theme-tran r-f-20 text-capitalize">
+                  {updating == "status" ? "Change status" : "Update progress"}
+                </p>
+
+                <IoClose
+                  color="#3f405b"
+                  size={22}
+                  onClick={() => setUpdating(null)}
+                />
+              </div>
+
+              {updating == "status" && (
+                <>
+                  <p className="font-[outfit] text-[15px] text-[#000] mt-2 mb-0">
+                    Order Status Update
+                  </p>
+
+                  <p className="font-[outfit] text-[13px] text-[#000] mt-0">
+                    Changing the order status from Pending to Completed or
+                    Refunded is a permanent action. Ensure the selected status
+                    is correct, as this change cannot be undone.
+                  </p>
+
+                  <InputCom
+                    label={"New Status"}
+                    placeholder={"Status"}
+                    // value={inputs?.new_progress}
+                    type={"text"}
+                    select={true}
+                    options={[
+                      "Select new status",
+                      "Refund",
+                      "Cancelled",
+                      "Completed",
+                    ]}
+                    inputStyles={{ backgroundColor: "#88899999" }}
+                    value={inputs?.status}
+                    onChange={(e) => {
+                      setInputs({ ...inputs, status: e.target.value });
+                    }}
+                  />
+
+                  <div className="flex items-center mt-3 mb-2">
+                    <div
+                      style={{
+                        fontSize: "12px",
+                        // textTransform: "capitalize",
+                      }}
+                      className={Styles.titleDataHere}
+                    >
+                      Send email?
+                    </div>
+
+                    <input
+                      className={Styles.preferenceInput}
+                      type="checkbox"
+                      checked={inputs?.send_email}
+                      onChange={() => {
+                        setInputs({
+                          ...inputs,
+                          send_email: !inputs?.send_email,
+                        });
+                      }}
+                    />
+                  </div>
+
+                  <button
+                    onClick={changeStatusHandler}
+                    type="button"
+                    className={clsx([
+                      "text3xlFontBoldUnderline",
+                      "rounded-[4px] transition duration-200  focus:outline-none inline-flex items-center justify-center secondary-button-text  h-10 text-base px-3 bg-primary button-text  border-tertiary border-tertiary-hover border-transparent",
+                    ])}
+                    style={{
+                      fontFamily: "Outfit",
+                      color: "#fff",
+                      backgroundColor: "#ee2490",
+                      borderRadius: "12px",
+                      border: "none",
+                      margin: "0px",
+                    }}
+                  >
+                    {loadingPending && (
+                      <AiOutlineLoading
+                        className="animate-spin h-[20px] w-[20px] mr-1"
+                        color={"#fff"}
+                      />
+                    )}
+                    Change Status <HiChevronRight />{" "}
+                  </button>
+                </>
+              )}
+              {updating == "progress" && (
+                <>
+                  <p className="font-[outfit] text-[15px] text-[#000] mt-2 mb-0">
+                    Below is the list of the order progress
+                  </p>
+
+                  <p className="font-[outfit] text-[13px] text-[#000] mt-0">
+                    You can update existing progress entries by editing the
+                    inputs, or add a new progress entry to reflect the current
+                    status of the order.
+                  </p>
+
+                  <div className="mt-2">
+                    <InputCom
+                      label={"New progress"}
+                      placeholder={"New progress"}
+                      value={inputs?.new_progress}
+                      type={"text"}
+                      inputStyles={{ backgroundColor: "#88899999" }}
+                      onChange={(e) => {
+                        setInputs({ ...inputs, new_progress: e.target.value });
+                      }}
+                    />
+
+                    <button
+                      onClick={updateProgressHandler}
+                      type="button"
+                      className={clsx([
+                        "text3xlFontBoldUnderline",
+                        "rounded-[4px] transition duration-200  focus:outline-none inline-flex items-center justify-center secondary-button-text  h-10 text-base px-3 bg-primary button-text  border-tertiary border-tertiary-hover border-transparent",
+                      ])}
+                      style={{
+                        fontFamily: "Outfit",
+                        color: "#fff",
+                        background: "#2196F3",
+                        borderRadius: "12px",
+                        border: "none",
+                        margin: "20px 0px",
+                      }}
+                    >
+                      {loadingPending && (
+                        <AiOutlineLoading
+                          className="animate-spin h-[20px] w-[20px] mr-1"
+                          color={"#fff"}
+                        />
+                      )}
+                      Update Progress <HiChevronRight />{" "}
+                    </button>
+                  </div>
+
+                  <div class={Classes.timeline} id="timeline_cover">
+                    {mappedProgress}
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className={Classes.trackHero}>
-        {CTX.userObj?.type != "user" && <AdminSection data={data} />}
         {loading ? (
           <div className={Classes.blurSmth}>
             <div className="flex flex-col items-center justify-center">
@@ -274,167 +493,241 @@ const Track = ({ params, data, loading }) => {
         ) : null}
 
         {data && !loading && (
-          <div className={Classes.centdataerit}>
-            <>
-              <div className={Classes.headTr}>
-                Tracking made easy! Here’s your order information.
-              </div>
+          <>
+            {CTX.token && CTX.userObj?.type != "user" && (
+              <AdminSection
+                data={data}
+                updating={updating}
+                setUpdating={setUpdating}
+              />
+            )}
 
-              <div className="mt-[40px]">
-                {data?.status?.includes("awaiting_confirmation") && (
-                  <strong className={Classes.bgSmthConf}>
-                    Awaiting confirmations
-                  </strong>
-                )}
-                <p className="font-[outfit] text-[15px] text-[#000] mt-4">
-                  Thanks for reaching out! We’re reviewing your details and will
-                  confirm shortly. For quick updates, feel free to contact us
-                  via{" "}
-                  <span
-                    onClick={openWhatsApp}
-                    style={{ textDecoration: "underline", cursor: "pointer" }}
-                  >
-                    {" "}
-                    WhatsApp.
-                  </span>
-                </p>
+            <div className={Classes.centdataerit}>
+              <>
+                <div className={Classes.headTr}>
+                  Tracking made easy! Here’s your order information.
+                </div>
 
-                <div className="mt-[10px]">
-                  {/* <strong>Booked: Dec 08 - 11</strong> */}
-                  <strong>Booked: {moment(data?.date).format("lll")}</strong>
-
-                  <div className="mt-3 flex items-center gap-[10px]">
-                    <div className="w-[22px] h-[22px] rounded-full bg-[#000] flex items-center  justify-center">
-                      <BsFillBoxSeamFill size={12} fill="#fff" />
-                    </div>
-
-                    <strong>Delivery update</strong>
-
-                    {data?.progress?.length > 1 && (
-                      <div
-                        onClick={() => setViewAll(!viewAll)}
-                        className="flex items-center text-[#00d] ml-[auto]"
-                      >
-                        <span>View {viewAll ? "less" : "all"}</span>{" "}
-                        <RiArrowDropRightLine size={22} />
-                      </div>
-                    )}
-                  </div>
-
-                  <div class={Classes.timeline} id="timeline_cover">
-                    {mappedTimeline}
-                  </div>
-
-                  <div className="mt-3 flex items-center gap-[10px]">
-                    <div
-                      className="w-[23px] h-[23px] rounded-full flex items-center justify-center"
-                      style={{ border: "1px solid #000" }}
-                    >
-                      <CgDetailsMore size={17} fill="#000" />
-                    </div>
-
-                    <strong>Details</strong>
-                  </div>
-
-                  <div className="ml-[33px]">
-                    <p
-                      className="font-[outfit] text-[15px] text-[#000] mt-2"
-                      style={{ margin: "0px" }}
-                    >
-                      Name:{" "}
-                      {`${data?.details?.name?.first} ${data?.details?.name?.last}`}
-                    </p>
-                    <p
-                      className="font-[outfit] text-[15px] text-[#000]"
-                      style={{ margin: "0px" }}
-                    >
-                      Email: {data?.details?.email}
-                    </p>
-                    <p
-                      className="font-[outfit] text-[15px] text-[#000]"
-                      style={{ margin: "0px" }}
-                    >
-                      Phone: {data?.details?.phone}
-                    </p>
-                    {!data?.details?.isWhatsapp && (
-                      <p
-                        className="font-[outfit] text-[15px] text-[#000]"
-                        style={{ margin: "0px" }}
-                      >
-                        Phone: {data?.details?.whatsapp}
-                      </p>
-                    )}
-                    <p
-                      className="font-[outfit] text-[15px] text-[#000]"
-                      style={{ margin: "0px", marginTop: "30px" }}
-                    >
-                      {/* <strong>Order details</strong> */}
-                      <strong></strong>
-                    </p>
-                    <div>{mappProductDetails}</div>
-                  </div>
-
-                  <div className="mt-3 flex items-center gap-[10px]">
-                    <div
-                      className="w-[23px] h-[23px] rounded-full flex items-center justify-center"
-                      style={{ border: "1px solid #000" }}
-                    >
-                      <HiMiniHome size={17} fill="#000" />
-                    </div>
-
-                    <strong>
-                      {data?.delivery?.is_pickup
-                        ? "Pickup"
-                        : "Delivery address"}
+                <div className="mt-[40px]">
+                  {data?.status?.includes("awaiting_confirmation") && (
+                    <strong className={Classes.bgSmthConf}>
+                      Awaiting confirmations
                     </strong>
-                  </div>
+                  )}
+                  {data?.status?.includes("awaiting_payment") && (
+                    <strong
+                      className={Classes.bgSmthConf}
+                      style={{
+                        backgroundColor: "#7C3AED",
+                        color: "#fff",
+                      }}
+                    >
+                      Awaiting Payment
+                    </strong>
+                  )}
+                  {data?.status?.includes("pending") && (
+                    <strong
+                      className={Classes.bgSmthConf}
+                      style={{
+                        backgroundColor: "#2196F3",
+                        color: "#fff",
+                      }}
+                    >
+                      Processing
+                    </strong>
+                  )}
 
-                  <div className="ml-[33px]">
-                    {data?.delivery?.is_pickup ? (
+                  {data?.status?.includes("cancelled") && (
+                    <strong
+                      className={Classes.bgSmthConf}
+                      style={{
+                        backgroundColor: "#F44336",
+                        color: "#fff",
+                      }}
+                    >
+                      Cancelled
+                    </strong>
+                  )}
+
+                  {data?.status?.includes("completed") && (
+                    <strong
+                      className={Classes.bgSmthConf}
+                      style={{
+                        backgroundColor: "#4CAF50",
+                        color: "#fff",
+                      }}
+                    >
+                      Completed
+                    </strong>
+                  )}
+
+                  {data?.status?.includes("refund") && (
+                    <strong
+                      className={Classes.bgSmthConf}
+                      style={{
+                        backgroundColor: "##1c87f1",
+                        color: "#fff",
+                      }}
+                    >
+                      Refund
+                    </strong>
+                  )}
+
+                  <p className="font-[outfit] font-bold text-[15px] text-[#000] mt-4">
+                    {data?.track?.toUpperCase()}
+                  </p>
+
+                  <p className="font-[outfit] text-[15px] text-[#000] mt-4">
+                    Thanks for reaching out! We’re reviewing your details and
+                    will confirm shortly. For quick updates, feel free to
+                    contact us via{" "}
+                    <span
+                      onClick={openWhatsApp}
+                      style={{ textDecoration: "underline", cursor: "pointer" }}
+                    >
+                      {" "}
+                      WhatsApp.
+                    </span>
+                  </p>
+
+                  <div className="mt-[10px]">
+                    {/* <strong>Booked: Dec 08 - 11</strong> */}
+                    <strong>Booked: {moment(data?.date).format("lll")}</strong>
+
+                    <div className="mt-3 flex items-center gap-[10px]">
+                      <div className="w-[22px] h-[22px] rounded-full bg-[#000] flex items-center  justify-center">
+                        <BsFillBoxSeamFill size={12} fill="#fff" />
+                      </div>
+
+                      <strong>Delivery update</strong>
+
+                      {data?.progress?.length > 1 && (
+                        <div
+                          onClick={() => setViewAll(!viewAll)}
+                          className="flex items-center text-[#00d] ml-[auto]"
+                        >
+                          <span>View {viewAll ? "less" : "all"}</span>{" "}
+                          <RiArrowDropRightLine size={22} />
+                        </div>
+                      )}
+                    </div>
+
+                    <div class={Classes.timeline} id="timeline_cover">
+                      {mappedTimeline}
+                    </div>
+
+                    <div className="mt-3 flex items-center gap-[10px]">
+                      <div
+                        className="w-[23px] h-[23px] rounded-full flex items-center justify-center"
+                        style={{ border: "1px solid #000" }}
+                      >
+                        <CgDetailsMore size={17} fill="#000" />
+                      </div>
+
+                      <strong>Details</strong>
+                    </div>
+
+                    <div className="ml-[33px]">
                       <p
                         className="font-[outfit] text-[15px] text-[#000] mt-2"
                         style={{ margin: "0px" }}
                       >
-                        3 Iperu Akesan street, beside Access Bank, Alagutan
-                        b/stop, Iyana Ipaja Alimosho, Lagos
+                        Name:{" "}
+                        {`${data?.details?.name?.first} ${data?.details?.name?.last}`}
                       </p>
-                    ) : (
-                      <>
+                      <p
+                        className="font-[outfit] text-[15px] text-[#000]"
+                        style={{ margin: "0px" }}
+                      >
+                        Email: {data?.details?.email}
+                      </p>
+                      <p
+                        className="font-[outfit] text-[15px] text-[#000]"
+                        style={{ margin: "0px" }}
+                      >
+                        Phone: {data?.details?.phone}
+                      </p>
+                      {!data?.details?.isWhatsapp && (
+                        <p
+                          className="font-[outfit] text-[15px] text-[#000]"
+                          style={{ margin: "0px" }}
+                        >
+                          Phone: {data?.details?.whatsapp}
+                        </p>
+                      )}
+                      <p
+                        className="font-[outfit] text-[15px] text-[#000]"
+                        style={{ margin: "0px", marginTop: "30px" }}
+                      >
+                        {/* <strong>Order details</strong> */}
+                        <strong></strong>
+                      </p>
+                      <div>{mappProductDetails}</div>
+                    </div>
+
+                    <div className="mt-3 flex items-center gap-[10px]">
+                      <div
+                        className="w-[23px] h-[23px] rounded-full flex items-center justify-center"
+                        style={{ border: "1px solid #000" }}
+                      >
+                        <HiMiniHome size={17} fill="#000" />
+                      </div>
+
+                      <strong>
+                        {data?.delivery?.is_pickup
+                          ? "Pickup"
+                          : "Delivery address"}
+                      </strong>
+                    </div>
+
+                    <div className="ml-[33px]">
+                      {data?.delivery?.is_pickup ? (
                         <p
                           className="font-[outfit] text-[15px] text-[#000] mt-2"
                           style={{ margin: "0px" }}
                         >
-                          State: {data?.delivery?.address?.state}
+                          3 Iperu Akesan street, beside Access Bank, Alagutan
+                          b/stop, Iyana Ipaja Alimosho, Lagos
                         </p>
-                        <p
-                          className="font-[outfit] text-[15px] text-[#000]"
-                          style={{ margin: "0px" }}
-                        >
-                          Address: {data?.delivery?.address?.address}
-                        </p>
-                        <p
-                          className="font-[outfit] text-[15px] text-[#000]"
-                          style={{ margin: "0px" }}
-                        >
-                          City: {data?.delivery?.address?.city}
-                        </p>
-                        {data?.delivery?.address?.zip && (
+                      ) : (
+                        <>
+                          <p
+                            className="font-[outfit] text-[15px] text-[#000] mt-2"
+                            style={{ margin: "0px" }}
+                          >
+                            State: {data?.delivery?.address?.state}
+                          </p>
                           <p
                             className="font-[outfit] text-[15px] text-[#000]"
                             style={{ margin: "0px" }}
                           >
-                            Zip: {data?.delivery?.address?.zip}
+                            Address: {data?.delivery?.address?.address}
                           </p>
-                        )}
-                      </>
-                    )}
+                          <p
+                            className="font-[outfit] text-[15px] text-[#000]"
+                            style={{ margin: "0px" }}
+                          >
+                            City: {data?.delivery?.address?.city}
+                          </p>
+                          {data?.delivery?.address?.zip && (
+                            <p
+                              className="font-[outfit] text-[15px] text-[#000]"
+                              style={{ margin: "0px" }}
+                            >
+                              Zip: {data?.delivery?.address?.zip}
+                            </p>
+                          )}
+                        </>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </>
-          </div>
+              </>
+            </div>
+          </>
         )}
       </div>
+      {data?.status?.includes("awaiting_payment") && <Payment data={data} />}
 
       <div className={Classes.secondHero}>
         <div className="w-full">
@@ -471,7 +764,7 @@ const Track = ({ params, data, loading }) => {
                   className="sm:text-[30px] text-[16px] font-[500] mb-3"
                   style={{ lineHeight: "1" }}
                 >
-                  With over 25 years of experience
+                  With over 15 years of experience
                 </div>{" "}
                 We remain deeply passionate about delivering quality and
                 reliability. Our extensive service network ensures seamless

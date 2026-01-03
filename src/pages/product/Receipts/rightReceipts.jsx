@@ -23,11 +23,6 @@ const RightReceipts = () => {
       }}
     >
       <>
-        {/* <img
-            src={CustomTShirt}
-            className={clsx([Classes.image_grid, "w-full  object-cover"])}
-          /> */}
-
         <div style={{ height: "340px" }}>
           <GifImage
             images={[Calendar, Calenda, Calend, Calen]}
