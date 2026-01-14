@@ -144,6 +144,11 @@ const CustomTShirt = () => {
         },
         {
           type: "text",
+          key: "Timeline",
+          value: inputs?.timeline,
+        },
+        {
+          type: "text",
           key: "What color do you want?",
           value: inputs?.color,
         },
@@ -180,9 +185,7 @@ const CustomTShirt = () => {
         {
           type: "text",
           key: "Preferred printing method",
-          value: paperWeight
-            .filter((v) => v.selected)[0]
-            ?.name,
+          value: paperWeight.filter((v) => v.selected)[0]?.name,
         },
         // {
         //   type: "boolean",
@@ -263,7 +266,11 @@ const CustomTShirt = () => {
 
   const recheckError = () => {
     if (!inputs?.quantity) {
-      toast.error("How many mugs do you want? is required");
+      toast.error("Quantity is required");
+      return true;
+    }
+    if (!inputs?.timeline) {
+      toast.error("Timeline is required");
       return true;
     }
     if (!inputs?.color) {

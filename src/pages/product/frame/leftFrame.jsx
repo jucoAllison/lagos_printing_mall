@@ -9,7 +9,7 @@ import { HiChevronRight } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
 import Select from "../../../components/select/select";
 
-const LeftGreetingCard = ({
+const LeftFrame = ({
   designReady,
   designSupport,
   setDesignSupport,
@@ -33,6 +33,8 @@ const LeftGreetingCard = ({
   setPaperType,
   paperWeight,
   setPaperWeight,
+  displayed,
+  setDisplayed,
   needEnvelop,
   setNeedEnvelop,
   envelopBranded,
@@ -85,11 +87,7 @@ const LeftGreetingCard = ({
       </div>
       <div className={Classes.manualCover}>
         <div className="flex gap-[20px] w-full items-top">
-          <InputCom
-            label={"Product"}
-            readOnly={true}
-            value={"Greeting Cards"}
-          />
+          <InputCom label={"Product"} readOnly={true} value={"Frames"} />
         </div>
         <InputCom
           label={"Quantity "}
@@ -109,14 +107,13 @@ const LeftGreetingCard = ({
             setInputs({ ...inputs, timeline: e.target.value });
           }}
         />
-
         <Select
-          label={"What type of greeting card do you want to make?"}
+          label={"What is the frame for?"}
           statee={type}
           setStatee={setType}
         />
 
-        {type
+        {/* {type
           ?.filter((v) => v.selected == true)[0]
           ?.name?.toLowerCase()
           ?.includes("custom") && (
@@ -128,16 +125,16 @@ const LeftGreetingCard = ({
               setInputs({ ...inputs, specify: e.target.value });
             }}
           />
-        )}
+        )} */}
 
         <Select
-          label={"What card format do you want?"}
+          label={"Where will the frame be used?"}
           statee={format}
           setStatee={setFormat}
         />
 
         <Select
-          label={"Card Orientation?"}
+          label={"Frame Orientation?"}
           statee={orientation}
           setStatee={setOrientation}
         />
@@ -178,82 +175,21 @@ const LeftGreetingCard = ({
         )}
 
         <Select
-          label={"Paper Type"}
+          label={"Preferred Frame Material?"}
           statee={paperType}
           setStatee={setPaperType}
         />
         <Select
-          label={"Paper Weight"}
+          label={"Frame Colour"}
           statee={paperWeight}
           setStatee={setPaperWeight}
         />
 
-        {paperWeight
-          ?.filter((v) => v.selected == true)[0]
-          ?.name?.toLowerCase()
-          ?.includes("custom") && (
-          <InputCom
-            label={"Specify weight"}
-            value={inputs?.weight}
-            placeholder={"Specify weight"}
-            onChange={(e) => {
-              setInputs({ ...inputs, weight: e.target.value });
-            }}
-          />
-        )}
-
-        <div className="flex items-center mt-7 ">
-          <div
-            style={{
-              fontSize: "12px",
-              // textTransform: "capitalize",
-            }}
-            className={Classes.titleDataHere}
-          >
-            Do you need envelopes?
-          </div>
-
-          <input
-            className={Classes.preferenceInput}
-            type="checkbox"
-            checked={needEnvelop}
-            onChange={() => {
-              setNeedEnvelop(!needEnvelop);
-            }}
-          />
-        </div>
-
-        {needEnvelop && (
-          <InputCom
-            label={"Envelope color"}
-            value={inputs?.color}
-            placeholder={"Envelope color"}
-            onChange={(e) => {
-              setInputs({ ...inputs, color: e.target.value });
-            }}
-          />
-        )}
-
-        <div className="flex items-center mt-7 ">
-          <div
-            style={{
-              fontSize: "12px",
-              // textTransform: "capitalize",
-            }}
-            className={Classes.titleDataHere}
-          >
-            Should envelope be branded?
-          </div>
-
-          <input
-            className={Classes.preferenceInput}
-            type="checkbox"
-            checked={envelopBranded}
-            onChange={() => {
-              setEnvelopBranded(!envelopBranded);
-            }}
-          />
-        </div>
+        <Select
+          label={"How will the frame be displayed?"}
+          statee={displayed}
+          setStatee={setDisplayed}
+        />
 
         <div className="flex items-center mt-7 ">
           <div
@@ -359,7 +295,7 @@ const LeftGreetingCard = ({
                       .map((p) => p.name)
                       .includes(v)
                 )
-                .filter((b) => !b.includes("Greeting"))}
+                .filter((b) => !b.includes("Frames"))}
               onChange={(e) => {
                 setNewProduct(e.target.value);
               }}
@@ -392,4 +328,4 @@ const LeftGreetingCard = ({
   );
 };
 
-export default LeftGreetingCard;
+export default LeftFrame;

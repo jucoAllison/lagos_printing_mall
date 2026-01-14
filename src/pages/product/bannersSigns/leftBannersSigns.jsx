@@ -85,11 +85,7 @@ const LeftBannerHere = ({
       </div>
       <div className={Classes.manualCover}>
         <div className="flex gap-[20px] w-full items-top">
-          <InputCom
-            label={"Product"}
-            readOnly={true}
-            value={"Banners/Signs"}
-          />
+          <InputCom label={"Product"} readOnly={true} value={"Banners/Signs"} />
         </div>
         <InputCom
           label={"Quantity - How many prints do you need?"}
@@ -98,6 +94,15 @@ const LeftBannerHere = ({
           onChange={(e) => {
             const newValue = e.target.value.replace(/\D/g, "");
             setInputs({ ...inputs, quantity: newValue });
+          }}
+        />
+        <InputCom
+          label={"Timeline"}
+          value={inputs?.timeline}
+          placeholder={""}
+          type={"date"}
+          onChange={(e) => {
+            setInputs({ ...inputs, timeline: e.target.value });
           }}
         />
 
@@ -118,7 +123,7 @@ const LeftBannerHere = ({
           statee={orientation}
           setStatee={setOrientation}
         />
-         <div
+        <div
           className={Classes.subDataHere}
           style={{
             fontFamily: "outfit",

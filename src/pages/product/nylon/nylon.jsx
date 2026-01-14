@@ -11,33 +11,12 @@ const Nylon = () => {
   const [inputs, setInputs] = useState({ product: "" });
   const [designReady, setDesignReady] = useState(false);
   const [designSupport, setDesignSupport] = useState(false);
-  
-  
-  
-  
-  
-    
-      
-    
-      
-        
-      
-          const CTX = useContext(MainContext);
-          const { checkRight } = useCheckRight();
-          const navigation = useNavigate();
-          const [newProduct, setNewProduct] = useState("");
-          const [loading, setLoading] = useState(false);
-        
-         
-      
-       
-    
-    
-     
-  
-  
 
-
+  const CTX = useContext(MainContext);
+  const { checkRight } = useCheckRight();
+  const navigation = useNavigate();
+  const [newProduct, setNewProduct] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const [installThePrint, setInstallThePrint] = useState(false);
   const [ladders, setLadders] = useState(false);
@@ -89,40 +68,6 @@ const Nylon = () => {
     { name: "One side only", selected: true },
     { name: "Both sides", selected: false },
   ]);
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-  
-
-  
-
-
-
-
-
-  
-
-
-
-
-
 
   const sendOrder = async (order) => {
     if (loading) return;
@@ -198,6 +143,11 @@ const Nylon = () => {
         },
         {
           type: "text",
+          key: "Timeline",
+          value: inputs?.timeline,
+        },
+        {
+          type: "text",
           key: "Is it for",
           value: forr.filter((v) => v.selected)[0]?.name,
         },
@@ -226,7 +176,7 @@ const Nylon = () => {
           key: "How many colors do you want us to print",
           value: premiumFinishing.filter((v) => v.selected)[0]?.name,
         },
-{
+        {
           type: "text",
           key: "What exact color(s)",
           value: pages.filter((v) => v.selected)[0]?.name,
@@ -236,7 +186,11 @@ const Nylon = () => {
           key: "Do you need matching items",
           value: gsm.filter((v) => v.selected)[0]?.name,
         },
-        { type: "boolean", key: "Do you need a printed sample/proof before full production?", value: installThePrint },
+        {
+          type: "boolean",
+          key: "Do you need a printed sample/proof before full production?",
+          value: installThePrint,
+        },
         {
           type: "text",
           key: "Additional note",
@@ -290,7 +244,12 @@ const Nylon = () => {
 
   const recheckError = () => {
     if (!inputs?.quantity) {
-      toast.error("How many mugs do you want? is required");
+      toast.error("Quantity is required");
+      return true;
+    }
+
+    if (!inputs?.timeline) {
+      toast.error("Timeline is required");
       return true;
     }
 
@@ -354,14 +313,6 @@ const Nylon = () => {
     }
   };
 
- 
-
-
-
- 
-
- 
-
   return (
     <div className={Classes.coverHere}>
       <div className={Classes.bottomSomething}>
@@ -390,23 +341,13 @@ const Nylon = () => {
           setLadders={setLadders}
           setGsm={setGsm}
           gsm={gsm}
-          forr={forr} setFor={setFor}
-
-
-
-          
-
-          
-
-          
-
-          
-          
-  submitButton={submitButton}
-  loading={loading}
-  setNewProduct={setNewProduct}
-  newProduct={newProduct}
-  proceedHandler={proceedHandler}
+          forr={forr}
+          setFor={setFor}
+          submitButton={submitButton}
+          loading={loading}
+          setNewProduct={setNewProduct}
+          newProduct={newProduct}
+          proceedHandler={proceedHandler}
         />
 
         <RightNylon />

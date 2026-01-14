@@ -62,8 +62,8 @@ const SmallScreenLinks = () => {
         Car Wrap
       </Link>
       <Link to={"/user/products/pen"} style={{ color: "#444", textAlign: "right" }}>Pen</Link>
-      <div style={{ color: "#444" }}>Frames</div>
-      <div style={{ color: "#444", textAlign: "right" }}>Invitation Cards</div>
+      <Link to={"/user/products/frame"} style={{ color: "#444" }}>Frames</Link>
+      <Link to={"/user/products/invitation/card"} style={{ color: "#444", textAlign: "right" }}>Invitation Cards</Link>
       <div style={{ color: "#444" }}>Dummy Cheques</div>
       <Link
         to={"/user/products/graphics-design"}
@@ -80,7 +80,7 @@ const SmallScreenLinks = () => {
       >
         Screen Printing
       </Link>
-      <div style={{ color: "#444" }}>Throw Pillows</div>
+      <Link to={"/user/products/throw/pillows"} style={{ color: "#444" }}>Throw Pillows</Link>
       <div style={{ color: "#444", textAlign: "right" }}>Banner Stand</div>
       <div style={{ color: "#444" }}>Awards / Plaque</div>
       <Link

@@ -133,6 +133,11 @@ const GreetingCard = () => {
         },
         {
           type: "text",
+          key: "Timeline",
+          value: inputs?.timeline,
+        },
+        {
+          type: "text",
           key: "What type of greeting card do you want to make",
           value: type.filter((v) => v.selected)[0]?.name,
         },
@@ -250,7 +255,11 @@ const GreetingCard = () => {
 
   const recheckError = () => {
     if (!inputs?.quantity) {
-      toast.error("How many mugs do you want? is required");
+      toast.error("Quantity is required");
+      return true;
+    }
+    if (!inputs?.timeline) {
+      toast.error("Timeline is required");
       return true;
     }
 

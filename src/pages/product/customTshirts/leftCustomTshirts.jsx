@@ -103,6 +103,15 @@ const LeftTShirt = ({
           }}
         />
         <InputCom
+          label={"Timeline"}
+          value={inputs?.timeline}
+          placeholder={""}
+          type={"date"}
+          onChange={(e) => {
+            setInputs({ ...inputs, timeline: e.target.value });
+          }}
+        />
+        <InputCom
           label={"What color do you want?"}
           value={inputs?.color}
           placeholder={""}

@@ -9,7 +9,7 @@ import { HiChevronRight } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
 import Select from "../../../components/select/select";
 
-const LeftGreetingCard = ({
+const LeftInvitationCard = ({
   designReady,
   designSupport,
   setDesignSupport,
@@ -88,7 +88,7 @@ const LeftGreetingCard = ({
           <InputCom
             label={"Product"}
             readOnly={true}
-            value={"Greeting Cards"}
+            value={"Invitation Cards"}
           />
         </div>
         <InputCom
@@ -111,7 +111,7 @@ const LeftGreetingCard = ({
         />
 
         <Select
-          label={"What type of greeting card do you want to make?"}
+          label={"What is the invitation for?"}
           statee={type}
           setStatee={setType}
         />
@@ -359,7 +359,7 @@ const LeftGreetingCard = ({
                       .map((p) => p.name)
                       .includes(v)
                 )
-                .filter((b) => !b.includes("Greeting"))}
+                .filter((b) => !b.includes("Invitation Cards"))}
               onChange={(e) => {
                 setNewProduct(e.target.value);
               }}
@@ -392,4 +392,4 @@ const LeftGreetingCard = ({
   );
 };
 
-export default LeftGreetingCard;
+export default LeftInvitationCard;

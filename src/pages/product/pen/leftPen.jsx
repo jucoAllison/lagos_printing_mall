@@ -87,11 +87,7 @@ const LeftPEN = ({
       </div>
       <div className={Classes.manualCover}>
         <div className="flex gap-[20px] w-full items-top">
-          <InputCom
-            label={"Product"}
-            readOnly={true}
-            value={"Pen"}
-          />
+          <InputCom label={"Product"} readOnly={true} value={"Pen"} />
         </div>
         <InputCom
           label={"Quantity?"}
@@ -100,6 +96,15 @@ const LeftPEN = ({
           onChange={(e) => {
             const newValue = e.target.value.replace(/\D/g, "");
             setInputs({ ...inputs, quantity: newValue });
+          }}
+        />
+        <InputCom
+          label={"Timeline"}
+          value={inputs?.timeline}
+          placeholder={""}
+          type={"date"}
+          onChange={(e) => {
+            setInputs({ ...inputs, timeline: e.target.value });
           }}
         />
         <InputCom

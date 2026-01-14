@@ -46,6 +46,9 @@ import EventGreetingCard from "./pages/product/greetingCard/eventGreetingCard";
 import EventBannersSigns from "./pages/product/bannersSigns/eventBannersSigns";
 import EventCustomTshirts from "./pages/product/customTshirts/eventCustomTshirts";
 import EventPen from "./pages/product/pen/eventPen";
+import EventInvitationCard from "./pages/product/invitationCard/eventInvitationCard";
+import EventFrame from "./pages/product/frame/eventFrame";
+import EventThrowPillows from "./pages/product/throwPillows/eventThrowPillows";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -121,13 +124,13 @@ function App() {
     { name: "Custom T-Shirt", to: "/user/products/custom-tshirt" },
     { name: "Car Wrap", to: "/user/products/car-branding" },
     { name: "Pen", to: "/user/products/pen" },
-    { name: "Frames", to: "" },
-    { name: "Invitation Cards", to: "" },
+    { name: "Frames", to: "/user/products/frame" },
+    { name: "Invitation Cards", to: "/user/products/invitation/card" },
     { name: "Dummy Cheques", to: "" },
     { name: "Graphics Design", to: "/user/products/graphics-design" },
     { name: "Tailored Calendar", to: "/user/products/calendar" },
     { name: "Screen Printing", to: "/user/products/screen-printing" },
-    { name: "Throw Pillows", to: "" },
+    { name: "Throw Pillows", to: "/user/products/throw/pillows" },
     { name: "Banner Stand", to: "" },
     { name: "Awards/Plaque", to: "" },
     { name: "Wedding Cards", to: "/user/products/wedding-card" },
@@ -478,6 +481,33 @@ function App() {
               element={
                 <Suspense fallback={<Loading />}>
                   <EventPen />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/user/products/invitation/card"
+              exact
+              element={
+                <Suspense fallback={<Loading />}>
+                  <EventInvitationCard />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/user/products/frame"
+              exact
+              element={
+                <Suspense fallback={<Loading />}>
+                  <EventFrame />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/user/products/throw/pillows"
+              exact
+              element={
+                <Suspense fallback={<Loading />}>
+                  <EventThrowPillows />
                 </Suspense>
               }
             />

@@ -376,8 +376,8 @@ const Nav = () => {
                     <Link to={"/user/products/custom-tshirt"}>Custom T-Shirt</Link>
                     <Link to={"/user/products/car-branding"}>Car Wrap</Link>
                     <Link to={"/user/products/pen"}>Pen</Link>
-                    <div>Frames</div>
-                    <div>Invitation Cards</div>
+                    <Link to={"/user/products/frame"}>Frames</Link>
+                    <Link to={"/user/products/invitation/card"}>Invitation Cards</Link>
                     <div>Dummy Cheques</div>
                     <Link to={"/user/products/graphics-design"}>
                       Graphics Design
@@ -388,7 +388,7 @@ const Nav = () => {
                     <Link to={"/user/products/screen-printing"}>
                       Screen Printing
                     </Link>
-                    <div>Throw Pillows</div>
+                    <Link to={"/user/products/throw/pillows"}>Throw Pillows</Link>
                     <div>Banner Stand</div>
                     <div>Awards / Plaque</div>
                     <Link to={"/user/products/wedding-card"}>

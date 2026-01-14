@@ -122,6 +122,16 @@ const LeftNylon = ({
             setInputs({ ...inputs, quantity: newValue });
           }}
         />
+        
+        <InputCom
+          label={"Timeline"}
+          value={inputs?.timeline}
+          placeholder={""}
+          type={"date"}
+          onChange={(e) => {
+            setInputs({ ...inputs, timeline: e.target.value });
+          }}
+        />
 
         {/* <InputCom
           label={"What is the sticker/label being used for?"}

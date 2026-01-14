@@ -298,7 +298,7 @@ const Stickers = () => {
 
   const recheckError = () => {
     if (!inputs?.quantity) {
-      toast.error("How many mugs do you want? is required");
+      toast.error("Quantity is required");
       return true;
     }
 

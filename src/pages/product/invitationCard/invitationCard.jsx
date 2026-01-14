@@ -1,13 +1,13 @@
 import React, { useContext, useState } from "react";
 import Classes from "../product.module.css";
-import RightGreetingCard from "./rightBannersSigns";
-import LeftGreetingCard from "./leftBannersSigns";
+import RightGreetingCard from "./rightInvitationCard";
+import LeftGreetingCard from "./leftInvitationCard";
 import { MainContext } from "../../../App";
 import { useCheckRight } from "../../../components/rightDetails/rightChecker";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
-const GreetingCard = () => {
+const InvitationCard = () => {
   const [inputs, setInputs] = useState({ product: "" });
   const [designReady, setDesignReady] = useState(false);
   const [designSupport, setDesignSupport] = useState(false);
@@ -19,40 +19,45 @@ const GreetingCard = () => {
   const navigation = useNavigate();
   const [newProduct, setNewProduct] = useState("");
   const [loading, setLoading] = useState(false);
-  const [size, setSize] = useState([{ name: "Custom Size", selected: true }]);
+  const [size, setSize] = useState([
+    { name: "A6", selected: true },
+    { name: "A5", selected: false },
+    { name: "A4 Folded", selected: false },
+    { name: "Custom Size", selected: false },
+  ]);
   const [type, setType] = useState([
-    { name: "Flex Banner", selected: true },
-    { name: "Roll-up Banner", selected: false },
-    { name: "Backdrop/Stage Backdrop", selected: false },
-    { name: "Billboard", selected: false },
-    { name: "Vinyl Sticker", selected: false },
-    { name: "One-way Vision", selected: false },
-    { name: "Foam board Signage", selected: false },
-    { name: "Canvas Print", selected: false },
-    { name: "Wall/floor Graphics,", selected: false },
-    { name: "Directional Signage", selected: false },
+    { name: "Birthday", selected: true },
+    { name: "Wedding", selected: false },
+    { name: "Anniversary", selected: false },
+    { name: "Naming Ceremony", selected: false },
+    { name: "Burial/Memorial Corporate Event", selected: false },
+    { name: "Church Program", selected: false },
+    { name: "Graduation", selected: false },
+    { name: "House Opening", selected: false },
+    { name: "Special Celebration,", selected: false },
+    { name: "Custom Occasion", selected: false },
   ]);
   const [format, setFormat] = useState([
-    { name: "Event", selected: true },
-    { name: "Branding", selected: false },
-    { name: "Outdoor Advertising", selected: false },
-    { name: "Store Display", selected: false },
-    { name: "Promotional Campaign", selected: false },
+    { name: "Flat Card", selected: true },
+    { name: "Bi-fold (half fold)", selected: false },
+    { name: "Tri-fold", selected: false },
+    { name: "Gate-fold", selected: false },
+    { name: "Pocket Invitation", selected: false },
   ]);
   const [orientation, setOrientation] = useState([
-    { name: "Indoor", selected: true },
-    { name: "Outdoor", selected: false },
+    { name: "Portrait", selected: true },
+    { name: "Landscape", selected: false },
   ]);
   const [paperType, setPaperType] = useState([
-    { name: "Foam Board", selected: true },
-    { name: "PVC Board Acrylic", selected: false },
-    { name: "ACO Board", selected: false },
+    { name: "Art Card", selected: true },
+    { name: "Matte Card", selected: false },
+    { name: "Glossy Card", selected: false },
   ]);
   const [paperWeight, setPaperWeight] = useState([
-    { name: "Eyelets", selected: true },
-    { name: "Pole Pockets", selected: false },
-    { name: "Frame", selected: false },
-    { name: "Hemming/edge Sealing", selected: false },
+    { name: "250gsm", selected: true },
+    { name: "300gsm", selected: false },
+    { name: "400gsm", selected: false },
+    { name: "Custom Weight", selected: false },
   ]);
 
   const sendOrder = async (order) => {
@@ -120,7 +125,7 @@ const GreetingCard = () => {
 
   const returnOrder = () => {
     const orderDetails = {
-      name: "Banners/Signs",
+      name: "Invitation Cards",
       details: [
         {
           type: "text",
@@ -134,64 +139,68 @@ const GreetingCard = () => {
         },
         {
           type: "text",
-          key: "What do you want to print",
+          key: "What is the invitation for",
           value: type.filter((v) => v.selected)[0]?.name,
         },
         {
           type: "text",
-          key: "What is the purpose of the print",
+          key: "What card format do you want",
           value: format.filter((v) => v.selected)[0]?.name,
         },
         {
           type: "text",
-          key: "Where will it be used",
+          key: "Card Orientation",
           value: orientation.filter((v) => v.selected)[0]?.name,
         },
         {
           type: "text",
           key: "Size",
           value: size.filter((v) => v.selected)[0]?.name?.includes("Custom")
-            ? `Custom Size width: ${inputs?.width}ft length: ${inputs?.length}ft `
+            ? `Custom Size width: ${inputs?.width}inches length: ${inputs?.length}inches `
             : size.filter((v) => v.selected)[0]?.name,
           // value: size.filter((v) => v.selected)[0]?.name,
           width: inputs?.width,
           length: inputs?.length,
-          ms: "ft",
+          ms: "inches",
         },
         {
           type: "text",
-          key: "Do you need mounting on",
+          key: "Paper Type",
           value: paperType.filter((v) => v.selected)[0]?.name,
         },
         {
           type: "text",
-          key: "Do you need",
-          value: paperWeight.filter((v) => v.selected)[0]?.name,
+          key: "Paper Weight",
+          value: paperWeight
+            .filter((v) => v.selected)[0]
+            ?.name?.includes("Custom")
+            ? `Custom weight: ${inputs?.weight}`
+            : paperWeight.filter((v) => v.selected)[0]?.name,
         },
         {
           type: "boolean",
-          key: "Do you need us to install the print?",
+          key: "Do you need envelopes?",
           value: needEnvelop,
         },
         ...(needEnvelop
           ? [
               {
                 type: "text",
-                key: "Installation location, height and accessibility",
-                value: inputs?.location,
+                key: "Envelope color",
+                value: inputs?.color,
               },
             ]
           : []),
 
         {
           type: "boolean",
-          key: "Should we carry ladders or scaffolding?",
+          key: "Should envelope be branded?",
           value: envelopBranded,
         },
 
         {
           type: "boolean",
-          key: "Do you need site measurement before production?",
+          key: "Do you want samples before full production?",
           value: sampleProof,
         },
         {
@@ -250,6 +259,7 @@ const GreetingCard = () => {
       toast.error("Quantity is required");
       return true;
     }
+
     if (!inputs?.timeline) {
       toast.error("Timeline is required");
       return true;
@@ -356,4 +366,4 @@ const GreetingCard = () => {
   );
 };
 
-export default GreetingCard;
+export default InvitationCard;

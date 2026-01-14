@@ -191,7 +191,7 @@ const Home = () => {
             </div>
           </Link>
 
-          <div className={Classes.grid_item}>
+          <Link to={"/user/products/throw/pillows"} className={Classes.grid_item}>
             <div className={Classes.image_grid}>
               <GifImage
                 images={[Throw_Pillows, Throw_Pillow, Throw_Pillo, Throw_Pill]}
@@ -201,7 +201,7 @@ const Home = () => {
             <div className="font-[Roboto] text-center mt-1 text-[14px] text-[#515151]">
               Throw Pillows
             </div>
-          </div>
+          </Link>
 
           <div className={Classes.grid_item}>
             <div className={Classes.image_grid}>
@@ -222,7 +222,10 @@ const Home = () => {
               Awards / Plaque
             </div>
           </div> */}
-          <Link to={"/user/products/wedding-card"} className={Classes.grid_item}>
+          <Link
+            to={"/user/products/wedding-card"}
+            className={Classes.grid_item}
+          >
             <div className={Classes.image_grid}>
               <GifImage
                 images={[
@@ -243,7 +246,7 @@ const Home = () => {
             </div>
           </Link>
 
-          <div className={Classes.grid_item}>
+          <Link to={"/user/products/frame"} className={Classes.grid_item}>
             <div className={Classes.image_grid}>
               <GifImage
                 images={[PicFrames, PicFrame, PicFram, PicFra, PicFr, PicF]}
@@ -253,7 +256,7 @@ const Home = () => {
             <div className="font-[Roboto] text-center mt-1 text-[14px] text-[#515151]">
               Frames
             </div>
-          </div>
+          </Link>
 
           <Link to="/user/products/business-card" className={Classes.grid_item}>
             <div className={Classes.image_grid}>

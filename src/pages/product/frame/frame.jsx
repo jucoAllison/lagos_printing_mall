@@ -1,13 +1,13 @@
 import React, { useContext, useState } from "react";
 import Classes from "../product.module.css";
-import RightGreetingCard from "./rightBannersSigns";
-import LeftGreetingCard from "./leftBannersSigns";
+import RightGreetingCard from "./rightFrame";
+import LeftGreetingCard from "./leftFrame";
 import { MainContext } from "../../../App";
 import { useCheckRight } from "../../../components/rightDetails/rightChecker";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
-const GreetingCard = () => {
+const Frame = () => {
   const [inputs, setInputs] = useState({ product: "" });
   const [designReady, setDesignReady] = useState(false);
   const [designSupport, setDesignSupport] = useState(false);
@@ -19,40 +19,55 @@ const GreetingCard = () => {
   const navigation = useNavigate();
   const [newProduct, setNewProduct] = useState("");
   const [loading, setLoading] = useState(false);
-  const [size, setSize] = useState([{ name: "Custom Size", selected: true }]);
+  const [size, setSize] = useState([
+    { name: "4x6", selected: true },
+    { name: "5x7", selected: false },
+    { name: "8x10", selected: false },
+    { name: "11x14", selected: false },
+    { name: "16x20", selected: false },
+    { name: "Custom Size", selected: false },
+  ]);
   const [type, setType] = useState([
-    { name: "Flex Banner", selected: true },
-    { name: "Roll-up Banner", selected: false },
-    { name: "Backdrop/Stage Backdrop", selected: false },
-    { name: "Billboard", selected: false },
-    { name: "Vinyl Sticker", selected: false },
-    { name: "One-way Vision", selected: false },
-    { name: "Foam board Signage", selected: false },
-    { name: "Canvas Print", selected: false },
-    { name: "Wall/floor Graphics,", selected: false },
-    { name: "Directional Signage", selected: false },
+    { name: "Photograph", selected: true },
+    { name: "Certificate", selected: false },
+    { name: "Award", selected: false },
+    { name: "Artwork/Painting", selected: false },
+    { name: "Poster", selected: false },
+    { name: "Memorabilia", selected: false },
+    { name: "Corporate Display", selected: false },
+    { name: "Home Décor", selected: false },
   ]);
   const [format, setFormat] = useState([
-    { name: "Event", selected: true },
-    { name: "Branding", selected: false },
-    { name: "Outdoor Advertising", selected: false },
-    { name: "Store Display", selected: false },
-    { name: "Promotional Campaign", selected: false },
+    { name: "Home", selected: true },
+    { name: "Office", selected: false },
+    { name: "School", selected: false },
+    { name: "Church", selected: false },
+    { name: "Event Venue", selected: false },
+    { name: "Outdoor Frame", selected: false },
   ]);
   const [orientation, setOrientation] = useState([
-    { name: "Indoor", selected: true },
-    { name: "Outdoor", selected: false },
+    { name: "Portrait", selected: true },
+    { name: "Landscape", selected: false },
   ]);
   const [paperType, setPaperType] = useState([
-    { name: "Foam Board", selected: true },
-    { name: "PVC Board Acrylic", selected: false },
-    { name: "ACO Board", selected: false },
+    { name: "Wood", selected: true },
+    { name: "MDF", selected: false },
+    { name: "Aluminum", selected: false },
+    { name: "Acrylic", selected: false },
+    { name: "Metal", selected: false },
   ]);
   const [paperWeight, setPaperWeight] = useState([
-    { name: "Eyelets", selected: true },
-    { name: "Pole Pockets", selected: false },
-    { name: "Frame", selected: false },
-    { name: "Hemming/edge Sealing", selected: false },
+    { name: "Black", selected: true },
+    { name: "White", selected: false },
+    { name: "Brown", selected: false },
+    { name: "Gold", selected: false },
+    { name: "Silver", selected: false },
+    { name: "Natural wood", selected: false },
+  ]);
+  const [displayed, setDisplayed] = useState([
+    { name: "Wall Hanging", selected: true },
+    { name: "Table-Top Stand", selected: false },
+    { name: "Easel Stand", selected: false },
   ]);
 
   const sendOrder = async (order) => {
@@ -120,7 +135,7 @@ const GreetingCard = () => {
 
   const returnOrder = () => {
     const orderDetails = {
-      name: "Banners/Signs",
+      name: "Frames",
       details: [
         {
           type: "text",
@@ -134,64 +149,48 @@ const GreetingCard = () => {
         },
         {
           type: "text",
-          key: "What do you want to print",
+          key: "What is the frame for",
           value: type.filter((v) => v.selected)[0]?.name,
         },
         {
           type: "text",
-          key: "What is the purpose of the print",
+          key: "Where will the frame be used",
           value: format.filter((v) => v.selected)[0]?.name,
         },
         {
           type: "text",
-          key: "Where will it be used",
+          key: "Frame Orientation",
           value: orientation.filter((v) => v.selected)[0]?.name,
         },
         {
           type: "text",
           key: "Size",
           value: size.filter((v) => v.selected)[0]?.name?.includes("Custom")
-            ? `Custom Size width: ${inputs?.width}ft length: ${inputs?.length}ft `
+            ? `Custom Size width: ${inputs?.width}inches length: ${inputs?.length}inches `
             : size.filter((v) => v.selected)[0]?.name,
           // value: size.filter((v) => v.selected)[0]?.name,
           width: inputs?.width,
           length: inputs?.length,
-          ms: "ft",
+          ms: "inches",
         },
         {
           type: "text",
-          key: "Do you need mounting on",
+          key: "Preferred Frame Material",
           value: paperType.filter((v) => v.selected)[0]?.name,
         },
         {
           type: "text",
-          key: "Do you need",
+          key: "Frame Colour",
           value: paperWeight.filter((v) => v.selected)[0]?.name,
         },
         {
-          type: "boolean",
-          key: "Do you need us to install the print?",
-          value: needEnvelop,
+          type: "text",
+          key: "How will the frame be displayed",
+          value: displayed.filter((v) => v.selected)[0]?.name,
         },
-        ...(needEnvelop
-          ? [
-              {
-                type: "text",
-                key: "Installation location, height and accessibility",
-                value: inputs?.location,
-              },
-            ]
-          : []),
-
         {
           type: "boolean",
-          key: "Should we carry ladders or scaffolding?",
-          value: envelopBranded,
-        },
-
-        {
-          type: "boolean",
-          key: "Do you need site measurement before production?",
+          key: "Do you want samples before full production?",
           value: sampleProof,
         },
         {
@@ -250,6 +249,7 @@ const GreetingCard = () => {
       toast.error("Quantity is required");
       return true;
     }
+
     if (!inputs?.timeline) {
       toast.error("Timeline is required");
       return true;
@@ -342,6 +342,8 @@ const GreetingCard = () => {
           setPaperType={setPaperType}
           paperWeight={paperWeight}
           setPaperWeight={setPaperWeight}
+          displayed={displayed}
+          setDisplayed={setDisplayed}
           needEnvelop={needEnvelop}
           setNeedEnvelop={setNeedEnvelop}
           envelopBranded={envelopBranded}
@@ -356,4 +358,4 @@ const GreetingCard = () => {
   );
 };
 
-export default GreetingCard;
+export default Frame;
