@@ -1,17 +1,8 @@
 import React, { useContext, useState } from "react";
-import { useParams } from "react-router-dom";
-import CustomTShirt from "../../../assets/custom-T-Shirt.gif";
 import Classes from "../product.module.css";
-import Flyer from "../../../assets/flyer.jpeg";
-import FlyerPNG from "../../../assets/flyer.png";
-import InputCom from "../../../components/input/input";
-import clsx from "clsx";
-import { MainContext } from "../../../App";
 import GifImage from "../../../components/gif_image/gifImage";
-import Calendar from "../../../assets/calendar.webp";
-import Calenda from "../../../assets/calenda.webp";
-import Calend from "../../../assets/calend.webp";
-import Calen from "../../../assets/calen.webp";
+import Calendar from "../../../assets/exercise_book.jpeg";
+import Calenda from "../../../assets/exercise_boo.jpeg";
 import RightComponent from "../../../components/rightDetails/rightComponent";
 
 const RightExerciseBooks = () => {
@@ -30,7 +21,7 @@ const RightExerciseBooks = () => {
 
         <div style={{ height: "340px" }}>
           <GifImage
-            images={[Calendar, Calenda, Calend, Calen]}
+            images={[Calendar, Calenda]}
             settime={3000}
           />
         </div>
