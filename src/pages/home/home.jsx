@@ -28,7 +28,13 @@ import WP_MU from "../../assets/wp_mu.jpeg";
 import HennessyStand from "../../assets/hennessy_stand.webp";
 import Stand from "../../assets/stand.webp";
 import Stand_ from "../../assets/stand_.webp";
+import Bstand from "../../assets/bstand.jpeg";
+import Bstan from "../../assets/bstan.jpeg";
+import Bsta from "../../assets/bsta.jpeg";
+import Bst from "../../assets/bst.jpeg";
 import Award from "../../assets/award.webp";
+import AwPlaque from "../../assets/aplaque.jpeg";
+import AwPlaqu from "../../assets/aplaqu.jpeg";
 import Award_ from "../../assets/award_.webp";
 import BrandBuiding from "../../assets/brand_buiding.webp";
 import BrandBuidin from "../../assets/brand_buidin.webp";
@@ -191,7 +197,10 @@ const Home = () => {
             </div>
           </Link>
 
-          <Link to={"/user/products/throw/pillows"} className={Classes.grid_item}>
+          <Link
+            to={"/user/products/throw/pillows"}
+            className={Classes.grid_item}
+          >
             <div className={Classes.image_grid}>
               <GifImage
                 images={[Throw_Pillows, Throw_Pillow, Throw_Pillo, Throw_Pill]}
@@ -206,7 +215,15 @@ const Home = () => {
           <div className={Classes.grid_item}>
             <div className={Classes.image_grid}>
               <GifImage
-                images={[Stand, Stand_, HennessyStand]}
+                images={[
+                  Bst,
+                  Stand_,
+                  Bstand,
+                  HennessyStand,
+                  Bsta,
+                  Stand,
+                  Bstan,
+                ]}
                 settime={3000}
               />
             </div>

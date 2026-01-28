@@ -1,9 +1,11 @@
 import React from "react";
 import GifImage from "../../../components/gif_image/gifImage";
-import Calendar from "../../../assets/calendar.webp";
-import Calenda from "../../../assets/calenda.webp";
-import Calend from "../../../assets/calend.webp";
-import Calen from "../../../assets/calen.webp";
+import Calendar from "../../../assets/banner.jpeg";
+import Calenda from "../../../assets/banner_.jpeg";
+import Bstand from "../../../assets/bstand.jpeg";
+import Bstan from "../../../assets/bstan.jpeg";
+import Bsta from "../../../assets/bsta.jpeg";
+import Bst from "../../../assets/bst.jpeg";
 import RightComponent from "../../../components/rightDetails/rightComponent";
 import Classes from "../product.module.css";
 
@@ -18,7 +20,7 @@ const RightBanner = () => {
       <>
         <div style={{ height: "340px" }}>
           <GifImage
-            images={[Calendar, Calenda, Calend, Calen]}
+            images={[Calendar, Calenda]}
             settime={3000}
           />
         </div>

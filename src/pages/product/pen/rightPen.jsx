@@ -1,7 +1,7 @@
 import React from "react";
 import GifImage from "../../../components/gif_image/gifImage";
-import CustomTShirt from "../../../assets/custom-T-Shirt.gif";
-import Hoody from "../../../assets/hoody.gif";
+import CustomTShirt from "../../../assets/pen_.jpeg";
+import Hoody from "../../../assets/pen.jpeg";
 import RightComponent from "../../../components/rightDetails/rightComponent";
 import Classes from "../product.module.css";
 

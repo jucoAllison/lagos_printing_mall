@@ -8,12 +8,9 @@ import InputCom from "../../../components/input/input";
 import clsx from "clsx";
 import { MainContext } from "../../../App";
 import GifImage from "../../../components/gif_image/gifImage";
-import Screen_Printing from "../../../assets/screen_printing.jpeg";
-import Screen_Printin from "../../../assets/screen_printin.jpeg";
-import Screen_Printi from "../../../assets/screen_printi.jpeg";
-import Screen_Print from "../../../assets/screen_print.jpeg";
-import Screen_Prin from "../../../assets/screen_prin.jpeg";
-import Select from "../../../components/select/select";
+import Screen_Printing from "../../../assets/graphics.jpeg";
+import Screen_Printin from "../../../assets/graphic.jpeg";
+import Screen_Printi from "../../../assets/graphi.jpeg";
 import RightComponent from "../../../components/rightDetails/rightComponent";
 
 const RightGraphicsDesign = () => {
@@ -34,8 +31,6 @@ const RightGraphicsDesign = () => {
               Screen_Printing,
               Screen_Printin,
               Screen_Printi,
-              Screen_Print,
-              Screen_Prin,
             ]}
             settime={3000}
           />

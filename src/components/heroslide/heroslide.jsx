@@ -7,6 +7,7 @@ import Data_Plans from "../../assets/data_Plans.jpg";
 import Personal from "../../assets/personal.jpg";
 import Pulse from "../../assets/pulse.jpg";
 import Tariff from "../../assets/tariff.jpg";
+import HEROKCH from "../../assets/HEROKCH.jpeg";
 import Getimage from "../../assets/getimage.webp";
 import { HiChevronRight } from "react-icons/hi";
 import clsx from "clsx";
@@ -20,56 +21,64 @@ const Heroslide = () => {
       body: "Save up to 40% on Holiday Cards & Invitation",
       button: "Learn More",
       href: "https://www.mtnonline.com/broadband",
-      img: Getimage,
+      // img: Getimage,
+      img: HEROKCH,
     },
     {
       top: "Broadband",
       body: "Broadband Services",
       button: "Learn More",
       href: "https://www.mtnonline.com/broadband",
-      img: Broadband,
+      // img: Broadband,
+      img: HEROKCH,
     },
     {
       top: "Data Plans",
       body: "Choosing a Mobile data plan has never been this simple",
       button: "Learn More",
       href: "https://www.mtnonline.com/personal/data/data-plans",
-      img: Data_Plans,
+      // img: Data_Plans,
+      img: HEROKCH,
     },
     {
       top: "Code of Ethics",
       body: "Report Fraud",
       button: "Get Started",
       href: "https://www.mtn.ng/about-us/who-we-are/our-code-of-ethics/",
-      img: Code,
+      // img: Code,
+      img: HEROKCH,
     },
     {
       top: "Personal",
       body: "4G LTE",
       button: "Learn More",
       href: "https://www.mtnonline.com/personal/4g/",
-      img: Personal,
+      // img: Personal,
+      img: HEROKCH,
     },
     {
       top: "Pulse",
       body: "#DoYou",
       button: "Learn More",
       href: "https://www.mtnonline.com/personal/pulse/",
-      img: Pulse,
+      // img: Pulse,
+      img: HEROKCH,
     },
     {
       top: "Tariff Plan",
       body: "XtraValue bundle covers voice calls and data",
       button: "Learn More",
       href: "https://www.mtnonline.com/personal/xtravalue/",
-      img: Tariff,
+      // img: Tariff,
+      img: HEROKCH,
     },
     {
       top: "Roaming",
       body: "Stay connected to home while abroad",
       button: "Learn More",
       href: "https://www.mtnonline.com/personal/roaming/",
-      img: Roaming,
+      // img: Roaming,
+      img: HEROKCH,
     },
   ];
 

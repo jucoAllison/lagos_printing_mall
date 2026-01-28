@@ -1,9 +1,7 @@
 import React from "react";
 import GifImage from "../../../components/gif_image/gifImage";
-import Calendar from "../../../assets/calendar.webp";
-import Calenda from "../../../assets/calenda.webp";
-import Calend from "../../../assets/calend.webp";
-import Calen from "../../../assets/calen.webp";
+import Calendar from "../../../assets/invitation_card.jpeg";
+import Calenda from "../../../assets/invitation_car.jpeg";
 import RightComponent from "../../../components/rightDetails/rightComponent";
 import Classes from "../product.module.css";
 
@@ -18,7 +16,7 @@ const RightInvitationCard = () => {
       <>
         <div style={{ height: "340px" }}>
           <GifImage
-            images={[Calendar, Calenda, Calend, Calen]}
+            images={[Calendar, Calenda]}
             settime={3000}
           />
         </div>
