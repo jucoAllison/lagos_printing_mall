@@ -125,14 +125,14 @@ const Contact = () => {
                   <FaPhoneAlt size={15} color="#000" />
                 </div>
                 <a
-                  href="tel:+2348062249993"
+                  href="tel:+2349160000434"
                   style={{
                     color: "#000",
                     fontSize: "14px",
                     textDecoration: "none",
                   }}
                 >
-                  +234 806 224 9993
+                  +234 916 000 0434
                 </a>
               </div>
             </div>

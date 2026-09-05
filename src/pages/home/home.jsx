@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import Classes from "./home.module.css";
 import TopestDetails from "../../components/topest_details";
 import Nav from "../../components/nav/nav";
@@ -94,11 +94,19 @@ import FlyerPNG from "../../assets/flyer.png";
 import { Link } from "react-router-dom";
 
 const Home = () => {
+  const targetRef = useRef(null);
+
+  const scrollToSection = () => {
+    targetRef.current?.scrollIntoView({ 
+      behavior: "smooth",
+      block: "start"
+    });
+  };
   return (
     <>
       {/* <TopestDetails /> */}
       <Nav />
-      <Heroslide />
+      <Heroslide scrollToSection={scrollToSection} />
       <div className={Classes.products_cover}>
         {/* <div className={Classes.headerWelcome}>
           Welcome to Lagos Printing Mall
@@ -109,7 +117,7 @@ const Home = () => {
           PLEASE SELECT YOUR PRODUCTS
         </div> */}
 
-        <div className={Classes.headerWelcome}>
+        <div className={Classes.headerWelcome} ref={targetRef}>
           Why Choose Lagos Printing Mall
         </div>
         <div className={Classes.bodyWelcome}>
@@ -384,7 +392,7 @@ const Home = () => {
         <SecondHero />
       </div>
       <Faq />
-      <SomeOfOurClient />
+      {/* <SomeOfOurClient /> */}
       <Footer />
     </>
   );

@@ -123,7 +123,7 @@ const Dashboard = ({ orders, loading }) => {
       {v.name}
       <div
         className="absolute rounded-full text-[#d00] top-[-2px] right-[8px] font-bold text-[12px]"
-        style={{ zIndex: 10 }}
+        style={{ zIndex: 5 }}
       >
         {v?.number}
       </div>

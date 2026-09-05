@@ -248,7 +248,7 @@ const Profile = () => {
                   </h1>
 
                   <a
-                    href="tel:+2348062249993"
+                    href="tel:+2349160000434"
                     style={{ textDecoration: "none" }}
                     className="flex items-center mt-2 rounded-[8px] px-[13px] py-[13px] "
                   >
@@ -278,7 +278,7 @@ const Profile = () => {
                   </a>
 
                   <a
-                    href="https://wa.me/2348062249993"
+                    href="https://wa.me/2349160000434"
                     style={{ textDecoration: "none" }}
                     className="flex items-center mt-2 rounded-[8px] px-[13px] py-[13px] "
                   >

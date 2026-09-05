@@ -270,7 +270,7 @@ const Track = ({
   };
 
   const openWhatsApp = () => {
-    const phone = "+2348062249993"; // international format, no +
+    const phone = "+2349160000434"; // international format, no +
     window.open(`https://wa.me/${phone}`, "_blank");
   };
 
@@ -727,7 +727,7 @@ const Track = ({
           </>
         )}
       </div>
-      {data?.status?.includes("awaiting_payment") && <Payment data={data} />}
+      {data?.status?.includes("awaiting_payment") && <Payment data={data} params={params} />}
 
       <div className={Classes.secondHero}>
         <div className="w-full">

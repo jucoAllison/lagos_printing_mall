@@ -11,73 +11,47 @@ import HEROKCH from "../../assets/HEROKCH.jpeg";
 import Getimage from "../../assets/getimage.webp";
 import { HiChevronRight } from "react-icons/hi";
 import clsx from "clsx";
+import { useNavigate } from "react-router-dom";
 
-const Heroslide = () => {
+const Heroslide = ({ scrollToSection }) => {
   const [count, setCount] = useState(localStorage.getItem("counter") || 0);
+  const navigation = useNavigate();
   // const [count, setCount] = useState(0);
   const slides = [
     {
-      top: "The Send of the Season",
-      body: "Save up to 40% on Holiday Cards & Invitation",
-      button: "Learn More",
+      top: "The Mark of Quality",
+      body: "Save up to 30% on Large Format & Custom Packaging",
+      last: "Elevate your brand with precision printing at unbeatable prices",
+      button: "Order Now",
       href: "https://www.mtnonline.com/broadband",
       // img: Getimage,
       img: HEROKCH,
     },
     {
-      top: "Broadband",
-      body: "Broadband Services",
-      button: "Learn More",
+      top: "Stand Out from the Crowd",
+      body: "Special Offers on Large Format Banners & Signage",
+      last: "High-impact printing solutions designed to get your business",
+      button: "Shop the Sale",
       href: "https://www.mtnonline.com/broadband",
-      // img: Broadband,
+      // img: Getimage,
       img: HEROKCH,
     },
     {
-      top: "Data Plans",
-      body: "Choosing a Mobile data plan has never been this simple",
-      button: "Learn More",
-      href: "https://www.mtnonline.com/personal/data/data-plans",
-      // img: Data_Plans,
+      top: "Elevate Your Brand with Quality Prints",
+      body: "Special Offers on Large Format Banners & Custom Packaging",
+      last: "From  concept to print - vibrant colors, durable finishes, flawless results.",
+      button: "Print with Us",
+      href: "https://www.mtnonline.com/broadband",
+      // img: Getimage,
       img: HEROKCH,
     },
     {
-      top: "Code of Ethics",
-      body: "Report Fraud",
-      button: "Get Started",
-      href: "https://www.mtn.ng/about-us/who-we-are/our-code-of-ethics/",
-      // img: Code,
-      img: HEROKCH,
-    },
-    {
-      top: "Personal",
-      body: "4G LTE",
-      button: "Learn More",
-      href: "https://www.mtnonline.com/personal/4g/",
-      // img: Personal,
-      img: HEROKCH,
-    },
-    {
-      top: "Pulse",
-      body: "#DoYou",
-      button: "Learn More",
-      href: "https://www.mtnonline.com/personal/pulse/",
-      // img: Pulse,
-      img: HEROKCH,
-    },
-    {
-      top: "Tariff Plan",
-      body: "XtraValue bundle covers voice calls and data",
-      button: "Learn More",
-      href: "https://www.mtnonline.com/personal/xtravalue/",
-      // img: Tariff,
-      img: HEROKCH,
-    },
-    {
-      top: "Roaming",
-      body: "Stay connected to home while abroad",
-      button: "Learn More",
-      href: "https://www.mtnonline.com/personal/roaming/",
-      // img: Roaming,
+      top: "Bold Prints. Bigger Impacts.",
+      body: "Limited-Time Discount on Business Printing",
+      last: "Eye-catching banners, branded bags, event backdrops, and corporate materials.",
+      button: "Request a Quote",
+      href: "https://www.mtnonline.com/broadband",
+      // img: Getimage,
       img: HEROKCH,
     },
   ];
@@ -109,27 +83,33 @@ const Heroslide = () => {
       }}
     >
       <div className={Classes.contentCover}>
-        <div className={Classes.yellowHere}>The Send of the Season</div>
+        <div className={Classes.yellowHere}>{slides[count].top}</div>
 
-        <h3 className={Classes.cardHeader}>
-          Save up to 40% on Holiday Cards & Invitation
-        </h3>
-        <h3 className={Classes.lastHere}>
-          Stand out with premium cards at exceptional value
-        </h3>
+        <h3 className={Classes.cardHeader}>{slides[count].body}</h3>
+        <h3 className={Classes.lastHere}>{slides[count].last}</h3>
         {/* <a href={slides[count].href} target="_blank"> */}
-        <a href={"#"} target="_blank">
+        <a href={"#"}>
           <button
+            onClick={() => {
+              if (slides[count].button?.toLowerCase()?.includes("quote")) {
+                navigation("/account/contact-us");
+              } else {
+                scrollToSection();
+              }
+            }}
             type="button"
-            className={clsx([Classes.shopNowBTN,"rounded-[4px] transition duration-200  focus:outline-none inline-flex items-center justify-center secondary-button-text  h-10 text-base px-3 bg-primary button-text  border-tertiary border-tertiary-hover border-transparent ml-auto"])}
+            className={clsx([
+              Classes.shopNowBTN,
+              "rounded-[4px] transition duration-200  focus:outline-none inline-flex items-center justify-center secondary-button-text  h-10 text-base px-3 bg-primary button-text  border-tertiary border-tertiary-hover border-transparent ml-auto",
+            ])}
             style={{
               fontFamily: "Outfit",
               color: "#000",
               backgroundColor: "#812b5a",
-              borderRadius: "12px"
+              borderRadius: "12px",
             }}
           >
-            Shop Now <HiChevronRight />{" "}
+            {slides[count].button} <HiChevronRight />
           </button>
         </a>
       </div>

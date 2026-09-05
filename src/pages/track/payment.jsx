@@ -7,8 +7,10 @@ import toast from "react-hot-toast";
 import { IoClose } from "react-icons/io5";
 import { AiOutlineLoading } from "react-icons/ai";
 import { payWithPaystack } from "../../components/paystack";
+import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3";
+import { MdContentCopy } from "react-icons/md";
 
-const Payment = ({ data }) => {
+const Payment = ({ data, params }) => {
   const CTX = useContext(MainContext);
   const anchorRef = useRef(null);
   const [isFixed, setIsFixed] = useState(true);
@@ -17,6 +19,7 @@ const Payment = ({ data }) => {
   const [isfund, setIsfund] = useState(false);
   const [loading, setLoading] = useState(false);
   const [hascommission, setHasCommission] = useState(false);
+  const [showAccountDetails, setShowAccountDetails] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -25,7 +28,7 @@ const Payment = ({ data }) => {
       },
       {
         threshold: 0,
-      }
+      },
     );
 
     if (anchorRef.current) observer.observe(anchorRef.current);
@@ -35,7 +38,7 @@ const Payment = ({ data }) => {
   const makePaymentHandler = () => {
     if (!checked)
       return toast.error(
-        "Agree to our terms and services before you will continue"
+        "Agree to our terms and services before you will continue",
       );
 
     if (!CTX.token) return CTX.setShowModal("login");
@@ -58,7 +61,7 @@ const Payment = ({ data }) => {
           body: JSON.stringify({
             is_fund,
           }),
-        }
+        },
       );
       setLoading(false);
       const jsoned = await fetched.json();
@@ -80,14 +83,83 @@ const Payment = ({ data }) => {
     }
   };
 
-  const handlePayment = () => {
-    payWithPaystack({
-      email: CTX.userObj?.email,
-      amount: parseFloat(data?.amount),
-      onSuccess: async (response) => {
-        // console.log("Payment success:", response.reference);
-        // Send reference to backend for verification
+  // paystack payment
+  // paystack payment
+  // paystack payment
+  // const handlePayment = () => {
+  //   payWithPaystack({
+  //     email: CTX.userObj?.email,
+  //     amount: parseFloat(data?.amount),
+  //     onSuccess: async (response) => {
+  //       // console.log("Payment success:", response.reference);
+  //       // Send reference to backend for verification
 
+  //       setLoading(true);
+  //       try {
+  //         const fetched = await fetch(
+  //           `${CTX.url}v1/account/pay/for/order/${data?._id}`,
+  //           {
+  //             method: "POST",
+  //             headers: {
+  //               Authorization: `bearer ${CTX.token}`,
+  //               "Content-Type": "application/json",
+  //             },
+
+  //             body: JSON.stringify({
+  //               is_fund: false,
+  //               reference: response.reference,
+  //             }),
+  //           }
+  //         );
+
+  //         const jsoned = await fetched.json();
+  //         setLoading(false);
+  //         if (jsoned?.m) {
+  //           toast.error(jsoned?.m);
+  //           return;
+  //         }
+  //         setModal(false);
+  //         toast.success(jsoned?.data);
+  //         if (jsoned?.has_commission) {
+  //           setHasCommission(jsoned?.has_commission);
+  //           return;
+  //         }
+  //         window.location.reload();
+  //       } catch (error) {
+  //         setLoading(false);
+  //         console.log("Error => ", error);
+  //         toast.error("Check your internet connection and continue!");
+  //       }
+  //     },
+  //     onClose: () => {
+  //       alert("Payment cancelled");
+  //     },
+  //   });
+  // };
+
+  const config = {
+    public_key: "FLWPUBK_TEST-7a5ddaaa13465c80e600989f6abd24d3-X",
+    tx_ref: Date.now().toString(),
+    amount: parseFloat(data?.amount),
+    currency: "NGN",
+    payment_options: "card, mobilemoney, ussd",
+    customer: {
+      email: CTX.userObj?.email,
+      phone_number: CTX.userObj?.phone,
+      name: CTX.userObj?.name?.first + " " + CTX.userObj?.name?.last,
+    },
+    customizations: {
+      title: "Lagos Printing Mall",
+      description: "Order Payment",
+      logo: "https://ik.imagekit.io/7p9j0gn28d3j/LPM_lzlsLzTKx.png",
+    },
+  };
+
+  const handleFlutterPayment = useFlutterwave(config);
+
+  const handlePay = () => {
+    handleFlutterPayment({
+      callback: async (response) => {
         setLoading(true);
         try {
           const fetched = await fetch(
@@ -101,13 +173,14 @@ const Payment = ({ data }) => {
 
               body: JSON.stringify({
                 is_fund: false,
-                reference: response.reference,
+                reference: response.transaction_id,
               }),
-            }
+            },
           );
 
           const jsoned = await fetched.json();
           setLoading(false);
+          closePaymentModal();
           if (jsoned?.m) {
             toast.error(jsoned?.m);
             return;
@@ -125,12 +198,18 @@ const Payment = ({ data }) => {
           toast.error("Check your internet connection and continue!");
         }
       },
+
       onClose: () => {
+        console.log("Payment closed");
         alert("Payment cancelled");
       },
     });
   };
 
+  // flutterwave here!!
+  const handlePayment = () => {
+    handlePay();
+  };
   const paynowHandler = () => {
     if (isfund) {
       const calcAllAmount = CTX.userObj.balance + CTX.userObj.commission;
@@ -229,43 +308,138 @@ const Payment = ({ data }) => {
                 </strong>
               </p>
 
-              <div className="flex items-center font-[outfit] text-[15px] text-[#000] mt-2 mb-2 gap-[10px]">
-                <input
-                  type="checkbox"
-                  checked={isfund}
-                  onChange={() => setIsfund(true)}
-                />{" "}
-                <div className="flex flex-col">
-                  <label>
-                    Charge from account funds{" "}
-                    <span className="ml-1 font-bold">
-                      ₦{CTX?.userObj?.balance?.toLocaleString()}
-                    </span>
-                  </label>
+              {!showAccountDetails && (
+                <>
+                  <div className="flex items-center font-[outfit] text-[15px] text-[#000] mt-2 mb-2 gap-[10px]">
+                    <input
+                      type="checkbox"
+                      checked={!isfund}
+                      onChange={() => setIsfund(false)}
+                    />{" "}
+                    <div className="flex flex-col">
+                      <label>Reliable Local Transactions</label>
 
-                  <label className="text-[13px] text-[#ee2490]">
-                    plus commission{" "}
-                    <span className="ml-1">
-                      ₦{CTX?.userObj?.commission?.toLocaleString()}
-                    </span>
-                  </label>
-                </div>
-              </div>
+                      <label className="text-[13px] text-[#ee2490]">
+                        Local transfer
+                      </label>
+                    </div>
+                  </div>
 
-              <div className="flex items-center font-[outfit] text-[15px] text-[#000] mt-4 mb-2 gap-[10px]">
-                <input
-                  type="checkbox"
-                  checked={!isfund}
-                  onChange={() => setIsfund(false)}
-                />{" "}
-                <label>Continue with PayStack</label>
-              </div>
+                  <div className="flex items-center font-[outfit] text-[15px] text-[#000] mt-4 mb-2 gap-[10px]">
+                    <input
+                      type="checkbox"
+                      checked={isfund}
+                      onChange={() => setIsfund(true)}
+                    />{" "}
+                    <div className="flex flex-col">
+                      <label>Continue with Flutterwave</label>
+                      <label className="text-[13px] text-[#ee2490]">
+                        Coming Soon
+                      </label>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {showAccountDetails && (
+                <>
+                  <div className="flex items-center">
+                    <span
+                      className={clsx([
+                        Classes.authSubheaderTitleSecondaryWhiteBlackColor,
+                      ])}
+                    >
+                      Account Number
+                    </span>
+
+                    <span
+                      className={clsx([
+                        Classes.authSubheaderTitleSecondaryWhiteBlackColor,
+                        "ml-auto text-[#111] flex items-center",
+                      ])}
+                    >
+                      <CopyInput data={"1016010454"} />
+                    </span>
+                  </div>
+
+                  <div className="flex items-center my-3">
+                    <span
+                      className={clsx([
+                        Classes.authSubheaderTitleSecondaryWhiteBlackColor,
+                      ])}
+                    >
+                      Bank Name
+                    </span>
+
+                    <span
+                      className={clsx([
+                        Classes.authSubheaderTitleSecondaryWhiteBlackColor,
+                        "ml-auto text-[#111] flex items-center",
+                      ])}
+                    >
+                      <CopyInput data={"Zenith Bank"} />
+                    </span>
+                  </div>
+
+                  <div className="flex items-center">
+                    <span
+                      className={clsx([
+                        Classes.authSubheaderTitleSecondaryWhiteBlackColor,
+                      ])}
+                    >
+                      Account Name
+                    </span>
+
+                    <span
+                      className={clsx([
+                        Classes.authSubheaderTitleSecondaryWhiteBlackColor,
+                        "ml-auto text-[#111] flex items-center",
+                      ])}
+                    >
+                      <CopyInput data={"Kelx Creative Hub"} />
+                    </span>
+                  </div>
+
+
+                  <div className="flex items-center mt-3">
+                    <span
+                      className={clsx([
+                        Classes.authSubheaderTitleSecondaryWhiteBlackColor,
+                      ])}
+                    >
+                      Description
+                    </span>
+
+                    <span
+                      className={clsx([
+                        Classes.authSubheaderTitleSecondaryWhiteBlackColor,
+                        "ml-auto text-[#111] flex items-center",
+                      ])}
+                    >
+                      <CopyInput data={data?.track?.toUpperCase()} />
+                    </span>
+                  </div>
+
+
+<p className="font-[outfit] text-[14px] font-bold text-center" style={{marginTop: "20px"}}>
+  Please send the receipt with the tracking ID number to our customer representative on WhatsApp after payment is completed.
+</p>
+
+                </>
+              )}
 
               {/* // Classes.shopNowBTN,
             // onClick={submitHandler} */}
 
-              <button
-                onClick={paynowHandler}
+              {!showAccountDetails && <button
+                // onClick={paynowHandler}
+                onClick={() => {
+                  if (isfund) {
+                    toast.error("Coming soon");
+                  } else {
+                    setShowAccountDetails(true);
+                  }
+                }}
                 type="button"
                 className={clsx([
                   "rounded-[4px] transition duration-200  focus:outline-none inline-flex items-center justify-center secondary-button-text  h-10 text-base px-3 bg-primary button-text  border-tertiary border-tertiary-hover border-transparent",
@@ -287,7 +461,7 @@ const Payment = ({ data }) => {
                   />
                 )}
                 Pay now <HiChevronRight />{" "}
-              </button>
+              </button>}
             </div>
           </div>
         </div>
@@ -396,7 +570,8 @@ const Payment = ({ data }) => {
                   marginTop: "20px",
                 }}
               >
-                Checkout ₦{data?.amount?.toLocaleString()} <HiChevronRight />{" "}
+                Checkout ₦{data?.amount?.toLocaleString()}{" "}
+                <HiChevronRight />{" "}
               </button>
             </div>
 
@@ -409,3 +584,39 @@ const Payment = ({ data }) => {
 };
 
 export default Payment;
+
+const CopyInput = ({ data }) => {
+  const ref = useRef();
+
+  const copyHandler = () => {
+    // navigator.clipboard.writeText(data);
+    ref.current.select();
+    ref.current.focus();
+    document.execCommand("copy");
+    toast.success("Copied");
+  };
+
+  return (
+    <span
+      className={clsx([
+        Classes.authSubheaderTitleSecondaryWhiteBlackColor,
+        "ml-auto text-[#111] flex items-center",
+      ])}
+    >
+      <input
+        value={data}
+        ref={ref}
+        readOnly
+        style={{
+          border: "none",
+          backgroundColor: "inherit",
+          width: "150px",
+          textAlign: "right",
+          outline: "none",
+        }}
+      />
+      {/* GT Bank */}
+      <MdContentCopy className="ml-1 ml-1" onClick={copyHandler} />
+    </span>
+  );
+};

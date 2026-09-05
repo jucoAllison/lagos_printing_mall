@@ -6,35 +6,94 @@ import { payWithPaystack } from "../../components/paystack";
 import toast from "react-hot-toast";
 import { MainContext } from "../../App";
 import { AiOutlineLoading } from "react-icons/ai";
+import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3";
 
 const Fund = ({ fund, setFund }) => {
   const CTX = useContext(MainContext);
   const [inputs, setInputs] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const handlePayment = () => {
-    payWithPaystack({
-      email: CTX.userObj?.email,
-      amount: parseFloat(inputs?.amount),
-      onSuccess: async (response) => {
-        console.log("Payment success:", response.reference);
-        // Send reference to backend for verification
+  // const handlePayment = () => {
+  //   payWithPaystack({
+  //     email: CTX.userObj?.email,
+  //     amount: parseFloat(inputs?.amount),
+  //     onSuccess: async (response) => {
+  //       console.log("Payment success:", response.reference);
+  //       // Send reference to backend for verification
 
+  //       setLoading(true);
+  //       try {
+  //         const fetched = await fetch(
+  //           `${CTX.url}v1/account/fund/account/${response.reference}`,
+  //           {
+  //             method: "GET",
+  //             headers: {
+  //               Authorization: `bearer ${CTX.token}`,
+  //               "Content-Type": "application/json",
+  //             },
+  //           }
+  //         );
+
+  //         const jsoned = await fetched.json();
+  //         setLoading(false);
+  //         if (jsoned?.m) {
+  //           toast.error(jsoned?.m);
+  //           return;
+  //         }
+  //         setFund(false);
+  //         toast.success(jsoned?.data);
+  //       } catch (error) {
+  //         setLoading(false);
+  //         console.log("Error => ", error);
+  //         toast.error("Check your internet connection and continue!");
+  //       }
+  //     },
+  //     onClose: () => {
+  //       alert("Payment cancelled");
+  //       setFund(false);
+  //     },
+  //   });
+  // };
+
+  const config = {
+    public_key: "FLWPUBK_TEST-7a5ddaaa13465c80e600989f6abd24d3-X",
+    tx_ref: Date.now().toString(),
+    amount: parseFloat(inputs?.amount),
+    currency: "NGN",
+    payment_options: "card, mobilemoney, ussd",
+    customer: {
+      email: CTX.userObj?.email,
+      phone_number: CTX.userObj?.phone,
+      name: CTX.userObj?.name?.first + " " + CTX.userObj?.name?.last,
+    },
+    customizations: {
+      title: "Lagos Printing Mall",
+      description: "Fund Account",
+      logo: "https://ik.imagekit.io/7p9j0gn28d3j/LPM_lzlsLzTKx.png",
+    },
+  };
+
+  const handleFlutterPayment = useFlutterwave(config);
+
+  const handlePay = () => {
+    handleFlutterPayment({
+      callback: async (response) => {
         setLoading(true);
         try {
           const fetched = await fetch(
-            `${CTX.url}v1/account/fund/account/${response.reference}`,
+            `${CTX.url}v1/account/fund/account/${response.transaction_id}`,
             {
               method: "GET",
               headers: {
                 Authorization: `bearer ${CTX.token}`,
                 "Content-Type": "application/json",
               },
-            }
+            },
           );
 
           const jsoned = await fetched.json();
           setLoading(false);
+          closePaymentModal();
           if (jsoned?.m) {
             toast.error(jsoned?.m);
             return;
@@ -47,11 +106,17 @@ const Fund = ({ fund, setFund }) => {
           toast.error("Check your internet connection and continue!");
         }
       },
+
       onClose: () => {
+        console.log("Payment closed");
         alert("Payment cancelled");
         setFund(false);
       },
     });
+  };
+
+  const handlePayment = () => {
+    handlePay();
   };
 
   return (

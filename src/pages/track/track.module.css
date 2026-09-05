@@ -13,6 +13,14 @@
   display: flex;
   flex-direction: column;
 }
+.authSubheaderTitleSecondaryWhiteBlackColor {
+  font-size: 14.08px;
+  font-style: normal;
+  font-weight: 400;
+  font-family: "outfit";
+  /* line-height: 2.4rem; */
+  color: rgb(85, 92, 99);
+}
 .blurSmth {
   width: 100%;
   height: 300px;
